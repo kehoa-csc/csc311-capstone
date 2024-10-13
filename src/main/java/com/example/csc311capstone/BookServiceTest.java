@@ -6,12 +6,16 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-
+/**
+ * The test class, which is used to verify the functionality of the BookService class.
+ */
 public class BookServiceTest {
     private BookService bookService;
     private Book book1,book2,book3;
 
-
+    /**
+     * Initialize the data before each test method is executed.
+     */
     @Before
     public void setUp(){
         bookService = new BookService();
@@ -25,44 +29,60 @@ public class BookServiceTest {
         bookService.addBook(book3);
     }
 
+    /**
+     * Test adding new books.
+     */
     @Test
     public void test1_addBook(){
-        bookService.addBook(book2); // add an exist book, quantity increase but not book add
+        Book book4 = new Book("D","d");
+        bookService.addBook(book4); // add new book, size increase
 
         List<Book> bookslist = bookService.getBooklist();
 
-        bookslist.forEach(System.out::println);
+        assertEquals(4,bookslist.size()); // size of book increase
+
+    }
+
+    /**
+     * Test adding books that already exist.
+     */
+    @Test
+    public void test2_addBook(){
+        bookService.addBook(book2); // add an exist book, quantity increase but not book add
+
+        List<Book> bookslist = bookService.getBooklist();
 
         assertEquals(3,bookslist.size()); // total of book not change
         assertEquals(2,book2.getBookQuantity()); // quantity increase
 
     }
 
+    /**
+     * Test to delete existing books, but multiple
+     */
     @Test
-    public void test2_addBook(){
-        Book book4 = new Book("D","d");
-        bookService.addBook(book4); // add new book, size increase
+    public void test1_deleteBook(){
+        bookService.deleteBook(book3); // delete book3
 
         List<Book> bookslist = bookService.getBooklist();
 
-        bookslist.forEach(System.out::println);
-
-        assertEquals(4,bookslist.size()); // size of book increase
+        assertEquals(3,bookslist.size()); // size of list book not change
+        assertEquals(1,book3.getBookQuantity()); // quantity decrease
 
     }
 
-    @Test
-    public void test_deleteBook(){
-        bookService.deleteBook(book3); // delete book3, quantity decrease but size of list not change
+    /**
+     * Test to delete existing books, but only one
+     *
+     */
 
+    @Test
+    public void test2_deleteBook(){
+        bookService.deleteBook(book1); // delete book1
 
         List<Book> bookslist = bookService.getBooklist();
 
-        bookslist.forEach(System.out::println);
-
-        assertEquals(3,bookslist.size()); // total of book not change
-        assertEquals(1,book3.getBookQuantity()); // quantity decrease
-
+        assertEquals(2,bookslist.size()); // size of list change
     }
 
 }

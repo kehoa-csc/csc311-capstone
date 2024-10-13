@@ -7,6 +7,16 @@ public class Consumer {
     private String returnTime;
 
     public Consumer() {
+        consumerName = "";
+        bookName = "";
+        browserTime = null;
+        returnTime = null;
+    }
+
+    public Consumer(String consumerName, String bookName, String browserTime) {
+        this.consumerName = consumerName;
+        this.bookName = bookName;
+        this.browserTime = browserTime;
     }
 
     public Consumer(String consumerName, String bookName, String browserTime, String returnTime) {

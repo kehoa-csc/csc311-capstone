@@ -8,12 +8,21 @@ public class Book {
 
     public Book() {
         id = 0;
+        bookName = "";
+        author = "";
         bookQuantity = 0;
     }
 
     public Book(String bookName, String author) {
         this.bookName = bookName;
         this.author = author;
+    }
+
+    public Book(int id, String bookName, String author, int bookQuantity) {
+        this.id = id;
+        this.bookName = bookName;
+        this.author = author;
+        this.bookQuantity = bookQuantity;
     }
 
     public int getId() {
