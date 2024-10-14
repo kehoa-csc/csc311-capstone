@@ -40,7 +40,7 @@ public class BookService {
      */
     public void deleteBook(Book book) {
         if(notFindBook(book)){ // not find the book in list
-            System.out.println("Not found the book");
+            System.out.println("Unable to delete, Not found the book");
             return;
         }
 
@@ -59,10 +59,8 @@ public class BookService {
      * @return Returns true if the book is not in the list; Otherwise, it returns false.
      */
     public boolean notFindBook(Book book){
-        for(Book inList:booklist){
-            if(book == inList) return false;
-        }
-        return true;
+
+        return findBookByBookName(book.getBookName(), booklist) == null;
 
     }
     /**
@@ -73,13 +71,11 @@ public class BookService {
      * @return If a book is found, return the book object; Otherwise, null is returned.
      */
     public Book findBookByBookName(String bookName,List<Book> booklist){
-        for(Book inList:booklist){
-            boolean isExist = bookName.equals(inList.getBookName());
-            if(isExist) {
-                return inList;
-            }
-        }
-        return null;
+
+        return booklist.stream()
+                .filter(book->book.getBookName().equals(bookName))
+                .findFirst()
+                .orElse(null);
     }
     /**
      * Get a list of books.
