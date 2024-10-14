@@ -12,6 +12,8 @@ import static org.junit.Assert.assertEquals;
 public class ConsumerServiceTest {
     private BookService bookService;
     private ConsumerService consumerService;
+    private List<Book> bookslist;
+    private List<Consumer> consumerList;
     private Consumer consumer1,consumer2,consumer3;
 
     /**
@@ -19,9 +21,12 @@ public class ConsumerServiceTest {
      */
     @Before
     public void setUp(){
+        DataManager dataManager = new DataManager();
+        bookService =new BookService(dataManager);
+        consumerService = new ConsumerService(dataManager);
 
-        bookService =new ConsumerService();
-        consumerService = (ConsumerService)bookService;
+        bookslist = dataManager.getBooklist();
+        consumerList = dataManager.getConsumerList();
 
         Book book1 = new Book("A","a");
         Book book2 = new Book("B","b");
@@ -46,16 +51,12 @@ public class ConsumerServiceTest {
     public void test1_borrowBook(){
         consumerService.borrowBook(consumer2);
 
-        List<Book> bookslist = bookService.getBooklist();
-        List<Consumer> consumerList = consumerService.getConsumerList();
-
         assertEquals(3,bookslist.size()); // not change the size of book list
         assertEquals(2,consumerList.size()); // increase the size of consumer list
 
-        String bookName = consumer2.getBookName();
-        Book book1 = bookService.findBookByBookName(bookName,bookslist);
+        Book book = bookService.findBookByBookName(consumer2.getBookName());
 
-        assertEquals(0,book1.getBookQuantity()); //when it is check out, quantity decrease
+        assertEquals(1,book.getBookQuantity()); //when it is check out, quantity decrease
     }
 
     /**
@@ -64,8 +65,6 @@ public class ConsumerServiceTest {
     @Test
     public void test2_borrowBook(){
         consumerService.borrowBook(consumer3); //borrowing not exist book
-
-        List<Consumer> consumerList = consumerService.getConsumerList();
 
         assertEquals(1,consumerList.size()); // not be increase,books not exist in library
 
@@ -79,8 +78,6 @@ public class ConsumerServiceTest {
         Consumer consumer4 = new Consumer("BBB","B","10/12/2024");
         consumerService.borrowBook(consumer4); // borrow book2 again
 
-        List<Consumer> consumerList = consumerService.getConsumerList();
-
         assertEquals(1,consumerList.size()); // not be increase,all books checked out
 
     }
@@ -91,16 +88,12 @@ public class ConsumerServiceTest {
     public void test1_returnBook(){
         consumerService.returnBook(consumer1,"11/12/2024");
 
-        List<Book> bookslist = bookService.getBooklist();
-        List<Consumer> consumerList = consumerService.getConsumerList();
-
         assertEquals(3,bookslist.size());// not change the size of book list
         assertEquals(1,consumerList.size());// not change the size of consumer list
 
-        String bookName = consumer1.getBookName();
-        Book book1 = bookService.findBookByBookName(bookName,bookslist);
+        Book book = bookService.findBookByBookName(consumer1.getBookName());
 
-        assertEquals(1,book1.getBookQuantity()); //when it is return, quantity increase
+        assertEquals(1,book.getBookQuantity()); //when it is return, quantity increase
     }
 
 }

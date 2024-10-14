@@ -1,26 +1,18 @@
 package com.example.csc311capstone;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The ConsumerService class is inherited from the BookService class
  * and provides services for consumers to borrow and return books.
  */
-public class ConsumerService extends BookService {
+public class ConsumerService{
     private final List<Consumer> consumerList;
-    private final List<Book> booklist = getBooklist();
+    private final BookService bookService;
 
-    public ConsumerService() {
-        consumerList = new ArrayList<>();
-    }
-    /**
-     * Get a list of consumers.
-     *
-     * @return Returns a list of consumers
-     */
-    public List<Consumer> getConsumerList() {
-        return consumerList;
+    public ConsumerService(DataManager dataManager) {
+        consumerList = dataManager.getConsumerList();
+        bookService = new BookService(dataManager);
     }
     /**
      * Handle consumer requests to borrow books.
@@ -29,7 +21,7 @@ public class ConsumerService extends BookService {
      */
     public void borrowBook(Consumer consumer){
         String bookName = consumer.getBookName();
-        Book book = findBookByBookName(bookName,booklist);
+        Book book = bookService.findBookByBookName(bookName);
         if(book == null){
             System.out.println("This book not in Library");
             return;
@@ -50,7 +42,7 @@ public class ConsumerService extends BookService {
 
     public void returnBook(Consumer consumer,String returnTime){
         String bookName = consumer.getBookName();
-        Book book = findBookByBookName(bookName,booklist);
+        Book book = bookService.findBookByBookName(bookName);
         if(book == null){
             System.out.println("This book not in Library");
             return;

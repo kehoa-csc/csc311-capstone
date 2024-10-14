@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
  * The test class, which is used to verify the functionality of the BookService class.
  */
 public class BookServiceTest {
+    private List<Book> bookslist;
     private BookService bookService;
     private Book book1,book2,book3;
 
@@ -18,7 +19,10 @@ public class BookServiceTest {
      */
     @Before
     public void setUp(){
-        bookService = new BookService();
+        DataManager dataManager = new DataManager();
+        bookService = new BookService(dataManager);
+        bookslist = dataManager.getBooklist();
+
         book1 = new Book("A","a");
         book2 = new Book("B","b");
         book3 = new Book("C","c");
@@ -37,8 +41,6 @@ public class BookServiceTest {
         Book book4 = new Book("D","d");
         bookService.addBook(book4); // add new book, size increase
 
-        List<Book> bookslist = bookService.getBooklist();
-
         assertEquals(4,bookslist.size()); // size of book increase
 
     }
@@ -49,8 +51,6 @@ public class BookServiceTest {
     @Test
     public void test2_addBook(){
         bookService.addBook(book2); // add an exist book, quantity increase but not book add
-
-        List<Book> bookslist = bookService.getBooklist();
 
         assertEquals(3,bookslist.size()); // total of book not change
         assertEquals(2,book2.getBookQuantity()); // quantity increase
@@ -63,8 +63,6 @@ public class BookServiceTest {
     @Test
     public void test1_deleteBook(){
         bookService.deleteBook(book3); // delete book3
-
-        List<Book> bookslist = bookService.getBooklist();
 
         assertEquals(3,bookslist.size()); // size of list book not change
         assertEquals(1,book3.getBookQuantity()); // quantity decrease
@@ -79,8 +77,6 @@ public class BookServiceTest {
     @Test
     public void test2_deleteBook(){
         bookService.deleteBook(book1); // delete book1
-
-        List<Book> bookslist = bookService.getBooklist();
 
         assertEquals(2,bookslist.size()); // size of list change
     }

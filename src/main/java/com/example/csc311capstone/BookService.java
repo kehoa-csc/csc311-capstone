@@ -1,6 +1,5 @@
 package com.example.csc311capstone;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,9 +9,9 @@ public class BookService {
     private final List<Book> booklist;
     private int id; // A counter used to assign a unique ID to a book
 
-    public BookService() {
-        booklist = new ArrayList<>();
-        this.id = 1;
+    public BookService(DataManager dataManager) {
+        booklist = dataManager.getBooklist();
+        id = 1;
     }
     /**
      * Add books to the list.
@@ -60,31 +59,23 @@ public class BookService {
      */
     public boolean notFindBook(Book book){
 
-        return findBookByBookName(book.getBookName(), booklist) == null;
+        return findBookByBookName(book.getBookName()) == null;
 
     }
     /**
      * Find books in the list based on their name.
      *
      * @param bookName The name of the book to be found
-     * @param booklist book list
      * @return If a book is found, return the book object; Otherwise, null is returned.
      */
-    public Book findBookByBookName(String bookName,List<Book> booklist){
+    public Book findBookByBookName(String bookName){
 
         return booklist.stream()
                 .filter(book->book.getBookName().equals(bookName))
                 .findFirst()
                 .orElse(null);
     }
-    /**
-     * Get a list of books.
-     *
-     * @return Back to the list of books
-     */
-    public List<Book> getBooklist(){
-        return booklist;
-    }
+
 
 
 
