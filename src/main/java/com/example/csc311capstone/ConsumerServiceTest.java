@@ -10,7 +10,6 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class ConsumerServiceTest {
-    private BookService bookService;
     private ConsumerService consumerService;
     private List<Book> bookslist;
     private List<Consumer> consumerList;
@@ -21,20 +20,19 @@ public class ConsumerServiceTest {
      */
     @Before
     public void setUp(){
-        bookService =new BookService();
         consumerService = new ConsumerService();
 
-        bookslist = bookService.getAllBooks();
+        bookslist = consumerService.getAllBooks();
         consumerList =  consumerService.getAllConsumers();
 
         Book book1 = new Book("A","a");
         Book book2 = new Book("B","b");
         Book book3 = new Book("C","c");
 
-        bookService.addBook(book1);
-        bookService.addBook(book2);
-        bookService.addBook(book3);
-        bookService.addBook(book3);
+        consumerService.addBook(book1);
+        consumerService.addBook(book2);
+        consumerService.addBook(book3);
+        consumerService.addBook(book3);
 
         consumer1 = new Consumer("BBB","B","10/12/2024");
         consumer2 = new Consumer("CCC","C","9/12/2024");
@@ -53,7 +51,7 @@ public class ConsumerServiceTest {
         assertEquals(3,bookslist.size()); // not change the size of book list
         assertEquals(2,consumerList.size()); // increase the size of consumer list
 
-        Book book = bookService.findBookByBookName(consumer2.getBookName());
+        Book book = consumerService.findBookByBookName(consumer2.getBookName());
 
         assertEquals(1,book.getBookQuantity()); //when it is check out, quantity decrease
     }
@@ -90,7 +88,7 @@ public class ConsumerServiceTest {
         assertEquals(3,bookslist.size());// not change the size of book list
         assertEquals(1,consumerList.size());// not change the size of consumer list
 
-        Book book = bookService.findBookByBookName(consumer1.getBookName());
+        Book book = consumerService.findBookByBookName(consumer1.getBookName());
 
         assertEquals(1,book.getBookQuantity()); //when it is return, quantity increase
     }

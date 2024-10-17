@@ -7,13 +7,12 @@ import java.util.List;
  * The ConsumerService class is inherited from the BookService class
  * and provides services for consumers to borrow and return books.
  */
-public class ConsumerService{
+public class ConsumerService extends BookService{
     private final List<Consumer> consumerList;
-    private final BookService bookService;
 
     public ConsumerService() {
+        super();
         consumerList = new ArrayList<>();
-        bookService = new BookService();
     }
 
     public List<Consumer> getAllConsumers(){
@@ -26,7 +25,7 @@ public class ConsumerService{
      */
     public void borrowBook(Consumer consumer){
         String bookName = consumer.getBookName();
-        Book book = bookService.findBookByBookName(bookName);
+        Book book = findBookByBookName(bookName);
         if(book == null){
             System.out.println("This book not in Library");
             return;
@@ -47,7 +46,7 @@ public class ConsumerService{
 
     public void returnBook(Consumer consumer,String returnTime){
         String bookName = consumer.getBookName();
-        Book book = bookService.findBookByBookName(bookName);
+        Book book = findBookByBookName(bookName);
         if(book == null){
             System.out.println("This book not in Library");
             return;
