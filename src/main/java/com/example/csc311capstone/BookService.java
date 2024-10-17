@@ -1,5 +1,6 @@
 package com.example.csc311capstone;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,9 +10,17 @@ public class BookService {
     private final List<Book> booklist;
     private int id; // A counter used to assign a unique ID to a book
 
-    public BookService(DataManager dataManager) {
-        booklist = dataManager.getBooklist();
+    public BookService() {
+        booklist = new ArrayList<>();
         id = 1;
+    }
+
+    /**
+     *  get list of all books
+     * @return list of books
+     */
+    public List<Book> getAllBooks(){
+        return booklist;
     }
     /**
      * Add books to the list.
@@ -51,6 +60,28 @@ public class BookService {
             booklist.remove(book);
         }
     }
+
+    /**
+     * update the books information in list
+     * @param book new book info to update
+     */
+    public void updateBooks(Book book){
+        if(notFindBook(book)){ // not find the book in list
+            System.out.println("Not found the book");
+            return;
+        }
+
+        booklist.stream()
+                .filter(b->b.getId() == book.getId())
+                .findFirst()
+                .ifPresent(b->{
+                    b.setBookName(book.getBookName());
+                    b.setAuthor(book.getAuthor());
+                });
+
+
+    }
+
     /**
      * Check if the book is not on the list.
      *
@@ -59,14 +90,27 @@ public class BookService {
      */
     public boolean notFindBook(Book book){
 
-        return findBookByBookName(book.getBookName()) == null;
+        return findBookByID(book.getId()) == null;
 
+    }
+
+    /**
+     * Find books in the list based on their id.
+     *
+     * @param id The id of the book to be found
+     * @return If a book is found, return the book object; Otherwise, null is returned.
+     */
+    public Book findBookByID(int id){
+        return booklist.stream()
+                .filter(book->book.getId()==id)
+                .findFirst()
+                .orElse(null);
     }
     /**
      * Find books in the list based on their name.
      *
      * @param bookName The name of the book to be found
-     * @return If a book is found, return the book object; Otherwise, null is returned.
+     * @return If a book is found, return the book; Otherwise, null is returned.
      */
     public Book findBookByBookName(String bookName){
 

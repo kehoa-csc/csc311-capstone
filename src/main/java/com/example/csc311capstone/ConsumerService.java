@@ -1,5 +1,6 @@
 package com.example.csc311capstone;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,9 +11,13 @@ public class ConsumerService{
     private final List<Consumer> consumerList;
     private final BookService bookService;
 
-    public ConsumerService(DataManager dataManager) {
-        consumerList = dataManager.getConsumerList();
-        bookService = new BookService(dataManager);
+    public ConsumerService() {
+        consumerList = new ArrayList<>();
+        bookService = new BookService();
+    }
+
+    public List<Consumer> getAllConsumers(){
+        return consumerList;
     }
     /**
      * Handle consumer requests to borrow books.
@@ -50,6 +55,30 @@ public class ConsumerService{
 
         consumer.setReturnTime(returnTime);
         book.setBookQuantity(book.getBookQuantity() + 1);
+    }
+
+    /**
+     * Remove a consumer from the list.
+     * @param consumer consumer objects to remove
+     */
+    public void removeConsumer(Consumer consumer){
+        if(findConsumerByName(consumer) == null) {
+            System.out.println("Not found this consumer");
+            return;
+        }
+        consumerList.remove(consumer);
+    }
+
+    /**
+     * Find consumer in the list based on their name.
+     * @param consumer consumer to be found
+     * @return If a consumer is found, return the consumer object; Otherwise, null is returned.
+     */
+    public Consumer findConsumerByName(Consumer consumer){
+        return consumerList.stream()
+                            .filter(c->c.getConsumerName().equals(consumer.getConsumerName()))
+                            .findFirst()
+                            .orElse(null);
     }
 
 

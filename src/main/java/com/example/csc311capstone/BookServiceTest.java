@@ -19,9 +19,8 @@ public class BookServiceTest {
      */
     @Before
     public void setUp(){
-        DataManager dataManager = new DataManager();
-        bookService = new BookService(dataManager);
-        bookslist = dataManager.getBooklist();
+        bookService = new BookService();
+        bookslist = bookService.getAllBooks();
 
         book1 = new Book("A","a");
         book2 = new Book("B","b");

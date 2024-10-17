@@ -21,12 +21,11 @@ public class ConsumerServiceTest {
      */
     @Before
     public void setUp(){
-        DataManager dataManager = new DataManager();
-        bookService =new BookService(dataManager);
-        consumerService = new ConsumerService(dataManager);
+        bookService =new BookService();
+        consumerService = new ConsumerService();
 
-        bookslist = dataManager.getBooklist();
-        consumerList = dataManager.getConsumerList();
+        bookslist = bookService.getAllBooks();
+        consumerList =  consumerService.getAllConsumers();
 
         Book book1 = new Book("A","a");
         Book book2 = new Book("B","b");
