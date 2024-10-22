@@ -8,4 +8,6 @@ module com.example.csc311capstone {
     exports org.example.csc311capstone;
     exports org.example.csc311capstone.db;
     opens org.example.csc311capstone.db to javafx.fxml;
+    exports org.example.csc311capstone.Module;
+    opens org.example.csc311capstone.Module to javafx.fxml;
 }
