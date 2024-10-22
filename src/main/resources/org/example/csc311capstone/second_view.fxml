@@ -9,8 +9,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.SecondController">
    <children>
@@ -57,13 +57,34 @@
          <right>
             <AnchorPane prefHeight="373.0" prefWidth="172.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField layoutX="7.0" layoutY="51.0" promptText="ISBN" />
-                  <TextField layoutX="7.0" layoutY="84.0" promptText="Book Tittle" />
-                  <TextField layoutX="7.0" layoutY="118.0" promptText="Author's Name" />
-                  <TextField layoutX="7.0" layoutY="153.0" promptText="Edition" />
-                  <TextField layoutX="7.0" layoutY="186.0" promptText="Quantity" />
-                  <Text layoutX="50.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Books " />
-                  <Button layoutX="67.0" layoutY="233.0" mnemonicParsing="false" text="Add" />
+                  <TextField layoutX="7.0" layoutY="51.0" promptText="ISBN" styleClass="round-border" stylesheets="@styles/secondPage.css">
+                     <font>
+                        <Font name="American Typewriter" size="13.0" />
+                     </font></TextField>
+                  <TextField layoutX="7.0" layoutY="84.0" promptText="Book Tittle" styleClass="round-border" stylesheets="@styles/secondPage.css">
+                     <font>
+                        <Font name="American Typewriter" size="13.0" />
+                     </font></TextField>
+                  <TextField layoutX="7.0" layoutY="118.0" promptText="Author's Name" styleClass="round-border" stylesheets="@styles/secondPage.css">
+                     <font>
+                        <Font name="American Typewriter" size="13.0" />
+                     </font></TextField>
+                  <TextField layoutX="7.0" layoutY="153.0" promptText="Edition" styleClass="round-border" stylesheets="@styles/secondPage.css">
+                     <font>
+                        <Font name="American Typewriter" size="13.0" />
+                     </font></TextField>
+                  <TextField layoutX="7.0" layoutY="186.0" promptText="Quantity" styleClass="round-border" stylesheets="@styles/secondPage.css">
+                     <font>
+                        <Font name="American Typewriter" size="13.0" />
+                     </font></TextField>
+                  <Text layoutX="50.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Books ">
+                     <font>
+                        <Font name="American Typewriter" size="19.0" />
+                     </font></Text>
+                  <Button layoutX="67.0" layoutY="233.0" mnemonicParsing="false" styleClass="round-border" stylesheets="@styles/secondPage.css" text="Add">
+                     <font>
+                        <Font name="American Typewriter" size="13.0" />
+                     </font></Button>
                </children>
             </AnchorPane>
          </right>
