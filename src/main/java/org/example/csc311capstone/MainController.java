@@ -1,4 +1,4 @@
-package com.example.csc311capstone;
+package org.example.csc311capstone;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
