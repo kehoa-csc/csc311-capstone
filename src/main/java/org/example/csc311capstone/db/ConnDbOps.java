@@ -50,12 +50,22 @@ public class ConnDbOps {
             String sql = "CREATE TABLE IF NOT EXISTS patrons ("
                     + "id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,"
                     + "name VARCHAR(200) NOT NULL,"
-                    + "bookName VARCHAR(200) NOT NULL,"
-                    + "email VARCHAR(200) NOT NULL,UNIQUE"
+                    + "currBook VARCHAR(200) NOT NULL,"
+                    + "email VARCHAR(200) NOT NULL UNIQUE,"
                     + "borrowTime VARCHAR(200) NOT NULL,"
                     + "returnTime VARCHAR(200) NOT NULL"
                     + ")";
             statement.executeUpdate(sql);
+
+            String sql2 = "CREATE TABLE IF NOT EXISTS books ("
+                    + "id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,"
+                    + "ISBN VARCHAR(200) NOT NULL,"
+                    + "name VARCHAR(200) NOT NULL,"
+                    + "author VARCHAR(200) NOT NULL UNIQUE,"
+                    + "edition VARCHAR(200) NOT NULL,"
+                    + "quantity INT(10) NOT NULL"
+                    + ")";
+            statement.executeUpdate(sql2);
 
             //check if we have patrons in the table patrons
             statement = conn.createStatement();

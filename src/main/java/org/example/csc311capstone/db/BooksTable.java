@@ -20,10 +20,10 @@ public class BooksTable extends ConnDbOps{
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "INSERT INTO books (ISBN, bookName,author, edition, quantity) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO books (ISBN, name,author, edition, quantity) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, book.getISBN());
-            preparedStatement.setString(2, book.getBookName());
+            preparedStatement.setString(2, book.getName());
             preparedStatement.setString(3, book.getAuthor());
             preparedStatement.setString(4, book.getEdition());
             preparedStatement.setInt(5, book.getQuantity());
@@ -78,10 +78,10 @@ public class BooksTable extends ConnDbOps{
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "UPDATE books Set ISBN = ?, bookName = ?, author = ?, edition = ? quantity = ? WHERE id = ? ";
+            String sql = "UPDATE books Set ISBN = ?, name = ?, author = ?, edition = ? quantity = ? WHERE id = ? ";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, book.getISBN());
-            preparedStatement.setString(2, book.getBookName());
+            preparedStatement.setString(2, book.getName());
             preparedStatement.setString(3, book.getAuthor());
             preparedStatement.setString(4, book.getEdition());
             preparedStatement.setInt(5, book.getQuantity());
@@ -98,27 +98,27 @@ public class BooksTable extends ConnDbOps{
      * search a book by book name
      *
      * @author zuxin
-     * @param name name of book need to find
+     * @param nameToSearch name of book need to find
      */
-    public void searchBookByName(String name){
+    public void searchBookByName(String nameToSearch){
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "DELETE FROM books WHERE bookName = ?";
+            String sql = "DELETE FROM books WHERE name = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, name);
+            preparedStatement.setString(1, nameToSearch);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 int ISBN = resultSet.getInt("ISBN");
-                String bookName = resultSet.getString("bookName");
+                String name = resultSet.getString("name");
                 String author = resultSet.getString("author");
                 String edition = resultSet.getString("edition");
                 int quantity = resultSet.getInt("quantity");
                 System.out.println("ID: " + id
                                 + ", ISBN: " + ISBN
-                                + ", bookName: " + bookName
+                                + ", name: " + name
                                 + ", author: " + author
                                 + ", edition: " + edition
                                 + ", quantity: " + quantity);
@@ -148,13 +148,13 @@ public class BooksTable extends ConnDbOps{
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 int ISBN = resultSet.getInt("ISBN");
-                String bookName = resultSet.getString("bookName");
+                String name = resultSet.getString("name");
                 String author = resultSet.getString("author");
                 String edition = resultSet.getString("edition");
                 int quantity = resultSet.getInt("quantity");
                 System.out.println("ID: " + id
                         + ", ISBN: " + ISBN
-                        + ", bookName: " + bookName
+                        + ", name: " + name
                         + ", author: " + author
                         + ", edition: " + edition
                         + ", quantity: " + quantity);

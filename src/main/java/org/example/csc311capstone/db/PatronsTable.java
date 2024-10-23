@@ -20,10 +20,10 @@ public class PatronsTable extends ConnDbOps{
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "INSERT INTO patrons (name,bookName, email, borrowTime,returnTime) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO patrons (name,currBook, email, borrowTime,returnTime) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, patron.getName());
-            preparedStatement.setString(2, patron.getBookName());
+            preparedStatement.setString(2, patron.getcurrBook());
             preparedStatement.setString(3, patron.getEmail());
             preparedStatement.setString(4, patron.getBorrowTime());
             preparedStatement.setString(5, patron.getReturnTime());
@@ -75,13 +75,13 @@ public class PatronsTable extends ConnDbOps{
      * @param patron new patron info
      */
     public  void editPatron(Patron patron) {
-
+        //ToDo: Make scanner and GUI take input for this, instead of .getters
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "UPDATE patron Set name = ?, bookName = ?, email = ?, borrowTime = ? returnTime = ? WHERE id = ? ";
+            String sql = "UPDATE patron Set name = ?, currBook = ?, email = ?, borrowTime = ? returnTime = ? WHERE id = ? ";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, patron.getName());
-            preparedStatement.setString(2, patron.getBookName());
+            preparedStatement.setString(2, patron.getcurrBook());
             preparedStatement.setString(3, patron.getEmail());
             preparedStatement.setString(4, patron.getBorrowTime());
             preparedStatement.setString(5, patron.getReturnTime());
@@ -112,13 +112,13 @@ public class PatronsTable extends ConnDbOps{
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String patronName = resultSet.getString("name");
-                String bookName = resultSet.getString("bookName");
+                String currBook = resultSet.getString("currBook");
                 String email = resultSet.getString("email");
                 String borrowTime = resultSet.getString("borrowTime");
                 String returnTime = resultSet.getString("returnTime");
                 System.out.println("ID: " + id
                         + ", Name: " + patronName
-                        + ", bookName: " + bookName
+                        + ", currBook: " + currBook
                         + ", email: " + email
                         + ", borrowTime: " + borrowTime
                         + ", returnTime: " + returnTime);
@@ -148,13 +148,13 @@ public class PatronsTable extends ConnDbOps{
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String patronName = resultSet.getString("name");
-                String bookName = resultSet.getString("bookName");
+                String currBook = resultSet.getString("currBook");
                 String email = resultSet.getString("email");
                 String borrowTime = resultSet.getString("borrowTime");
                 String returnTime = resultSet.getString("returnTime");
                 System.out.println("ID: " + id
                         + ", Name: " + patronName
-                        + ", bookName: " + bookName
+                        + ", currBook: " + currBook
                         + ", email: " + email
                         + ", borrowTime: " + borrowTime
                         + ", returnTime: " + returnTime);

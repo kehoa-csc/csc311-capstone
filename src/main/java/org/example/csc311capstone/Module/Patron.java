@@ -7,15 +7,15 @@ package org.example.csc311capstone.Module;
 public class Patron {
     private int ID;
     private String name;
-    private String bookName;
+    private String currBook;
     private String email;
     private String borrowTime;
     private String returnTime;
 
-    public Patron(int ID, String name, String bookName, String email, String borrowTime, String returnTime) {
+    public Patron(int ID, String name, String currBook, String email, String borrowTime, String returnTime) {
         this.ID = ID;
         this.name = name;
-        this.bookName = bookName;
+        this.currBook = currBook;
         this.email = email;
         this.borrowTime = borrowTime;
         this.returnTime = returnTime;
@@ -37,12 +37,12 @@ public class Patron {
         this.name = name;
     }
 
-    public String getBookName() {
-        return bookName;
+    public String getcurrBook() {
+        return currBook;
     }
 
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
+    public void setcurrBook(String currBook) {
+        this.currBook = currBook;
     }
 
     public String getEmail() {
