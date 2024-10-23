@@ -74,7 +74,7 @@ public class PatronsTable extends ConnDbOps{
      * @author zuxin
      * @param patron new patron info
      */
-    public  void editPatron(Patron patron) {
+    public void editPatron(Patron patron) {
         //ToDo: Make scanner and GUI take input for this, instead of .getters
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -132,7 +132,7 @@ public class PatronsTable extends ConnDbOps{
     }
 
     /**
-     * displace all patron from table patrons
+     * display all patron from table patrons
      *
      * @author zuxin
      */
@@ -140,7 +140,7 @@ public class PatronsTable extends ConnDbOps{
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "SELECT * FROM books ";
+            String sql = "SELECT * FROM patrons ";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
             ResultSet resultSet = preparedStatement.executeQuery();
