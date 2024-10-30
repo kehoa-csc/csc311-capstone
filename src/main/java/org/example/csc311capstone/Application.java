@@ -72,6 +72,17 @@ public class Application extends javafx.application.Application {
                         String email = scnr.next();
                         cdbop.addPatron(name, email);
                         break;
+                    case 'd':
+                        break;
+                    case 'e':
+                        System.out.print("Please enter ID of user to edit.");
+                        int id = scnr.nextInt();
+                        System.out.print("Please enter a name: ");
+                        String newName = scnr.next();
+                        System.out.print("Please enter an email: ");
+                        String newEmail = scnr.next();
+                        cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
+                        break;
                     default:
                         System.out.println("Invalid option");
                 }

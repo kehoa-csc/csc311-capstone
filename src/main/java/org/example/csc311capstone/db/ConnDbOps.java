@@ -136,5 +136,23 @@ public class ConnDbOps {
         return false;
     }
 
+    public boolean editPatron(String name, String email) {
+        try {
+            //edit a user with just name and email. book details will be added via other methods.
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            Statement statement = conn.createStatement();
+            String sql = "";
+            statement.executeUpdate(sql);
+
+            statement.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Could not edit patron.");
+        }
+        return false;
+    }
+
 
 }
