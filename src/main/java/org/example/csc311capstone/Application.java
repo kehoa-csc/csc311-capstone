@@ -61,8 +61,31 @@ public class Application extends javafx.application.Application {
                     System.out.println("e: Edit a patron's information");
                     System.out.println("r: Remove a patron");
                     System.out.println("q: Query patron by name");
+                    System.out.println("b: Borrowing of book status");
                     System.out.println("q: Quit application");
                 opt = scnr.next().charAt(0);
+                switch (opt) {
+                    case 'a':
+                        System.out.print("Please enter a name: ");
+                        String name = scnr.next();
+                        System.out.print("Please enter an email: ");
+                        String email = scnr.next();
+                        cdbop.addPatron(name, email);
+                        break;
+                    case 'd':
+                        break;
+                    case 'e':
+                        System.out.print("Please enter ID of user to edit.");
+                        int id = scnr.nextInt();
+                        System.out.print("Please enter a name: ");
+                        String newName = scnr.next();
+                        System.out.print("Please enter an email: ");
+                        String newEmail = scnr.next();
+                        cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
+                        break;
+                    default:
+                        System.out.println("Invalid option");
+                }
             }
         } else if (opt == 'b') { //Book manager mode
             while (opt != 'q') {

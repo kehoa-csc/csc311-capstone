@@ -3,7 +3,13 @@ package org.example.csc311capstone.db;
 import org.example.csc311capstone.Module.Book;
 
 import java.sql.*;
+/*
 
+    NOTE- THIS IS CURRENTLY OUT OF DATE.
+    CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
+    DO NOT USE FOR THE TIME BEING.
+
+ */
 /**
  * control the books table in database,which extends from ConnDbOps
  * @author zuxin
