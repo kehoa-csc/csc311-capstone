@@ -5,7 +5,7 @@ import org.example.csc311capstone.Module.Book;
 import java.sql.*;
 /*
 
-    NOTE- THIS IS CURRENTLY OUT OF DATE.
+    NOTE-THIS IS CURRENTLY OUT OF DATE.
     CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
     DO NOT USE FOR THE TIME BEING.
 
@@ -53,7 +53,7 @@ public class BooksTable extends ConnDbOps{
      * @author zuxin
      * @param book a book should be deleted
      */
-    public void deleteBook(Book book) {
+    public void deleteBook(Book book){
         int ID = book.getId();
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -99,6 +99,7 @@ public class BooksTable extends ConnDbOps{
             e.printStackTrace();
         }
     }
+
 
     /**
      * search a book by book name
