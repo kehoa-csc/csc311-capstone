@@ -5,7 +5,7 @@ import org.example.csc311capstone.Module.Book;
 import java.sql.*;
 /*
 
-    NOTE- THIS IS CURRENTLY OUT OF DATE.
+    NOTE-THIS IS CURRENTLY OUT OF DATE.
     CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
     DO NOT USE FOR THE TIME BEING.
 
@@ -26,13 +26,14 @@ public class BooksTable extends ConnDbOps{
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "INSERT INTO books (ISBN, name,author, edition, quantity) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO books (ISBN, name,author, edition, quantity,copiesLeft) VALUES (?, ?, ?, ?, ?,?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, book.getISBN());
             preparedStatement.setString(2, book.getName());
             preparedStatement.setString(3, book.getAuthor());
             preparedStatement.setString(4, book.getEdition());
             preparedStatement.setInt(5, book.getQuantity());
+            preparedStatement.setInt(6, book.getCopiesLeft());
 
             int row = preparedStatement.executeUpdate();
 
@@ -51,10 +52,9 @@ public class BooksTable extends ConnDbOps{
      * delete a book from table books
      *
      * @author zuxin
-     * @param book a book should be deleted
+     * @param ID get id OF a book should be deleted
      */
-    public void deleteBook(Book book) {
-        int ID = book.getId();
+    public void deleteBook(int ID){
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             String sql = "DELETE FROM books WHERE id = ?";
@@ -84,14 +84,16 @@ public class BooksTable extends ConnDbOps{
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "UPDATE books Set ISBN = ?, name = ?, author = ?, edition = ? quantity = ? WHERE id = ? ";
+            String sql = "UPDATE books Set ISBN = ?, name = ?, author = ?, edition = ?, quantity = ?,copiesLeft = ? WHERE id = ? ";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
             preparedStatement.setInt(1, book.getISBN());
             preparedStatement.setString(2, book.getName());
             preparedStatement.setString(3, book.getAuthor());
             preparedStatement.setString(4, book.getEdition());
             preparedStatement.setInt(5, book.getQuantity());
-            preparedStatement.setInt(6, book.getId());
+            preparedStatement.setInt(6, book.getCopiesLeft());
+            preparedStatement.setInt(7, book.getId());
 
             preparedStatement.close();
             conn.close();
@@ -99,6 +101,7 @@ public class BooksTable extends ConnDbOps{
             e.printStackTrace();
         }
     }
+
 
     /**
      * search a book by book name
@@ -122,12 +125,14 @@ public class BooksTable extends ConnDbOps{
                 String author = resultSet.getString("author");
                 String edition = resultSet.getString("edition");
                 int quantity = resultSet.getInt("quantity");
+                int copiesLeft = resultSet.getInt("copiesLeft");
                 System.out.println("ID: " + id
                                 + ", ISBN: " + ISBN
                                 + ", name: " + name
                                 + ", author: " + author
                                 + ", edition: " + edition
-                                + ", quantity: " + quantity);
+                                + ", quantity: " + quantity
+                                + ", copiesLeft: " + copiesLeft);
             }
 
             preparedStatement.close();
@@ -158,12 +163,14 @@ public class BooksTable extends ConnDbOps{
                 String author = resultSet.getString("author");
                 String edition = resultSet.getString("edition");
                 int quantity = resultSet.getInt("quantity");
+                int copiesLeft = resultSet.getInt("copiesLeft");
                 System.out.println("ID: " + id
                         + ", ISBN: " + ISBN
                         + ", name: " + name
                         + ", author: " + author
                         + ", edition: " + edition
-                        + ", quantity: " + quantity);
+                        + ", quantity: " + quantity
+                        + ", copiesLeft: " + copiesLeft);
             }
 
             preparedStatement.close();

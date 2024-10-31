@@ -3,7 +3,9 @@ package org.example.csc311capstone;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.ConnDbOps;
+import org.example.csc311capstone.db.PatronsTable;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 public class Application extends javafx.application.Application {
 
     public static ConnDbOps cdbop;
+    public static PatronsTable pt = new PatronsTable();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -54,7 +57,7 @@ public class Application extends javafx.application.Application {
 
         //patron manager mode
         if (opt == 'c') {
-            while (opt != 'q') {
+            while (opt != 't') {
                 System.out.println("Select an option:");
                     System.out.println("a: Add a new patron");
                     System.out.println("d: Display all patrons");
@@ -62,7 +65,7 @@ public class Application extends javafx.application.Application {
                     System.out.println("r: Remove a patron");
                     System.out.println("q: Query patron by name");
                     System.out.println("b: Borrowing of book status");
-                    System.out.println("q: Quit application");
+                    System.out.println("t: Quit application");
                 opt = scnr.next().charAt(0);
                 switch (opt) {
                     case 'a':
@@ -70,32 +73,60 @@ public class Application extends javafx.application.Application {
                         String name = scnr.next();
                         System.out.print("Please enter an email: ");
                         String email = scnr.next();
-                        cdbop.addPatron(name, email);
+
+                        Patron addAPatron = new Patron();
+                        addAPatron.setName(name);
+                        addAPatron.setEmail(email);
+                        pt.addPatron(addAPatron);// calling from PatronsTable
+
+                        //cdbop.addPatron(name, email);
                         break;
                     case 'd':
+                        pt.listAllPatrons(); // display all patrons
                         break;
                     case 'e':
-                        System.out.print("Please enter ID of user to edit.");
+                        System.out.print("Please enter ID of user to edit:");
                         int id = scnr.nextInt();
                         System.out.print("Please enter a name: ");
                         String newName = scnr.next();
                         System.out.print("Please enter an email: ");
                         String newEmail = scnr.next();
-                        cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
+
+                        Patron editAPatron = new Patron();
+                        editAPatron.setID(id);
+                        editAPatron.setName(newName);
+                        editAPatron.setEmail(newEmail);
+                        pt.editPatron(editAPatron); // calling from PatronsTable
+
+                       // cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
+                        break;
+                    case 'r':
+                        System.out.print("Please enter ID of user to delete:");
+                        int ID = scnr.nextInt();
+                        pt.deletePatron(ID);
+                        break;
+                    case 'q':
+                        System.out.print("Please enter a name your want to query: ");
+                        String Name = scnr.next();
+                        pt.searchPatronByName(Name);
+                        break;
+                    case 'b':
+                        break;
+                    case 't':
                         break;
                     default:
                         System.out.println("Invalid option");
                 }
             }
         } else if (opt == 'b') { //Book manager mode
-            while (opt != 'q') {
+            while (opt != 't') {
                 System.out.println("Select an option:");
                 System.out.println("a: Add a new book");
                 System.out.println("d: Display all books");
                 System.out.println("e: Edit a book's information");
                 System.out.println("r: Remove a book");
                 System.out.println("q: Query book by name");
-                System.out.println("q: Quit application");
+                System.out.println("t: Quit application");
                 opt = scnr.next().charAt(0);
                 //ToDo: Book options go here. There should probably be different stuff like ISBN, # of copies...
                 //Likewise, patron should have a "currently borrowed" field with a book ID.

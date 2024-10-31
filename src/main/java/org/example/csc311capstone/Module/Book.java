@@ -19,14 +19,26 @@ public class Book {
     private String author;
     private String edition;
     private int quantity;
+    private int copiesLeft;
 
-    public Book(int id, int ISBN, String name, String author, String edition, int quantity) {
+    public Book() {
+        this.id = 0;
+        this.ISBN = 0;
+        this.name = "";
+        this.author = "";
+        this.edition = "";
+        this.quantity = 0;
+        this.copiesLeft = 0;
+    }
+
+    public Book(int id, int ISBN, String name, String author, String edition, int quantity, int copiesLeft) {
         this.id = id;
         this.ISBN = ISBN;
         this.name = name;
         this.author = author;
         this.edition = edition;
         this.quantity = quantity;
+        this.copiesLeft = copiesLeft;
     }
 
     public int getId() {
@@ -75,5 +87,13 @@ public class Book {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getCopiesLeft() {
+        return copiesLeft;
+    }
+
+    public void setCopiesLeft(int copiesLeft) {
+        this.copiesLeft = copiesLeft;
     }
 }

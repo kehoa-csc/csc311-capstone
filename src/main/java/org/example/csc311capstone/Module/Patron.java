@@ -7,7 +7,7 @@ package org.example.csc311capstone.Module;
 
 /*
 
-    NOTE- THIS IS CURRENTLY OUT OF DATE.
+    NOTE-THIS IS CURRENTLY OUT OF DATE.
     CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
     DO NOT USE FOR THE TIME BEING.
 
@@ -15,18 +15,30 @@ package org.example.csc311capstone.Module;
 public class Patron {
     private int ID;
     private String name;
-    private String currBook;
+    private int currBook;
     private String email;
-    private String borrowTime;
-    private String returnTime;
+    private String returnDate;
+    private String borrowDate;
 
-    public Patron(int ID, String name, String currBook, String email, String borrowTime, String returnTime) {
+    /**
+     * default constructor, set ID is 0 and other variables are null
+     */
+    public Patron() {
+        this.ID = 0;
+        this.name = "";
+        this.currBook = 0;
+        this.email = "";
+        this.returnDate = "";
+        this.borrowDate = "";
+    }
+
+    public Patron(int ID, String name, int currBook, String email, String returnDate, String borrowDate) {
         this.ID = ID;
         this.name = name;
         this.currBook = currBook;
         this.email = email;
-        this.borrowTime = borrowTime;
-        this.returnTime = returnTime;
+        this.returnDate = returnDate;
+        this.borrowDate = borrowDate;
     }
 
     public int getID() {
@@ -45,11 +57,11 @@ public class Patron {
         this.name = name;
     }
 
-    public String getcurrBook() {
+    public int getCurrBook() {
         return currBook;
     }
 
-    public void setcurrBook(String currBook) {
+    public void setCurrBook(int currBook) {
         this.currBook = currBook;
     }
 
@@ -61,19 +73,19 @@ public class Patron {
         this.email = email;
     }
 
-    public String getBorrowTime() {
-        return borrowTime;
+    public String getReturnDate() {
+        return returnDate;
     }
 
-    public void setBorrowTime(String borrowTime) {
-        this.borrowTime = borrowTime;
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
     }
 
-    public String getReturnTime() {
-        return returnTime;
+    public String getBorrowDate() {
+        return borrowDate;
     }
 
-    public void setReturnTime(String returnTime) {
-        this.returnTime = returnTime;
+    public void setBorrowDate(String borrowDate) {
+        this.borrowDate = borrowDate;
     }
 }

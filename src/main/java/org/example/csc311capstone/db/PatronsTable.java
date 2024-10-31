@@ -5,7 +5,7 @@ import org.example.csc311capstone.Module.Patron;
 import java.sql.*;
 /*
 
-    NOTE- THIS IS CURRENTLY OUT OF DATE.
+    NOTE-THIS IS CURRENTLY OUT OF DATE.
     CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
     DO NOT USE FOR THE TIME BEING.
 
@@ -27,13 +27,13 @@ public class PatronsTable extends ConnDbOps{
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "INSERT INTO patrons (name,currBook, email, borrowTime,returnTime) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO patrons (name,currBook, email, returnDate,borrowDate) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, patron.getName());
-            preparedStatement.setString(2, patron.getcurrBook());
+            preparedStatement.setInt(2, patron.getCurrBook());
             preparedStatement.setString(3, patron.getEmail());
-            preparedStatement.setString(4, patron.getBorrowTime());
-            preparedStatement.setString(5, patron.getReturnTime());
+            preparedStatement.setString(4, patron.getReturnDate());
+            preparedStatement.setString(5, patron.getBorrowDate());
 
             int row = preparedStatement.executeUpdate();
 
@@ -52,15 +52,14 @@ public class PatronsTable extends ConnDbOps{
      * delete a patron from table patrons
      *
      * @author zuxin
-     * @param patron a patron should be deleted
+     * @param id get id of a patron should be deleted
      */
-    public void deletePatron(Patron patron) {
-        int ID = patron.getID();
+    public void deletePatron(int id) {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             String sql = "DELETE FROM patrons WHERE id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, ID);
+            preparedStatement.setInt(1, id);
 
             int row = preparedStatement.executeUpdate();
 
@@ -83,16 +82,25 @@ public class PatronsTable extends ConnDbOps{
      */
     public void editPatron(Patron patron) {
         //ToDo: Make scanner and GUI take input for this, instead of .getters
+
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "UPDATE patron Set name = ?, currBook = ?, email = ?, borrowTime = ? returnTime = ? WHERE id = ? ";
+            String sql = "UPDATE patrons Set name = ?, currBook = ?, email = ?, returnDate = ?, borrowDate = ? WHERE id = ? ";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
             preparedStatement.setString(1, patron.getName());
-            preparedStatement.setString(2, patron.getcurrBook());
+            preparedStatement.setInt(2, patron.getCurrBook());
             preparedStatement.setString(3, patron.getEmail());
-            preparedStatement.setString(4, patron.getBorrowTime());
-            preparedStatement.setString(5, patron.getReturnTime());
+            preparedStatement.setString(4, patron.getReturnDate());
+            preparedStatement.setString(5, patron.getBorrowDate());
+            // id is necessary condition to update data in Database, so it should be an integer
             preparedStatement.setInt(6, patron.getID());
+
+
+            int row = preparedStatement.executeUpdate();
+            if (row == 0) {
+                System.out.println("Updating patron failed, no rows affected");
+            }
 
             preparedStatement.close();
             conn.close();
@@ -100,6 +108,7 @@ public class PatronsTable extends ConnDbOps{
             e.printStackTrace();
         }
     }
+
 
     /**
      * search a patron by patron's name
@@ -110,7 +119,7 @@ public class PatronsTable extends ConnDbOps{
     public void searchPatronByName(String name){
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            String sql = "DELETE FROM patrons WHERE name = ?";
+            String sql = "SELECT * FROM patrons WHERE name = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, name);
 
@@ -121,14 +130,14 @@ public class PatronsTable extends ConnDbOps{
                 String patronName = resultSet.getString("name");
                 String currBook = resultSet.getString("currBook");
                 String email = resultSet.getString("email");
-                String borrowTime = resultSet.getString("borrowTime");
-                String returnTime = resultSet.getString("returnTime");
+                String returnDate = resultSet.getString("returnDate");
+                String borrowDate = resultSet.getString("borrowDate");
                 System.out.println("ID: " + id
                         + ", Name: " + patronName
                         + ", currBook: " + currBook
                         + ", email: " + email
-                        + ", borrowTime: " + borrowTime
-                        + ", returnTime: " + returnTime);
+                        + ", returnDate: " + returnDate
+                        + ", borrowDate: " + borrowDate);
             }
 
             preparedStatement.close();
@@ -157,14 +166,14 @@ public class PatronsTable extends ConnDbOps{
                 String patronName = resultSet.getString("name");
                 String currBook = resultSet.getString("currBook");
                 String email = resultSet.getString("email");
-                String borrowTime = resultSet.getString("borrowTime");
-                String returnTime = resultSet.getString("returnTime");
+                String returnDate = resultSet.getString("returnDate");
+                String borrowDate = resultSet.getString("borrowDate");
                 System.out.println("ID: " + id
                         + ", Name: " + patronName
                         + ", currBook: " + currBook
                         + ", email: " + email
-                        + ", borrowTime: " + borrowTime
-                        + ", returnTime: " + returnTime);
+                        + ", returnDate: " + returnDate
+                        + ", borrowDate: " + borrowDate);
             }
 
             preparedStatement.close();
