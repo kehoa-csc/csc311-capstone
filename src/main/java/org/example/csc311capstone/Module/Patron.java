@@ -88,4 +88,16 @@ public class Patron {
     public void setBorrowDate(String borrowDate) {
         this.borrowDate = borrowDate;
     }
+
+    @Override
+    public String toString() {
+        return "Patron{" +
+                "ID=" + ID +
+                ", name='" + name + '\'' +
+                ", currBook=" + currBook +
+                ", email='" + email + '\'' +
+                ", returnDate='" + returnDate + '\'' +
+                ", borrowDate='" + borrowDate + '\'' +
+                '}';
+    }
 }

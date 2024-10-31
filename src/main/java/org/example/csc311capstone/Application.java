@@ -3,17 +3,27 @@ package org.example.csc311capstone;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.ConnDbOps;
 import org.example.csc311capstone.db.PatronsTable;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+/**
+ * hold the columns name which is columns from patrons table
+ * if change the columns from database, please change it too
+ * And mySQL is ignored case, these shows as caption letter just mean there are constants value
+ */
+enum patronsColumns {
+    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE;
+}
 
 public class Application extends javafx.application.Application {
 
     public static ConnDbOps cdbop;
-    public static PatronsTable pt = new PatronsTable();
+    public static PatronsTable patronsTable = new PatronsTable();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -74,15 +84,17 @@ public class Application extends javafx.application.Application {
                         System.out.print("Please enter an email: ");
                         String email = scnr.next();
 
-                        Patron addAPatron = new Patron();
-                        addAPatron.setName(name);
-                        addAPatron.setEmail(email);
-                        pt.addPatron(addAPatron);// calling from PatronsTable
+                        //freely edit the value in patron table
+                        Map<String, Object> addPatronInfo = new HashMap<>();
+                        addPatronInfo.put(patronsColumns.NAME.name(), name);
+                        addPatronInfo.put(patronsColumns.EMAIL.name(), email);
+
+                        patronsTable.addPatron(addPatronInfo);// calling from PatronsTable
 
                         //cdbop.addPatron(name, email);
                         break;
                     case 'd':
-                        pt.listAllPatrons(); // display all patrons
+                        patronsTable.listAllPatrons(); // display all patrons
                         break;
                     case 'e':
                         System.out.print("Please enter ID of user to edit:");
@@ -92,27 +104,26 @@ public class Application extends javafx.application.Application {
                         System.out.print("Please enter an email: ");
                         String newEmail = scnr.next();
 
-                        Patron editAPatron = new Patron();
-                        editAPatron.setID(id);
-                        editAPatron.setName(newName);
-                        editAPatron.setEmail(newEmail);
-                        pt.editPatron(editAPatron); // calling from PatronsTable
+                        //freely edit the value in patron table
+                        Map<String, Object> updatePatronInfo = new HashMap<>();
+                        updatePatronInfo.put(patronsColumns.NAME.name(), newName);
+                        updatePatronInfo.put(patronsColumns.EMAIL.name(), newEmail);
+
+                        patronsTable.editPatron(updatePatronInfo,id); // calling from PatronsTable
 
                        // cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
                         break;
                     case 'r':
                         System.out.print("Please enter ID of user to delete:");
                         int ID = scnr.nextInt();
-                        pt.deletePatron(ID);
+                        patronsTable.deletePatron(ID);
                         break;
                     case 'q':
                         System.out.print("Please enter a name your want to query: ");
                         String Name = scnr.next();
-                        pt.searchPatronByName(Name);
+                        patronsTable.searchPatronByName(Name);
                         break;
                     case 'b':
-                        break;
-                    case 't':
                         break;
                     default:
                         System.out.println("Invalid option");
