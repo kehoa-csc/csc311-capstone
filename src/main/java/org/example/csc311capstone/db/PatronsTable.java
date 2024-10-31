@@ -1,12 +1,11 @@
 package org.example.csc311capstone.db;
 
 import org.example.csc311capstone.Module.Patron;
-import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 /*
 
-    NOTE-THIS IS CURRENTLY OUT OF DATE.
+    NOTE- THIS IS CURRENTLY OUT OF DATE.
     CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
     DO NOT USE FOR THE TIME BEING.
 
@@ -84,30 +83,16 @@ public class PatronsTable extends ConnDbOps{
      */
     public void editPatron(Patron patron) {
         //ToDo: Make scanner and GUI take input for this, instead of .getters
-
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             String sql = "UPDATE patron Set name = ?, currBook = ?, email = ?, borrowTime = ? returnTime = ? WHERE id = ? ";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            if(patron.getName() != null){  // if name has new value need to change
-                preparedStatement.setString(1, patron.getName());
-            }
-            if(patron.getcurrBook()!= null){// if currBook has new value need to change
-                preparedStatement.setString(2, patron.getcurrBook());
-            }
-            if(patron.getEmail() != null){// if Email has new value need to change
-                preparedStatement.setString(3, patron.getEmail());
-            }
-            if(patron.getBorrowTime() != null){// if BorrowTime has new value need to change
-                preparedStatement.setString(4, patron.getBorrowTime());
-            }
-            if(patron.getReturnTime() != null){// if ReturnTime has new value need to change
-                preparedStatement.setString(5, patron.getReturnTime());
-            }
-            // id is necessary condition to update data in Database, so it shouldn't be null
+            preparedStatement.setString(1, patron.getName());
+            preparedStatement.setString(2, patron.getcurrBook());
+            preparedStatement.setString(3, patron.getEmail());
+            preparedStatement.setString(4, patron.getBorrowTime());
+            preparedStatement.setString(5, patron.getReturnTime());
             preparedStatement.setInt(6, patron.getID());
-
-
 
             preparedStatement.close();
             conn.close();
@@ -115,7 +100,6 @@ public class PatronsTable extends ConnDbOps{
             e.printStackTrace();
         }
     }
-
 
     /**
      * search a patron by patron's name

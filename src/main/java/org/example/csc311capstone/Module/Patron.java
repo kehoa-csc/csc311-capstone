@@ -20,18 +20,6 @@ public class Patron {
     private String borrowTime;
     private String returnTime;
 
-    /**
-     * default constructor, set ID is 0 and other variables are null
-     */
-    public Patron() {
-        this.ID = 0;
-        this.name = null;
-        this.currBook = null;
-        this.email = null;
-        this.borrowTime = null;
-        this.returnTime = null;
-    }
-
     public Patron(int ID, String name, String currBook, String email, String borrowTime, String returnTime) {
         this.ID = ID;
         this.name = name;

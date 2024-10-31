@@ -3,9 +3,7 @@ package org.example.csc311capstone;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.ConnDbOps;
-import org.example.csc311capstone.db.PatronsTable;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -13,8 +11,6 @@ import java.util.Scanner;
 public class Application extends javafx.application.Application {
 
     public static ConnDbOps cdbop;
-    // polymorphism using, PatronsTable is child of ConnDbOps
-    public static PatronsTable pt = (PatronsTable) cdbop;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -74,16 +70,9 @@ public class Application extends javafx.application.Application {
                         String name = scnr.next();
                         System.out.print("Please enter an email: ");
                         String email = scnr.next();
-
-                        Patron addAPatron = new Patron();
-                        addAPatron.setName(name);
-                        addAPatron.setEmail(email);
-                        pt.addPatron(addAPatron);// calling from PatronsTable
-
-                        //cdbop.addPatron(name, email);
+                        cdbop.addPatron(name, email);
                         break;
                     case 'd':
-                        pt.listAllPatrons(); // display all patrons
                         break;
                     case 'e':
                         System.out.print("Please enter ID of user to edit.");
@@ -92,14 +81,7 @@ public class Application extends javafx.application.Application {
                         String newName = scnr.next();
                         System.out.print("Please enter an email: ");
                         String newEmail = scnr.next();
-
-                        Patron editAPatron = new Patron();
-                        editAPatron.setID(id);
-                        editAPatron.setName(newName);
-                        editAPatron.setEmail(newEmail);
-                        pt.editPatron(editAPatron); // calling from PatronsTable
-
-                       // cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
+                        cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
                         break;
                     default:
                         System.out.println("Invalid option");
