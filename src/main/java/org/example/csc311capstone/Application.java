@@ -171,6 +171,14 @@ public class Application extends javafx.application.Application {
      * @param scnr The Scanner object used to read user input from the console.
      */
     public static void bookMode(char opt,Scanner scnr) {
+        int id;
+        int ISBN;
+        String name;
+        String author;
+        String edition;
+        int quantity;
+        int copiesLeft;
+
         while (opt != 't') {
             System.out.println("Select an option:");
             System.out.println("a: Add a new book");
@@ -188,13 +196,13 @@ public class Application extends javafx.application.Application {
                 case 'a':
 
                     System.out.print("Please enter a ISBN: ");
-                    int ISBN = scnr.nextInt();
+                    ISBN = scnr.nextInt();
                     System.out.print("Please enter a name: ");
-                    String name = scnr.next();
+                    name = scnr.next();
                     System.out.print("Please enter an author: ");
-                    String author = scnr.next();
+                    author = scnr.next();
                     System.out.print("Please enter a edition: ");
-                    String edition = scnr.next();
+                    edition = scnr.next();
 
                     Map<String, Object> addBookInfo = new HashMap<>();
                     addBookInfo.put(booksColumns.ISBN.name(), ISBN);
@@ -210,8 +218,24 @@ public class Application extends javafx.application.Application {
                     booksTable.listAllBooks();
                     break;
                 case 'e':
+                    System.out.print("Please enter ID of user to edit:");
+                    id = scnr.nextInt();
+                    System.out.print("Please enter a name: ");
+                    name = scnr.next();
+                    System.out.print("Please enter an author: ");
+                    author = scnr.next();
+
+                    //freely edit the value in book table
+                    Map<String, Object> updateBookInfo = new HashMap<>();
+                    updateBookInfo.put(booksColumns.NAME.name(), name);
+                    updateBookInfo.put(booksColumns.AUTHOR.name(), author);
+
+                    booksTable.editBook(updateBookInfo,id);
                     break;
                 case 'r':
+                    System.out.print("Please enter ID of book to remove:");
+                    id= scnr.nextInt();
+                    booksTable.removeBook(id);
                     break;
                 case 'q':
                     System.out.print("Please enter a name your want to query: ");
