@@ -31,8 +31,55 @@ public class BooksTable extends ConnDbOps{
             return;
         }
 
+        int id = (int) addBookInfo.get("id");
+        String sqlCheck = "SELECT * FROM "+ TABLE_NAME +" WHERE id = ?";
 
-        //set SQL with insert new data
+        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = conn.prepareStatement(sqlCheck)){
+
+            preparedStatement.setInt(1, id);
+
+            if (preparedStatement.executeQuery().next()) {
+                //A book with the same id already exists, the book quantity and copies left will be increased
+                increaseBook(id);
+            }else {
+                //else, add a new book to the database
+                addNewBook(addBookInfo);
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while accessing the database.");
+        }
+
+
+    }
+
+    private void increaseBook(int id){
+        String sql = "UPDATE "+ TABLE_NAME +
+                "SET copiesLeft = copiesLeft + 1, quantity  = quantity +1 " +
+                "WHERE id = ?";
+        try  (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+
+            int rows = preparedStatement.executeUpdate();
+
+            if (rows == 0) {
+                System.out.println("No rows updated. The book ID might not exist.");
+            } else {
+                System.out.println("Book increase successfully.");
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while borrowing the book: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void addNewBook(Map<String, Object> addBookInfo){
+        /* set SQL with insert new data */
         StringBuilder sql = new StringBuilder("INSERT INTO " + TABLE_NAME +" ");
         StringJoiner columnsJoiner = new StringJoiner(", ");
         StringJoiner valuesJoiner = new StringJoiner(", ");
