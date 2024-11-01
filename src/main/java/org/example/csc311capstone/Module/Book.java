@@ -1,13 +1,13 @@
 package org.example.csc311capstone.Module;
 
 /**
- * Module class for book
+ * Module class for a book
  * @author zuxin
  */
 
 /*
 
-    NOTE- THIS IS CURRENTLY OUT OF DATE.
+    NOTE - THIS IS CURRENTLY OUT OF DATE.
     CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
     DO NOT USE FOR THE TIME BEING.
 
@@ -89,11 +89,20 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public int getCopiesLeft() {
-        return copiesLeft;
-    }
+    public int getCopiesLeft() {return copiesLeft;}
 
-    public void setCopiesLeft(int copiesLeft) {
-        this.copiesLeft = copiesLeft;
+    public void setCopiesLeft(int copiesLeft) {this.copiesLeft = copiesLeft;}
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", ISBN=" + ISBN +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", edition='" + edition + '\'' +
+                ", quantity=" + quantity +
+                ", copiesLeft=" + copiesLeft +
+                '}';
     }
 }

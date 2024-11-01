@@ -37,7 +37,7 @@ public class ConnDbOps {
         }
 
     /**
-     * create patrons table in database
+     * create patron table in a database
      * @author zuxin and Andrew
      */
     public boolean createPatronsTable() {
@@ -78,7 +78,7 @@ public class ConnDbOps {
     }
 
     /**
-     * create books table in database
+     * create book table in a database
      * @author zuxin and Andrew
      */
     public boolean createBooksTable(){
@@ -89,7 +89,7 @@ public class ConnDbOps {
             Statement statement = conn.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS books ("
                     + "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,"
-                    + "ISBN VARCHAR(200) NOT NULL,"
+                    + "ISBN VARCHAR(200) NOT NULL UNIQUE,"
                     + "name VARCHAR(200) NOT NULL,"
                     + "author VARCHAR(200) NOT NULL UNIQUE,"
                     + "edition VARCHAR(200) NOT NULL,"

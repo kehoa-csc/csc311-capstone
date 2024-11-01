@@ -3,9 +3,7 @@ package org.example.csc311capstone.db;
 import org.example.csc311capstone.Module.Patron;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.StringJoiner;
 /*
 
@@ -17,11 +15,11 @@ import java.util.StringJoiner;
 
 
 /**
- * control the books table in database , which extends from ConnDbOps
+ * control patrons table in a database, which extends from ConnDbOps
  * @author zuxin
  */
 public class PatronsTable extends ConnDbOps{
-
+    private final static String TABLE_NAME = "patrons";
 
     /**
      * Adds a new patron to the database.
@@ -32,9 +30,12 @@ public class PatronsTable extends ConnDbOps{
      */
     public void addPatron(Map<String, Object> addPatronInfo) {
 
-        //String sql = "INSERT INTO patrons (name,currBook, email, returnDate,borrowDate) VALUES (?, ?, ?, ?, ?)";
+        if (addPatronInfo == null || addPatronInfo.isEmpty()) {
+            System.out.println("The patron information is empty or null. Unable to add patron.");
+            return;
+        }
 
-        StringBuilder sql = new StringBuilder("INSERT INTO patrons ");
+        StringBuilder sql = new StringBuilder("INSERT INTO " + TABLE_NAME +" ");
         StringJoiner columnsJoiner = new StringJoiner(", ");
         StringJoiner valuesJoiner = new StringJoiner(", ");
 
@@ -44,9 +45,9 @@ public class PatronsTable extends ConnDbOps{
             valuesJoiner.add("?");
         }
 
-        sql.append(columnsJoiner); // join " , " between each column, not in end
+        sql.append(columnsJoiner); // join "," between each column, not in the end
         sql.append(") VALUES (");
-        sql.append(valuesJoiner); // join " , " between each value, not in end
+        sql.append(valuesJoiner); // join "," between each value, not in the end
         sql.append(")");
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -61,6 +62,8 @@ public class PatronsTable extends ConnDbOps{
 
             if (row > 0) {
                 System.out.println("A new patron was inserted successfully.");
+            }else {
+                System.out.println("Inserting the new patron failed, no rows affected.");
             }
 
         } catch (SQLException e) {
@@ -77,7 +80,7 @@ public class PatronsTable extends ConnDbOps{
      */
     public void deletePatron(int id) {
 
-        String sql = "DELETE FROM patrons WHERE id = ?";
+        String sql = "DELETE FROM "+ TABLE_NAME +" WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(sql)){
@@ -106,15 +109,13 @@ public class PatronsTable extends ConnDbOps{
      */
     public void editPatron(Map<String, Object> updatePatronInfo, int id) {
 
-        //String sql = "UPDATE patron Set name = ?, currBook = ?, email = ?, borrowTime = ? returnTime = ? WHERE id = ? ";
-
-        StringBuilder sql = new StringBuilder("UPDATE patrons Set ");
+        StringBuilder sql = new StringBuilder("UPDATE "+ TABLE_NAME +" Set ");
         StringJoiner joiner = new StringJoiner(", ");
 
         for (String key : updatePatronInfo.keySet()) {
             joiner.add(key + " = ?");
         }
-        sql.append(joiner); // join " , " between each, not in end
+        sql.append(joiner); // join "," between each, not in the end
         sql.append(" WHERE id = ? ");
 
         //try-with-resources, these resources are automatically shut down
@@ -143,11 +144,11 @@ public class PatronsTable extends ConnDbOps{
      * search a patron by patron's name
      *
      * @author zuxin
-     * @param name name of patron need to find
+     * @param name name of patron needs to find
      */
     public void searchPatronByName(String name){
 
-        String sql = "SELECT * FROM patrons WHERE name = ?";
+        String sql = "SELECT * FROM "+ TABLE_NAME +" WHERE name = ?";
         try(Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
@@ -166,6 +167,7 @@ public class PatronsTable extends ConnDbOps{
 
                 System.out.println(patron);
             }
+            resultSet.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -179,7 +181,7 @@ public class PatronsTable extends ConnDbOps{
      */
     public void listAllPatrons() {
 
-        String sql = "SELECT * FROM patrons ";
+        String sql = "SELECT * FROM "+ TABLE_NAME +" ";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(sql)){
@@ -196,10 +198,41 @@ public class PatronsTable extends ConnDbOps{
                 patron.setBorrowDate(resultSet.getString("borrowDate"));
                 System.out.println(patron);
             }
+            resultSet.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void borrowBook(int id){
+
+        if (id == 0) {
+            System.out.println("No book id is 0, unable to borrow a book.");
+            return;
+        }
+
+        String sql = "UPDATE books " +
+                "SET quantity = quantity - 1, " +
+                "copiesLeft = copiesLeft - 1 " +
+                "WHERE id = ? AND quantity > 0 AND copiesLeft > 0";
+
+        try  (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+
+            int rows = preparedStatement.executeUpdate();
+
+            if (rows == 0) {
+                System.out.println("Cannot borrow book, either the book does not exist or there are no copies left.");
+            } else {
+                System.out.println("Book borrowed successfully.");
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while borrowing the book: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
 }
