@@ -3,6 +3,8 @@ package org.example.csc311capstone;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.csc311capstone.Module.Book;
+import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.BooksTable;
 import org.example.csc311capstone.db.ConnDbOps;
 import org.example.csc311capstone.db.PatronsTable;
@@ -18,19 +20,19 @@ import java.util.Scanner;
  * And mySQL is ignored case, these shows as a caption letter just mean there is constant value
  */
 enum patronsColumns {
-    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE;
+    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE
 }
 
 /**
  * hold the column name which is columns from book table
  */
 enum booksColumns {
-    ID,ISBN,NAME,AUTHOR,EDITION,QUANTITY,COPIESLEFT;
+    ID,ISBN,NAME,AUTHOR,EDITION,QUANTITY,COPIESLEFT
 }
 
 public class Application extends javafx.application.Application {
 
-    private static final ConnDbOps cdbop = new ConnDbOps();;
+    private static final ConnDbOps cdbop = new ConnDbOps();
     private static final PatronsTable patronsTable = new PatronsTable();
     private static final BooksTable booksTable = new BooksTable();
 
@@ -62,13 +64,18 @@ public class Application extends javafx.application.Application {
         System.out.println("Press \"b\" to view or add books.");
         char opt = scnr.next().charAt(0);
 
-
-        if (opt == 'c') { //patron manager mode
-            patronMode(opt,scnr);
-        } else if (opt == 'b') { //Book manager mode
-            bookMode(opt,scnr);
-        }else {
-            System.out.println("Invalid option");
+        while (true) {
+            if (opt == 'c') { //patron manager mode
+                patronMode(opt, scnr);
+            } else if (opt == 'b') { //Book manager mode
+                bookMode(opt, scnr);
+            } else if(opt == 'q') {
+                System.out.println("Quit application");
+                System.exit(0);
+            }
+            else {
+                System.out.println("Invalid option");
+            }
         }
 
     }
@@ -135,9 +142,20 @@ public class Application extends javafx.application.Application {
                 case 'q':
                     System.out.print("Please enter a name your want to query: ");
                     String Name = scnr.next();
-                    patronsTable.searchPatronByName(Name);
+
+                    Map<String, Object> searchPatronInfo = new HashMap<>();
+                    searchPatronInfo.put(patronsColumns.NAME.name(), Name);
+                    Patron patron = patronsTable.searchPatron(searchPatronInfo);
+                    System.out.println(patron);
                     break;
                 case 'b':
+                    System.out.print("Please enter ID of book want to borrow:");
+                    int Id = scnr.nextInt();
+                    patronsTable.borrowBook(Id);
+                    break;
+                case 't':
+                    System.out.println("Quit application");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Invalid option");
@@ -168,17 +186,48 @@ public class Application extends javafx.application.Application {
 
             switch (opt){
                 case 'a':
+
+                    System.out.print("Please enter a ISBN: ");
+                    int ISBN = scnr.nextInt();
                     System.out.print("Please enter a name: ");
                     String name = scnr.next();
                     System.out.print("Please enter an author: ");
                     String author = scnr.next();
+                    System.out.print("Please enter a edition: ");
+                    String edition = scnr.next();
 
                     Map<String, Object> addBookInfo = new HashMap<>();
+                    addBookInfo.put(booksColumns.ISBN.name(), ISBN);
                     addBookInfo.put(booksColumns.NAME.name(), name);
                     addBookInfo.put(booksColumns.AUTHOR.name(), author);
+                    addBookInfo.put(booksColumns.EDITION.name(), edition);
+                    addBookInfo.put(booksColumns.QUANTITY.name(), 1);
+                    addBookInfo.put(booksColumns.COPIESLEFT.name(), 1);
 
                     booksTable.addBook(addBookInfo);
                     break;
+                case 'd':
+                    booksTable.listAllBooks();
+                    break;
+                case 'e':
+                    break;
+                case 'r':
+                    break;
+                case 'q':
+                    System.out.print("Please enter a name your want to query: ");
+                    String Name = scnr.next();
+
+                    Map<String, Object> searchBookInfo = new HashMap<>();
+                    searchBookInfo.put(patronsColumns.NAME.name(), Name);
+                    Book book = booksTable.searchBook(searchBookInfo);
+                    System.out.println(book);
+                    break;
+                case 't':
+                    System.out.println("Quit application");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid option");
 
             }
         }

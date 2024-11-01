@@ -1,5 +1,6 @@
 package org.example.csc311capstone.db;
 
+import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
 
 import java.sql.*;
@@ -80,6 +81,11 @@ public class PatronsTable extends ConnDbOps{
      */
     public void deletePatron(int id) {
 
+        if (id == 0) {
+            System.out.println("No patron id is 0, unable to delete patron.");
+            return;
+        }
+
         String sql = "DELETE FROM "+ TABLE_NAME +" WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -108,6 +114,11 @@ public class PatronsTable extends ConnDbOps{
      * @param id The unique id of the patron
      */
     public void editPatron(Map<String, Object> updatePatronInfo, int id) {
+        
+        if (updatePatronInfo == null || updatePatronInfo.isEmpty() || id == 0) {
+            System.out.println("The patron information to be updated is empty or null or the id is 0. Unable to update patron.");
+            return;
+        }
 
         StringBuilder sql = new StringBuilder("UPDATE "+ TABLE_NAME +" Set ");
         StringJoiner joiner = new StringJoiner(", ");
@@ -140,38 +151,51 @@ public class PatronsTable extends ConnDbOps{
     }
 
 
-    /**
-     * search a patron by patron's name
-     *
-     * @author zuxin
-     * @param name name of patron needs to find
-     */
-    public void searchPatronByName(String name){
 
-        String sql = "SELECT * FROM "+ TABLE_NAME +" WHERE name = ?";
+    public Patron searchPatron(Map<String,Object> searchPatronInfo){
+
+        if (searchPatronInfo == null || searchPatronInfo.isEmpty()) {
+            System.out.println("The book information is empty or null. Unable to search book.");
+            return null;
+        }
+
+        // Construct SQL query
+        StringBuilder sql = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" WHERE ");
+        StringJoiner joiner = new StringJoiner(" AND ");
+
+        for (String key : searchPatronInfo.keySet()) {
+            joiner.add(key + " = ?");
+        }
+        sql.append(joiner);
+
+        Patron patron = null;
         try(Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql.toString())) {
 
-            preparedStatement.setString(1, name);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                Patron patron = new Patron();
-                patron.setID(resultSet.getInt("id"));
-                patron.setName(name);
-                patron.setCurrBook(resultSet.getInt("currBook"));
-                patron.setEmail(resultSet.getString("email"));
-                patron.setReturnDate(resultSet.getString("returnDate"));
-                patron.setBorrowDate(resultSet.getString("borrowDate"));
-
-                System.out.println(patron);
+            int index = 1;
+            for (Object object: searchPatronInfo.values()) {
+                preparedStatement.setObject(index++, object);
             }
-            resultSet.close();
+
+            // close the ResultSet after use
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    patron = new Patron();
+                    patron.setID(resultSet.getInt("id"));
+                    patron.setName(resultSet.getString("name"));
+                    patron.setCurrBook(resultSet.getInt("currBook"));
+                    patron.setEmail(resultSet.getString("email"));
+                    patron.setReturnDate(resultSet.getString("returnDate"));
+                    patron.setBorrowDate(resultSet.getString("borrowDate"));
+                }
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return patron;
     }
 
     /**
@@ -205,6 +229,12 @@ public class PatronsTable extends ConnDbOps{
         }
     }
 
+    /**
+     * Borrows a book from the library by decrease the copiesLeft count in the database.
+     * If the book ID is not valid or there are no copies left, an appropriate message will be printed.
+     *
+     * @param id The unique ID of the book to be borrowed.
+     */
     public void borrowBook(int id){
 
         if (id == 0) {
@@ -212,10 +242,7 @@ public class PatronsTable extends ConnDbOps{
             return;
         }
 
-        String sql = "UPDATE books " +
-                "SET quantity = quantity - 1, " +
-                "copiesLeft = copiesLeft - 1 " +
-                "WHERE id = ? AND quantity > 0 AND copiesLeft > 0";
+        String sql = "UPDATE books SET copiesLeft = copiesLeft - 1 WHERE id = ? AND copiesLeft > 0";
 
         try  (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
               PreparedStatement preparedStatement = conn.prepareStatement(sql)) {

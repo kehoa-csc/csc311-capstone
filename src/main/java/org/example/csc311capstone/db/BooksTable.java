@@ -3,7 +3,6 @@ package org.example.csc311capstone.db;
 import org.example.csc311capstone.Module.Book;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 /*
@@ -21,7 +20,7 @@ public class BooksTable extends ConnDbOps{
     private final static String TABLE_NAME = "books";
 
     /**
-     * Adds a book to the database. If the book already exists, increases the quantity and copies left.
+     * Adds a book to the database. If the book already exists, it increases the quantity and copies left.
      *
      * @param addBookInfo A map containing the book's details, with column names as keys and their corresponding values.
      */
@@ -74,12 +73,13 @@ public class BooksTable extends ConnDbOps{
         }
     }
 
+
     /**
      * Removes a book from the database based on its unique identifier.
+     * Depending on the state of the book's availability (copies left and total quantity),
+     * it either reduces the quantities, flags an error, or deletes the book.
      *
-     * @param id The unique identifier of the book to be removed. If the id is 0 or if the book does not
-     *           exist, the method will print an error message and return. Depending on the book's
-     *           quantity and copies left, it will either delete the book or update its stock.
+     * @param id The unique identifier of the book to be removed.
      */
     public void removeBook(int id){
 
@@ -88,39 +88,54 @@ public class BooksTable extends ConnDbOps{
             return;
         }
         /*
-            if CopiesLeft == 1 && Quantity == 1, able to delete a book from table
             if CopiesLeft == 0 && Quantity == 1, a book has been browsed, it needs to return
             if CopiesLeft < 0 && Quantity < 1, error number of the book
             if CopiesLeft > 1 && Quantity > 1, a book should not be deleted, just decrease the CopiesLeft and Quantity
+            if CopiesLeft == 1 && Quantity == 1, able to delete a book from table
          */
-        Map<String, Object> oldBookInfo = new HashMap<>();
-        oldBookInfo.put("id",id);
-        Book book = searchBook(oldBookInfo);
-        if (book == null) {
-            System.out.println("This book does not exists, unable to delete book.");
-            return;
-        }
-        if (book.getCopiesLeft() == 0 &&  book.getQuantity() == 1) {
-            System.out.println("A book has been checked out and needs to be returned");
-            return;
-        }
-        if(book.getCopiesLeft() < 0 &&  book.getQuantity() < 1){
-            System.out.println("Error!!! The number of this book are invalid, please check the number of this book");
-            return;
-        }
-        if (book.getCopiesLeft() > 1 &&  book.getQuantity() > 1) {
-            // Book have much, updating its quantity and copiesLeft
-            oldBookInfo.put("quantity", book.getQuantity()-1);
-            oldBookInfo.put("copiesLeft", book.getCopiesLeft()-1);
-            editBook(oldBookInfo, id);
-        }else {
-            deleteBookById(id);
+        String sql = "SELECT copiesLeft, quantity FROM "+ TABLE_NAME + " WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int copiesLeft = resultSet.getInt("copiesLeft");
+                    int quantity = resultSet.getInt("quantity");
+
+                    if (copiesLeft == 0 && quantity == 1) {
+                        System.out.println("A book has been checked out and needs to be returned");
+                    }else if (copiesLeft < 0 && quantity < 1) {
+                        System.out.println("Error!!! The number of this book are invalid, please check the number of this book");
+                    }else if (copiesLeft > 1 && quantity > 1) {
+                        // Book have much, reduce its quantity and copiesLeft
+                        reduceBook(id);
+                    } else if (copiesLeft == 1 && quantity == 1) {
+                        deleteBookById(id);
+                    }
+
+                } else {
+                    System.out.println("No book found with the provided id.");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
 
-    private void deleteBookById(int id) {
-        String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ?";
+    /**
+     * Reduces the quantity and copies left of a book in the database by 1.
+     *
+     * @param id The unique identifier of the book to be reduced.
+     */
+    private void reduceBook(int id) {
+        String sql = "UPDATE "+ TABLE_NAME +
+                "SET copiesLeft = copiesLeft - 1, quantity  = quantity -1 " +
+                "WHERE id = ? AND copiesLeft > 1 AND quantity > 1";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -128,10 +143,35 @@ public class BooksTable extends ConnDbOps{
             preparedStatement.setInt(1, id);
             int row = preparedStatement.executeUpdate();
 
-            if (row > 0) {
-                System.out.println("A book was deleted successfully.");
+            if (row == 0) {
+                System.out.println("Reducing the book failed, no rows affected.");
             } else {
+                System.out.println("Book quantity reduced successfully.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Deletes a book from the database based on its unique identifier.
+     *
+     * @param id The unique identifier of the book to be deleted.
+     */
+    private void deleteBookById(int id) {
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ? AND copiesLeft = 1 AND quantity = 1";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+            int row = preparedStatement.executeUpdate();
+
+            if (row == 0) {
                 System.out.println("Deleting the book failed, no rows affected.");
+            } else {
+                System.out.println("A book was deleted successfully.");
             }
 
         } catch (SQLException e) {
