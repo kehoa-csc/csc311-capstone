@@ -49,6 +49,16 @@ public class Application extends javafx.application.Application {
         //launch();
 
         //Testing database connection. ToDo: Will have login screen before this that passes in the credentials.
+        testDatabaseConnection();
+
+
+    }
+
+    /**
+     * Tests the database connection and provides an interactive menu for managing
+     * patrons and books.
+     */
+    private static void testDatabaseConnection() {
         System.out.println("Connecting to database...");
         try {
             cdbop.connectToDatabase();
@@ -57,6 +67,7 @@ public class Application extends javafx.application.Application {
             System.exit(1);
         }
         System.out.println("Connected successfully.");
+
 
         //Initial selection of managing patrons or adding books
         Scanner scnr = new Scanner(System.in);
@@ -77,17 +88,16 @@ public class Application extends javafx.application.Application {
                 System.out.println("Invalid option");
             }
         }
-
     }
 
     /**
      * Provides an interactive mode for managing patrons in the library system.
-     * Allows users to add, display, edit, remove, and query patrons.
+     * Allows users to add, display, edit, remove, query patrons, and borrow a book.
      *
      * @param opt The initial option chosen by the user.
      * @param scnr The Scanner object used to read user input.
      */
-    public static void patronMode(char opt,Scanner scnr){
+    private static void patronMode(char opt,Scanner scnr){
         while (opt != 't') {
             System.out.println("Select an option:");
             System.out.println("a: Add a new patron");
@@ -137,7 +147,7 @@ public class Application extends javafx.application.Application {
                 case 'r':
                     System.out.print("Please enter ID of user to delete:");
                     int ID = scnr.nextInt();
-                    patronsTable.deletePatron(ID);
+                    patronsTable.removePatron(ID);
                     break;
                 case 'q':
                     System.out.print("Please enter a name your want to query: ");
@@ -145,13 +155,16 @@ public class Application extends javafx.application.Application {
 
                     Map<String, Object> searchPatronInfo = new HashMap<>();
                     searchPatronInfo.put(patronsColumns.NAME.name(), Name);
-                    Patron patron = patronsTable.searchPatron(searchPatronInfo);
+                    Patron patron = patronsTable.queryPatron(searchPatronInfo);
                     System.out.println(patron);
                     break;
                 case 'b':
-                    System.out.print("Please enter ID of book want to borrow:");
-                    int Id = scnr.nextInt();
-                    patronsTable.borrowBook(Id);
+                    System.out.print("Please enter ID of patron who want to borrow book:");
+                    int patronId = scnr.nextInt();
+                    System.out.print("Please enter ID of book to be borrowed:");
+                    int bookId = scnr.nextInt();
+
+                    patronsTable.borrowBook(patronId,bookId);
                     break;
                 case 't':
                     System.out.println("Quit application");
@@ -167,17 +180,15 @@ public class Application extends javafx.application.Application {
      * Launches an interactive menu for managing books in the library system.
      * Provides options for adding, displaying, editing, removing, and querying books.
      *
-     * @param opt The initial option selected by the user. Controls the menu flow.
-     * @param scnr The Scanner object used to read user input from the console.
+     * @param opt The initial option selected by the user.
+     * @param scnr The Scanner object used to read user input.
      */
-    public static void bookMode(char opt,Scanner scnr) {
+    private static void bookMode(char opt,Scanner scnr) {
         int id;
         int ISBN;
         String name;
         String author;
         String edition;
-        int quantity;
-        int copiesLeft;
 
         while (opt != 't') {
             System.out.println("Select an option:");
@@ -209,6 +220,7 @@ public class Application extends javafx.application.Application {
                     addBookInfo.put(booksColumns.NAME.name(), name);
                     addBookInfo.put(booksColumns.AUTHOR.name(), author);
                     addBookInfo.put(booksColumns.EDITION.name(), edition);
+                    //remember to enter quantity and copesLeft here
                     addBookInfo.put(booksColumns.QUANTITY.name(), 1);
                     addBookInfo.put(booksColumns.COPIESLEFT.name(), 1);
 
@@ -243,7 +255,7 @@ public class Application extends javafx.application.Application {
 
                     Map<String, Object> searchBookInfo = new HashMap<>();
                     searchBookInfo.put(patronsColumns.NAME.name(), Name);
-                    Book book = booksTable.searchBook(searchBookInfo);
+                    Book book = booksTable.queryBook(searchBookInfo);
                     System.out.println(book);
                     break;
                 case 't':

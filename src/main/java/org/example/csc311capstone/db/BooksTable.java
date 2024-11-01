@@ -1,17 +1,12 @@
 package org.example.csc311capstone.db;
 
 import org.example.csc311capstone.Module.Book;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.Map;
 import java.util.StringJoiner;
-/*
 
-    NOTE-THIS IS CURRENTLY OUT OF DATE.
-    CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
-    DO NOT USE FOR THE TIME BEING.
-
- */
 /**
  * control the book table in a database, which extends from ConnDbOps
  * @Author zuxin chen
@@ -26,27 +21,30 @@ public class BooksTable extends ConnDbOps{
      */
     public void addBook(Map<String, Object> addBookInfo) {
 
-        if (addBookInfo == null || addBookInfo.isEmpty()) {
+        if (checkMapInfo(addBookInfo)) {
             System.out.println("The book information is empty or null. Unable to add book.");
             return;
         }
 
-        int id = (int) addBookInfo.get("id");
-        String sqlCheck = "SELECT * FROM "+ TABLE_NAME +" WHERE id = ?";
+        String name = addBookInfo.get("NAME").toString();
+        String sqlCheck = "SELECT id FROM "+ TABLE_NAME +" WHERE name = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(sqlCheck)){
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, name);
 
-            if (preparedStatement.executeQuery().next()) {
-                //A book with the same id already exists, the book quantity and copies left will be increased
-                increaseBook(id);
-            }else {
-                //else, add a new book to the database
-                addNewBook(addBookInfo);
+            // if id exist, a book exists; else add a new book
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    //A book with the same id already exists, the book quantity and copies left will be increased
+                    int id = resultSet.getInt("id");
+                    increaseBook(id);
+                }else {
+                    //else, add a new book to the database
+                    addNewBook(addBookInfo);
+                }
             }
-
 
 
         } catch (SQLException e) {
@@ -57,10 +55,18 @@ public class BooksTable extends ConnDbOps{
 
     }
 
+    /**
+     * Increases the quantity and copies left of a book by 1,
+     * based on the book with the same id already exists
+     *
+     * @param id The unique identifier of the book to be increased.
+     */
     private void increaseBook(int id){
+
         String sql = "UPDATE "+ TABLE_NAME +
-                "SET copiesLeft = copiesLeft + 1, quantity  = quantity +1 " +
-                "WHERE id = ?";
+                " SET copiesLeft = copiesLeft + 1, quantity  = quantity +1" +
+                " WHERE id = ?";
+
         try  (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
               PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
@@ -78,7 +84,13 @@ public class BooksTable extends ConnDbOps{
         }
     }
 
+    /**
+     * Inserts a new book into the database using the provided information.
+     *
+     * @param addBookInfo A map containing the book's details, with column names as keys and their corresponding values.
+     */
     private void addNewBook(Map<String, Object> addBookInfo){
+
         /* set SQL with insert new data */
         StringBuilder sql = new StringBuilder("INSERT INTO " + TABLE_NAME +" ");
         StringJoiner columnsJoiner = new StringJoiner(", ");
@@ -94,8 +106,6 @@ public class BooksTable extends ConnDbOps{
         sql.append(") VALUES (");
         sql.append(valuesJoiner); // join "," between each value, not in the end
         sql.append(")");
-        //increase quantity and copiesLeft when a book is existed
-        sql.append(" ON DUPLICATE KEY UPDATE quantity = quantity + 1, copiesLeft = copiesLeft + 1");
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(sql.toString())){
@@ -119,7 +129,6 @@ public class BooksTable extends ConnDbOps{
             System.out.println("Error occurred while accessing the database.");
         }
     }
-
 
     /**
      * Removes a book from the database based on its unique identifier.
@@ -160,6 +169,7 @@ public class BooksTable extends ConnDbOps{
                         // Book have much, reduce its quantity and copiesLeft
                         reduceBook(id);
                     } else if (copiesLeft == 1 && quantity == 1) {
+                        //only one book remain and not be borrowing, it is able to delete a book from a database
                         deleteBookById(id);
                     }
 
@@ -181,8 +191,8 @@ public class BooksTable extends ConnDbOps{
      */
     private void reduceBook(int id) {
         String sql = "UPDATE "+ TABLE_NAME +
-                "SET copiesLeft = copiesLeft - 1, quantity  = quantity -1 " +
-                "WHERE id = ? AND copiesLeft > 1 AND quantity > 1";
+                " SET copiesLeft = copiesLeft - 1, quantity  = quantity -1" +
+                " WHERE id = ? AND copiesLeft > 1 AND quantity > 1";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -234,7 +244,7 @@ public class BooksTable extends ConnDbOps{
      */
     public void editBook(Map<String, Object> updateBookInfo, int id) {
 
-        if (updateBookInfo == null || updateBookInfo.isEmpty() || id == 0) {
+        if (checkMapInfo(updateBookInfo) || id == 0) {
             System.out.println("The book information is empty or null, and no book id is 0. Unable to edit book.");
             return;
         }
@@ -269,16 +279,15 @@ public class BooksTable extends ConnDbOps{
         }
     }
 
-
     /**
      * Searches for a book in the database using the specified search criteria.
      *
      * @param searchBookInfo A map containing the search criteria, where keys are column names and values are the corresponding search values.
      * @return The book that matches the search criteria or a new Book object if no match is found.
      */
-    public Book searchBook(Map<String,Object> searchBookInfo){
+    public Book queryBook(Map<String,Object> searchBookInfo){
 
-        if (searchBookInfo == null || searchBookInfo.isEmpty()) {
+        if (checkMapInfo(searchBookInfo)) {
             System.out.println("The book information is empty or null. Unable to search book.");
             return null;
         }
@@ -325,10 +334,12 @@ public class BooksTable extends ConnDbOps{
 
     /**
      * displace all books from table books
+     * if you need to display on a window, not screen, than you can return a book object out
      */
     public void listAllBooks() {
 
-        String sql = "SELECT * FROM "+ TABLE_NAME +" ";
+        String sql = "SELECT * FROM "+ TABLE_NAME;
+        Book book;
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(sql)){
@@ -336,7 +347,7 @@ public class BooksTable extends ConnDbOps{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                Book book = new Book();
+                book = new Book();
                 book.setId(resultSet.getInt("id"));
                 book.setISBN(resultSet.getInt("ISBN"));
                 book.setName(resultSet.getString("name"));
@@ -354,7 +365,23 @@ public class BooksTable extends ConnDbOps{
         }
     }
 
-
+    /**
+     * Checks the validity of the provided map containing object information.
+     *
+     * @param objectInfo A map containing object information with keys as strings and values as objects.
+     * @return true if the map is not null, not empty, and all values are non-null; false otherwise.
+     */
+    private boolean checkMapInfo(Map<String,Object> objectInfo) {
+        if (objectInfo == null || objectInfo.isEmpty()) {
+            return false;
+        }
+        for (Object value : objectInfo.values()) {
+            if (value == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 }

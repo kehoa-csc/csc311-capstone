@@ -1,19 +1,9 @@
 package org.example.csc311capstone.db;
 
-import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
-
 import java.sql.*;
 import java.util.Map;
 import java.util.StringJoiner;
-/*
-
-    NOTE-THIS IS CURRENTLY OUT OF DATE.
-    CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
-    DO NOT USE FOR THE TIME BEING.
-
- */
-
 
 /**
  * control patrons table in a database, which extends from ConnDbOps
@@ -31,7 +21,7 @@ public class PatronsTable extends ConnDbOps{
      */
     public void addPatron(Map<String, Object> addPatronInfo) {
 
-        if (addPatronInfo == null || addPatronInfo.isEmpty()) {
+        if (checkMapInfo(addPatronInfo)) {
             System.out.println("The patron information is empty or null. Unable to add patron.");
             return;
         }
@@ -72,14 +62,13 @@ public class PatronsTable extends ConnDbOps{
         }
     }
 
-
     /**
      * delete a patron from table patrons
      *
      * @author zuxin
      * @param id get id of a patron should be deleted
      */
-    public void deletePatron(int id) {
+    public void removePatron(int id) {
 
         if (id == 0) {
             System.out.println("No patron id is 0, unable to delete patron.");
@@ -95,7 +84,7 @@ public class PatronsTable extends ConnDbOps{
 
             int row = preparedStatement.executeUpdate();
 
-            if (row == 0) {
+            if (row > 0) {
                 System.out.println("A patron was deleted successfully.");
             }
 
@@ -103,7 +92,6 @@ public class PatronsTable extends ConnDbOps{
             e.printStackTrace();
         }
     }
-
 
     /**
      * Updates the information of a patron in the database.
@@ -115,7 +103,7 @@ public class PatronsTable extends ConnDbOps{
      */
     public void editPatron(Map<String, Object> updatePatronInfo, int id) {
         
-        if (updatePatronInfo == null || updatePatronInfo.isEmpty() || id == 0) {
+        if (checkMapInfo(updatePatronInfo) || id == 0) {
             System.out.println("The patron information to be updated is empty or null or the id is 0. Unable to update patron.");
             return;
         }
@@ -150,12 +138,17 @@ public class PatronsTable extends ConnDbOps{
         }
     }
 
+    /**
+     * Queries the database for a patron based on the specified criteria provided in the map.
+     * Returns the patron information if found.
+     *
+     * @param queryPatronInfo A map containing the search criteria for the patron, with keys as column names and values as the search values.
+     * @return The patron information if found, otherwise null.
+     */
+    public Patron queryPatron(Map<String,Object> queryPatronInfo){
 
-
-    public Patron searchPatron(Map<String,Object> searchPatronInfo){
-
-        if (searchPatronInfo == null || searchPatronInfo.isEmpty()) {
-            System.out.println("The book information is empty or null. Unable to search book.");
+        if (checkMapInfo(queryPatronInfo)) {
+            System.out.println("The patron information is empty or null. Unable to search book.");
             return null;
         }
 
@@ -163,7 +156,7 @@ public class PatronsTable extends ConnDbOps{
         StringBuilder sql = new StringBuilder("SELECT * FROM "+ TABLE_NAME +" WHERE ");
         StringJoiner joiner = new StringJoiner(" AND ");
 
-        for (String key : searchPatronInfo.keySet()) {
+        for (String key : queryPatronInfo.keySet()) {
             joiner.add(key + " = ?");
         }
         sql.append(joiner);
@@ -173,7 +166,7 @@ public class PatronsTable extends ConnDbOps{
             PreparedStatement preparedStatement = conn.prepareStatement(sql.toString())) {
 
             int index = 1;
-            for (Object object: searchPatronInfo.values()) {
+            for (Object object: queryPatronInfo.values()) {
                 preparedStatement.setObject(index++, object);
             }
 
@@ -199,21 +192,21 @@ public class PatronsTable extends ConnDbOps{
     }
 
     /**
-     * display all patron from table patrons
-     *
+     * display all patrons from table patrons
+     * if you need to display on a window, not screen, than you can return a patron object out
      * @author zuxin
      */
     public void listAllPatrons() {
 
-        String sql = "SELECT * FROM "+ TABLE_NAME +" ";
+        String sql = "SELECT * FROM "+ TABLE_NAME;
+        Patron patron;
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-             PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-
-            ResultSet resultSet = preparedStatement.executeQuery();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()){
 
             while (resultSet.next()) {
-                Patron patron = new Patron();
+                patron = new Patron();
                 patron.setID(resultSet.getInt("id"));
                 patron.setName(resultSet.getString("name"));
                 patron.setCurrBook(resultSet.getInt("currBook"));
@@ -222,7 +215,6 @@ public class PatronsTable extends ConnDbOps{
                 patron.setBorrowDate(resultSet.getString("borrowDate"));
                 System.out.println(patron);
             }
-            resultSet.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -230,36 +222,94 @@ public class PatronsTable extends ConnDbOps{
     }
 
     /**
-     * Borrows a book from the library by decrease the copiesLeft count in the database.
-     * If the book ID is not valid or there are no copies left, an appropriate message will be printed.
+     * Allows a patron to borrow a book from the library.
+     * The method updates the book and the patron information
+     * when a book exists and haves copies left, also and a patron exists
      *
-     * @param id The unique ID of the book to be borrowed.
+     * @param patronId The ID of the patron borrowing the book.
+     * @param bookId The ID of the book to be borrowed.
      */
-    public void borrowBook(int id){
-
-        if (id == 0) {
-            System.out.println("No book id is 0, unable to borrow a book.");
+    public void borrowBook(int patronId, int bookId) {
+        if (patronId == 0 || bookId == 0) {
+            System.out.println("No patron or book id is 0, unable to borrow a book.");
             return;
         }
 
-        String sql = "UPDATE books SET copiesLeft = copiesLeft - 1 WHERE id = ? AND copiesLeft > 0";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD)) {
+            processBookBorrowing(patronId, bookId, conn);
 
-        try  (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
-
-            int rows = preparedStatement.executeUpdate();
-
-            if (rows == 0) {
-                System.out.println("Cannot borrow book, either the book does not exist or there are no copies left.");
-            } else {
-                System.out.println("Book borrowed successfully.");
-            }
         } catch (SQLException e) {
-            System.out.println("An error occurred while borrowing the book: " + e.getMessage());
+            System.out.println("An error occurred while connecting to the database: " + e.getMessage());
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Processes a book borrowing transaction in the library.
+     * Updates the book's available copies and the patron's current borrowed book information.
+     * The method ensures both updates are committed or both are rolled back to maintain consistency.
+     *
+     * @param patronId The ID of the patron borrowing the book.
+     * @param bookId The ID of the book to be borrowed.
+     * @param conn The database connection to be used for the transaction.
+     * @throws SQLException If a database access error occurs or the transaction fails.
+     */
+    private static void processBookBorrowing(int patronId, int bookId, Connection conn) throws SQLException {
+        conn.setAutoCommit(false); // start the transaction for two operations should both works
+
+        String sqlBook = "UPDATE books SET copiesLeft = copiesLeft - 1 WHERE id = ? AND copiesLeft > 0";
+        String sqlPatron = "UPDATE patrons SET currBook = ? WHERE id = ?";
+
+        try (PreparedStatement bookUpdateStatement = conn.prepareStatement(sqlBook);
+             PreparedStatement patronUpdateStatement = conn.prepareStatement(sqlPatron)) {
+
+            // Update book information
+            bookUpdateStatement.setInt(1, bookId);
+            int bookRows = bookUpdateStatement.executeUpdate();
+            if (bookRows == 0) {
+                conn.rollback(); // Roll back the transaction
+                System.out.println("Cannot borrow book, either the book does not exist or there are no copies left.");
+            }else if(bookRows > 0) {
+
+                // Update patron information
+                patronUpdateStatement.setInt(1, bookId);
+                patronUpdateStatement.setInt(2, patronId);
+                int patronRows = patronUpdateStatement.executeUpdate();
+                if (patronRows > 0) {
+                    conn.commit(); // Commit the transaction, all things are working
+                    System.out.println("Patron has borrowed book successfully.");
+                } else {
+                    conn.rollback(); // Roll back the transaction, patron not exists
+                    System.out.println("Unable to update patron information; patron may not exist.");
+                }
+            }
+        } catch (SQLException e) {
+            conn.rollback(); // Roll back a transaction when an exception is caught
+            System.out.println("An error occurred while processing the transaction: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            conn.setAutoCommit(true);
+        }
+    }
+
+
+    /**
+     * Checks the validity of the provided map containing object information.
+     *
+     * @param objectInfo A map containing object information with keys as strings and values as objects.
+     * @return true if the map is not null, not empty, and all values are non-null; false otherwise.
+     */
+    private boolean checkMapInfo(Map<String,Object> objectInfo) {
+        if (objectInfo == null || objectInfo.isEmpty()) {
+            return false;
+        }
+        for (Object value : objectInfo.values()) {
+            if (value == null) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
