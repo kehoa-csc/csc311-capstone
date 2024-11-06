@@ -50,10 +50,11 @@ public class ConnDbOps {
             String sql = "CREATE TABLE IF NOT EXISTS patrons ("
                     + "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,"
                     + "name VARCHAR(200) NOT NULL,"
-                    + "currBook INT NOT NULL,"
+                    + "currBook INT,"
                     + "email VARCHAR(200) NOT NULL UNIQUE,"
-                    + "returnDate VARCHAR(10) NOT NULL,"
-                    + "borrowDate VARCHAR(10) NOT NULL"
+                    + "returnDate VARCHAR(10),"
+                    + "borrowDate VARCHAR(10),"
+                    + "password VARCHAR(200)"
                     + ")";
             statement.executeUpdate(sql);
 

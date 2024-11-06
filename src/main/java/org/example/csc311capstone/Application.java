@@ -141,8 +141,6 @@ public class Application extends javafx.application.Application {
                     updatePatronInfo.put(patronsColumns.EMAIL.name(), newEmail);
 
                     patronsTable.editPatron(updatePatronInfo,id); // calling from PatronsTable
-
-                    // cdbop.editPatron(newName,newEmail); //Not ready yet, we need Display first
                     break;
                 case 'r':
                     System.out.print("Please enter ID of user to delete:");
