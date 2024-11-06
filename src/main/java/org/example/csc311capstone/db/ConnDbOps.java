@@ -37,8 +37,8 @@ public class ConnDbOps {
         }
 
     /**
-     * create patrons table in database
-     * @author zuxin
+     * create patron table in a database
+     * @author zuxin and Andrew
      */
     public boolean createPatronsTable() {
         boolean hasCreatePatrons = false;
@@ -48,24 +48,14 @@ public class ConnDbOps {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Statement statement = conn.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS patrons ("
-                    + "id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,"
+                    + "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,"
                     + "name VARCHAR(200) NOT NULL,"
-                    + "currBook VARCHAR(200) NOT NULL,"
+                    + "currBook INT NOT NULL,"
                     + "email VARCHAR(200) NOT NULL UNIQUE,"
-                    + "borrowTime VARCHAR(200) NOT NULL,"
-                    + "returnTime VARCHAR(200) NOT NULL"
+                    + "returnDate VARCHAR(10) NOT NULL,"
+                    + "borrowDate VARCHAR(10) NOT NULL"
                     + ")";
             statement.executeUpdate(sql);
-
-            String sql2 = "CREATE TABLE IF NOT EXISTS books ("
-                    + "id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,"
-                    + "ISBN VARCHAR(200) NOT NULL,"
-                    + "name VARCHAR(200) NOT NULL,"
-                    + "author VARCHAR(200) NOT NULL UNIQUE,"
-                    + "edition VARCHAR(200) NOT NULL,"
-                    + "quantity INT(10) NOT NULL"
-                    + ")";
-            statement.executeUpdate(sql2);
 
             //check if we have patrons in the table patrons
             statement = conn.createStatement();
@@ -88,8 +78,8 @@ public class ConnDbOps {
     }
 
     /**
-     * create books table in database
-     * @author zuxin
+     * create book table in a database
+     * @author zuxin and Andrew
      */
     public boolean createBooksTable(){
         boolean hasCreateBooks = false;
@@ -98,12 +88,13 @@ public class ConnDbOps {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Statement statement = conn.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS books ("
-                    + "id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,"
-                    + "ISBN INT(10) NOT NULL,"
-                    + "bookName VARCHAR(200) NOT NULL,"
-                    + "author VARCHAR(200) NOT NULL"
+                    + "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,"
+                    + "ISBN VARCHAR(200) NOT NULL UNIQUE,"
+                    + "name VARCHAR(200) NOT NULL UNIQUE,"
+                    + "author VARCHAR(200) NOT NULL,"
                     + "edition VARCHAR(200) NOT NULL,"
-                    + "quantity INT(10) NOT NULL"
+                    + "quantity INT NOT NULL,"
+                    + "copiesLeft INT NOT NULL"
                     + ")";
             statement.executeUpdate(sql);
 
@@ -126,5 +117,42 @@ public class ConnDbOps {
         }
         return hasCreateBooks;
     }
+
+    public boolean addPatron(String name, String email) {
+        try {
+            //add a user with just name and email. book details will be added via other methods.
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            Statement statement = conn.createStatement();
+            String sql = "INSERT INTO patrons (name, email) VALUES ('" + name + "', '" + email + "')";
+            statement.executeUpdate(sql);
+
+            statement.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            //e.printStackTrace();
+            System.out.println("Could not add patron.");
+        }
+        return false;
+    }
+
+    public boolean editPatron(String name, String email) {
+        try {
+            //edit a user with just name and email. book details will be added via other methods.
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            Statement statement = conn.createStatement();
+            String sql = "";
+            statement.executeUpdate(sql);
+
+            statement.close();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Could not edit patron.");
+        }
+        return false;
+    }
+
 
 }

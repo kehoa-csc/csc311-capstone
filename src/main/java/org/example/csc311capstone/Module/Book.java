@@ -1,8 +1,16 @@
 package org.example.csc311capstone.Module;
 
 /**
- * Module class for book
+ * Module class for a book
  * @author zuxin
+ */
+
+/*
+
+    NOTE - THIS IS CURRENTLY OUT OF DATE.
+    CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
+    DO NOT USE FOR THE TIME BEING.
+
  */
 public class Book {
     private int id;
@@ -11,14 +19,26 @@ public class Book {
     private String author;
     private String edition;
     private int quantity;
+    private int copiesLeft;
 
-    public Book(int id, int ISBN, String name, String author, String edition, int quantity) {
+    public Book() {
+        this.id = 0;
+        this.ISBN = 0;
+        this.name = "";
+        this.author = "";
+        this.edition = "";
+        this.quantity = 0;
+        this.copiesLeft = 0;
+    }
+
+    public Book(int id, int ISBN, String name, String author, String edition, int quantity, int copiesLeft) {
         this.id = id;
         this.ISBN = ISBN;
         this.name = name;
         this.author = author;
         this.edition = edition;
         this.quantity = quantity;
+        this.copiesLeft = copiesLeft;
     }
 
     public int getId() {
@@ -67,5 +87,22 @@ public class Book {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getCopiesLeft() {return copiesLeft;}
+
+    public void setCopiesLeft(int copiesLeft) {this.copiesLeft = copiesLeft;}
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", ISBN=" + ISBN +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", edition='" + edition + '\'' +
+                ", quantity=" + quantity +
+                ", copiesLeft=" + copiesLeft +
+                '}';
     }
 }
