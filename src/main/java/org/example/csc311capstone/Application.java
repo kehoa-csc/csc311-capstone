@@ -21,7 +21,7 @@ import java.util.Scanner;
  * And mySQL is ignored case, these shows as a caption letter just mean there is constant value
  */
 enum patronsColumns {
-    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE
+    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE, PASSWORD
 }
 
 /**
@@ -69,7 +69,6 @@ public class Application extends javafx.application.Application {
         }
         System.out.println("Connected successfully.");
 
-
         //Initial selection of managing patrons or adding books
         Scanner scnr = new Scanner(System.in);
         System.out.println("Press \"c\" to view patron options.");
@@ -115,11 +114,14 @@ public class Application extends javafx.application.Application {
                     String name = scnr.next();
                     System.out.print("Please enter an email: ");
                     String email = scnr.next();
+                    System.out.print("Please enter a password: ");
+                    String password = scnr.next();
 
                     //freely edit the value in patron table
                     Map<String, Object> addPatronInfo = new HashMap<>();
                     addPatronInfo.put(patronsColumns.NAME.name(), name);
                     addPatronInfo.put(patronsColumns.EMAIL.name(), email);
+                    addPatronInfo.put(patronsColumns.PASSWORD.name(), password);
 
                     patronsTable.addPatron(addPatronInfo);// calling from PatronsTable
 
@@ -135,11 +137,14 @@ public class Application extends javafx.application.Application {
                     String newName = scnr.next();
                     System.out.print("Please enter an email: ");
                     String newEmail = scnr.next();
+                    System.out.print("Please enter a password: ");
+                    String newPassword = scnr.next();
 
                     //freely edit the value in patron table
                     Map<String, Object> updatePatronInfo = new HashMap<>();
                     updatePatronInfo.put(patronsColumns.NAME.name(), newName);
                     updatePatronInfo.put(patronsColumns.EMAIL.name(), newEmail);
+                    updatePatronInfo.put(patronsColumns.PASSWORD.name(), newPassword);
 
                     patronsTable.editPatron(updatePatronInfo,id); // calling from PatronsTable
                     break;
