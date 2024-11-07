@@ -1,5 +1,6 @@
 package org.example.csc311capstone;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -151,10 +152,12 @@ public class Application extends javafx.application.Application {
                     System.out.print("Please enter a name your want to query: ");
                     String Name = scnr.next();
 
-                    Map<String, Object> searchPatronInfo = new HashMap<>();
-                    searchPatronInfo.put(patronsColumns.NAME.name(), Name);
-                    Patron patron = patronsTable.queryPatron(searchPatronInfo);
-                    System.out.println(patron);
+//                    Map<String, Object> searchPatronInfo = new HashMap<>();
+//                    searchPatronInfo.put(patronsColumns.NAME.name(), Name);
+//                    Patron patron = patronsTable.queryPatron(searchPatronInfo);
+//                    System.out.println(patron);
+                    ObservableList<Patron> patrons = patronsTable.fuzzyMatchPatronByName(Name);
+                    patrons.forEach(System.out::println);
                     break;
                 case 'b':
                     System.out.print("Please enter ID of patron who want to borrow book:");
@@ -251,10 +254,13 @@ public class Application extends javafx.application.Application {
                     System.out.print("Please enter a name your want to query: ");
                     String Name = scnr.next();
 
-                    Map<String, Object> searchBookInfo = new HashMap<>();
-                    searchBookInfo.put(patronsColumns.NAME.name(), Name);
-                    Book book = booksTable.queryBook(searchBookInfo);
-                    System.out.println(book);
+//                    Map<String, Object> searchBookInfo = new HashMap<>();
+//                    searchBookInfo.put(patronsColumns.NAME.name(), Name);
+//                    Book book = booksTable.queryBook(searchBookInfo);
+//                    System.out.println(book);
+
+                    ObservableList<Book> bookList = booksTable.fuzzyMatchBookByName(Name);
+                    bookList.forEach(System.out::println);
                     break;
                 case 't':
                     System.out.println("Quit application");

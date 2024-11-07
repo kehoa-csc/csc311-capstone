@@ -1,5 +1,8 @@
 package org.example.csc311capstone.db;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
 import java.sql.*;
 import java.util.Map;
@@ -21,7 +24,7 @@ public class PatronsTable extends ConnDbOps{
      */
     public void addPatron(Map<String, Object> addPatronInfo) {
 
-        if (checkMapInfo(addPatronInfo)) {
+        if (!checkMapInfo(addPatronInfo)) {
             System.out.println("The patron information is empty or null. Unable to add patron.");
             return;
         }
@@ -103,7 +106,7 @@ public class PatronsTable extends ConnDbOps{
      */
     public void editPatron(Map<String, Object> updatePatronInfo, int id) {
         
-        if (checkMapInfo(updatePatronInfo) || id == 0) {
+        if (!checkMapInfo(updatePatronInfo) || id == 0) {
             System.out.println("The patron information to be updated is empty or null or the id is 0. Unable to update patron.");
             return;
         }
@@ -147,7 +150,7 @@ public class PatronsTable extends ConnDbOps{
      */
     public Patron queryPatron(Map<String,Object> queryPatronInfo){
 
-        if (checkMapInfo(queryPatronInfo)) {
+        if (!checkMapInfo(queryPatronInfo)) {
             System.out.println("The patron information is empty or null. Unable to search book.");
             return null;
         }
@@ -189,6 +192,45 @@ public class PatronsTable extends ConnDbOps{
         }
 
         return patron;
+    }
+
+    /**
+     * Searches for patrons in the database using the name.
+     *
+     * @param name the search value for the patron name
+     * @return The list of patrons that match the search criteria
+     */
+    public ObservableList<Patron> fuzzyMatchPatronByName(String name) {
+        ObservableList<Patron> patronList = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name LIKE ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, "%" + name + "%"); // Use % for fuzzy matching
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Patron patron = new Patron();
+                    patron.setID(resultSet.getInt("id"));
+                    patron.setName(resultSet.getString("name"));
+                    patron.setCurrBook(resultSet.getInt("currBook"));
+                    patron.setEmail(resultSet.getString("email"));
+                    patron.setReturnDate(resultSet.getString("returnDate"));
+                    patron.setBorrowDate(resultSet.getString("borrowDate"));
+                    patronList.add(patron);
+                }
+            }
+
+            if (patronList.isEmpty()) {
+                System.out.println("Not search patrons");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return patronList;
     }
 
     /**
