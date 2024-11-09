@@ -1,5 +1,8 @@
 package org.example.csc311capstone.db;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import org.example.csc311capstone.Module.Book;
 
 import java.sql.*;
@@ -20,7 +23,7 @@ public class BooksTable extends ConnDbOps{
      */
     public void addBook(Map<String, Object> addBookInfo) {
 
-        if (checkMapInfo(addBookInfo)) {
+        if (!checkMapInfo(addBookInfo)) {
             System.out.println("The book information is empty or null. Unable to add book.");
             return;
         }
@@ -215,7 +218,7 @@ public class BooksTable extends ConnDbOps{
      *
      * @param id The unique identifier of the book to be deleted.
      */
-    private void deleteBookById(int id) {
+    public void deleteBookById(int id) {
         String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ? AND copiesLeft = 1 AND quantity = 1";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -243,7 +246,7 @@ public class BooksTable extends ConnDbOps{
      */
     public void editBook(Map<String, Object> updateBookInfo, int id) {
 
-        if (checkMapInfo(updateBookInfo) || id == 0) {
+        if (!checkMapInfo(updateBookInfo) || id == 0) {
             System.out.println("The book information is empty or null, and no book id is 0. Unable to edit book.");
             return;
         }
@@ -286,7 +289,7 @@ public class BooksTable extends ConnDbOps{
      */
     public Book queryBook(Map<String,Object> searchBookInfo){
 
-        if (checkMapInfo(searchBookInfo)) {
+        if (!checkMapInfo(searchBookInfo)) {
             System.out.println("The book information is empty or null. Unable to search book.");
             return null;
         }
@@ -329,6 +332,45 @@ public class BooksTable extends ConnDbOps{
         }
 
         return book;
+    }
+
+    /**
+     * Searches for books in the database using the name.
+     *
+     * @param name the search value for the book name
+     * @return The list of books that match the search criteria
+     */
+    public ObservableList<Book> fuzzyMatchBookByName(String name) {
+        ObservableList<Book> bookList = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM "+ TABLE_NAME +" WHERE name LIKE ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, "%" + name + "%"); // Use % for fuzzy matching
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Book book = new Book();
+                    book.setId(resultSet.getInt("id"));
+                    book.setISBN(resultSet.getInt("ISBN"));
+                    book.setName(resultSet.getString("name"));
+                    book.setAuthor(resultSet.getString("author"));
+                    book.setEdition(resultSet.getString("edition"));
+                    book.setQuantity(resultSet.getInt("quantity"));
+                    book.setCopiesLeft(resultSet.getInt("copiesLeft"));
+                    bookList.add(book);
+                }
+            }
+
+            if (bookList.isEmpty()){
+                System.out.println("Not search books");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookList;
     }
 
     /**
