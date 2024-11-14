@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="808.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.ThirdController">
+    <children>
+        <BorderPane prefHeight="808.0" prefWidth="995.0" style="-fx-background-color: #e0f4d4;">
+                <top>
+                    <MenuBar BorderPane.alignment="CENTER">
+                        <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Close" />
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Edit">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Delete" />
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="About" />
+                                </items>
+                            </Menu>
+                        </menus>
+                    </MenuBar>
+                </top>
+        <center>
+            <AnchorPane prefHeight="799.0" prefWidth="1054.0" style="-fx-background-color: #e0f4d4;">
+                <children>
+                    <TextField layoutX="207.0" layoutY="115.0" prefWidth="200.0" promptText="Search by Name" />
+                    <ImageView fitHeight="33.0" fitWidth="25.0" layoutX="384.0" layoutY="116.0" preserveRatio="true">
+                        <image>
+                            <Image url="@imgs/search-icon.png" />
+                        </image>
+                    </ImageView>
+                    <ImageView fitHeight="142.0" fitWidth="157.0" layoutX="9.0" layoutY="21.0" preserveRatio="true">
+                        <image>
+                            <Image url="@imgs/university_logo.png" />
+                        </image>
+                    </ImageView>
+                    <TableView layoutX="6.0" layoutY="209.0" prefHeight="491.0" prefWidth="933.0">
+                        <columns>
+                            <TableColumn prefWidth="70.0" text="ID" />
+                            <TableColumn prefWidth="100.0" text="Name" />
+                            <TableColumn prefWidth="150.0" text="Email" />
+                            <TableColumn prefWidth="80.0" text="Renting?" />
+                            <TableColumn prefWidth="70.0" text="Book ID" />
+                            <TableColumn prefWidth="120.0" text="Title" />
+                            <TableColumn prefWidth="120.0" text="Author" />
+                            <TableColumn prefWidth="100.0" text="ISBN" />
+                            <TableColumn minWidth="0.0" prefWidth="116.11724853515625" text="Edition" />
+                        </columns>
+                    </TableView>
+                    <AnchorPane layoutX="935.0" layoutY="1.0" prefHeight="785.0" prefWidth="176.0" style="-fx-background-color: #E5FFD1;">
+                        <children>
+                            <Rectangle arcHeight="45.0" arcWidth="45.0" fill="#75956c" height="697.0" layoutX="12.0" layoutY="29.0" stroke="#75956c" strokeType="INSIDE" width="153.0" />
+
+                            <!-- Add Patron Button -->
+                            <ImageView blendMode="COLOR_BURN" fitHeight="78.0" fitWidth="119.0" layoutX="23.0" layoutY="53.0">
+                                <image>
+                                    <Image url="@imgs/add_patron_icon.png" />
+                                </image>
+                            </ImageView>
+                            <Label layoutX="21.0" layoutY="123.0" text="Add Patron" textFill="WHITE">
+                                <font>
+                                    <Font name="AppleMyungjo Regular" size="26.0" />
+                                </font>
+                            </Label>
+
+                            <!-- Edit Patron Button -->
+                            <ImageView blendMode="COLOR_BURN" fitHeight="117.0" fitWidth="114.0" layoutX="27.0" layoutY="156.0">
+                                <image>
+                                    <Image url="@imgs/pageTurning-image.png" />
+                                </image>
+                            </ImageView>
+                            <Label layoutX="64.0" layoutY="259.0" text="Edit" textFill="WHITE">
+                                <font>
+                                    <Font name="AppleMyungjo Regular" size="26.0" />
+                                </font>
+                            </Label>
+
+                            <ImageView blendMode="COLOR_BURN" fitHeight="93.0" fitWidth="89.0" layoutX="42.0" layoutY="295.0">
+                                <image>
+                                    <Image url="@imgs/remove_icon.png" />
+                                </image>
+                            </ImageView>
+                            <Label layoutX="55.0" layoutY="381.0" text="Delete" textFill="WHITE">
+                                <font>
+                                    <Font name="AppleMyungjo Regular" size="26.0" />
+                                </font>
+                            </Label>
+
+                            <!-- Checkout Button -->
+                            <ImageView blendMode="COLOR_BURN" fitHeight="87.0" fitWidth="86.0" layoutX="45.0" layoutY="422.0">
+                                <image>
+                                    <Image url="@imgs/checkout_icon.png" />
+                                </image>
+                            </ImageView>
+                            <Label layoutX="29.0" layoutY="508.0" text="Checkout" textFill="WHITE">
+                                <font>
+                                    <Font name="AppleMyungjo Regular" size="26.0" />
+                                </font>
+                            </Label>
+
+                            <ImageView blendMode="COLOR_BURN" fitHeight="110.0" fitWidth="114.0" layoutX="36.0" layoutY="565.0">
+                                <image>
+                                    <Image url="@imgs/return_icon.png" />
+                                </image>
+                            </ImageView>
+                            <Label layoutX="49.0" layoutY="673.0" text="Return" textFill="WHITE">
+                                <font>
+                                    <Font name="AppleMyungjo Regular" size="26.0" />
+                                </font>
+                            </Label>
+                        </children>
+                    </AnchorPane>
+                    <Label layoutX="199.0" layoutY="57.0" prefHeight="46.0" prefWidth="355.0" text="Patrons and Checkouts">
+                        <font>
+                            <Font name="AppleMyungjo Regular" size="33.0" />
+                        </font>
+                    </Label>
+                </children>
+            </AnchorPane>
+        </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
