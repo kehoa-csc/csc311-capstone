@@ -21,7 +21,7 @@ import java.util.Scanner;
  * And mySQL is ignored case, these shows as a caption letter just mean there is constant value
  */
 enum patronsColumns {
-    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE, PASSWORD
+    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE, PASSWORD, BORROWDAYS
 }
 
 /**

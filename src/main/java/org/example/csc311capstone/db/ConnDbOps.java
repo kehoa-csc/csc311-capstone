@@ -54,7 +54,8 @@ public class ConnDbOps {
                     + "email VARCHAR(200) NOT NULL UNIQUE,"
                     + "returnDate VARCHAR(10),"
                     + "borrowDate VARCHAR(10),"
-                    + "password VARCHAR(200)"
+                    + "password VARCHAR(200),"
+                    + "borrowDays INT"
                     + ")";
             statement.executeUpdate(sql);
 

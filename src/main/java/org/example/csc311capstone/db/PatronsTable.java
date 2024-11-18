@@ -183,6 +183,8 @@ public class PatronsTable extends ConnDbOps{
                     patron.setEmail(resultSet.getString("email"));
                     patron.setReturnDate(resultSet.getString("returnDate"));
                     patron.setBorrowDate(resultSet.getString("borrowDate"));
+                    patron.setPassword(resultSet.getString("password"));
+                    patron.setBorrowDays(resultSet.getInt("borrowDays"));
                 }
             }
 
@@ -219,6 +221,8 @@ public class PatronsTable extends ConnDbOps{
                     patron.setEmail(resultSet.getString("email"));
                     patron.setReturnDate(resultSet.getString("returnDate"));
                     patron.setBorrowDate(resultSet.getString("borrowDate"));
+                    patron.setPassword(resultSet.getString("password"));
+                    patron.setBorrowDays(resultSet.getInt("borrowDays"));
                     patronList.add(patron);
                 }
             }
@@ -255,6 +259,8 @@ public class PatronsTable extends ConnDbOps{
                 patron.setEmail(resultSet.getString("email"));
                 patron.setReturnDate(resultSet.getString("returnDate"));
                 patron.setBorrowDate(resultSet.getString("borrowDate"));
+                patron.setPassword(resultSet.getString("password"));
+                patron.setBorrowDays(resultSet.getInt("borrowDays"));
                 System.out.println(patron);
             }
 
