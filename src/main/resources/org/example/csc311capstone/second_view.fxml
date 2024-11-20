@@ -94,6 +94,7 @@
                      </image>
                   </ImageView>
                   <Label fx:id="menuLabel" layoutX="-123.0" layoutY="25.0" prefHeight="17.0" prefWidth="40.0" text="Menu" />
+                  <Label fx:id="menuback" layoutX="-123.0" layoutY="26.0" prefHeight="17.0" prefWidth="32.0" />
                </children>
             </AnchorPane>
          </center>
