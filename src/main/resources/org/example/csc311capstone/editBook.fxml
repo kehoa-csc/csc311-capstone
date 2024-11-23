@@ -32,7 +32,7 @@
    <top>
       <AnchorPane prefHeight="32.0" prefWidth="514.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: 2F762F;" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="227.0" layoutY="11.0" prefHeight="23.0" prefWidth="45.0" text="Edit">
+            <Label layoutX="228.0" layoutY="11.0" prefHeight="23.0" prefWidth="45.0" text="Edit">
                <font>
                   <Font size="21.0" />
                </font></Label>
