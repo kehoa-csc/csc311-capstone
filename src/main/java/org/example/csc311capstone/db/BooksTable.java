@@ -1,7 +1,6 @@
 package org.example.csc311capstone.db;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import org.example.csc311capstone.Module.Book;
 
@@ -374,12 +373,13 @@ public class BooksTable extends ConnDbOps{
     }
 
     /**
-     * displace all books from table books
-     * if you need to display on a window, not screen, than you can return a book object out
+     * Returns an ArrayList of books while also printing them.
+     * @author ZuxinChen and andrewkehoe
      */
-    public void listAllBooks() {
+    public ObservableList<Book> listAllBooks() {
 
         String sql = "SELECT * FROM "+ TABLE_NAME;
+        ObservableList<Book> bookList = FXCollections.observableArrayList();
         Book book;
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -397,13 +397,14 @@ public class BooksTable extends ConnDbOps{
                 book.setQuantity(resultSet.getInt("quantity"));
                 book.setCopiesLeft(resultSet.getInt("copiesLeft"));
                 System.out.println(book);
+                bookList.add(book);
             }
             resultSet.close();
-
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return bookList;
     }
 
     /**

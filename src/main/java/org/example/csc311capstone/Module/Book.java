@@ -5,13 +5,6 @@ package org.example.csc311capstone.Module;
  * @author zuxin
  */
 
-/*
-
-    NOTE - THIS IS CURRENTLY OUT OF DATE.
-    CHANGES HAVE BEEN MADE TO THE DATABASE SINCE THIS WAS WRITTEN, AND IT NEEDS TO BE UPDATED LATER.
-    DO NOT USE FOR THE TIME BEING.
-
- */
 public class Book {
     private int id;
     private int ISBN;

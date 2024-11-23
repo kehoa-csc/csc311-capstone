@@ -21,7 +21,7 @@ import java.util.Scanner;
  * And mySQL is ignored case, these shows as a caption letter just mean there is constant value
  */
 enum patronsColumns {
-    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE, PASSWORD
+    ID, NAME, CURRBOOK, EMAIL, RETURNDATE, BORROWDATE, PASSWORD, BORROWDAYS
 }
 
 /**
@@ -39,18 +39,18 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main_view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("patron_self_service.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 582, 400);
         stage.setTitle("Library Database");
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
-        //launch();
 
         //Testing database connection. ToDo: Will have login screen before this that passes in the credentials.
-        testDatabaseConnection();
+        //testDatabaseConnection();
+        launch();
 
 
     }
