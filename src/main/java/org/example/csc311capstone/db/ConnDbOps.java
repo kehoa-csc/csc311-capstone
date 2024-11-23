@@ -91,7 +91,7 @@ public class ConnDbOps {
             Statement statement = conn.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS books ("
                     + "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,"
-                    + "ISBN VARCHAR(200) NOT NULL UNIQUE,"
+                    + "ISBN INT NOT NULL,"
                     + "name VARCHAR(200) NOT NULL UNIQUE,"
                     + "author VARCHAR(200) NOT NULL,"
                     + "edition VARCHAR(200) NOT NULL,"

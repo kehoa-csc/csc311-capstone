@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -14,7 +21,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.MainController">
+<AnchorPane prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.PatronController">
     <children>
         <BorderPane layoutX="1.0" prefHeight="400" prefWidth="583.0">
             <top>
@@ -43,18 +50,26 @@
             <left>
                 <AnchorPane prefHeight="373.0" prefWidth="93.0" style="-fx-background-color: #B1DB97; -fx-border-radius: 20;">
                     <children>
-                        <Rectangle arcHeight="45.0" arcWidth="45.0" fill="#75956c" height="340.0" layoutY="15.0" stroke="#75956c" strokeType="INSIDE" width="90.0" />
-                        <ImageView fitHeight="58.0" fitWidth="57.0" layoutX="18.0" layoutY="25.0" preserveRatio="true">
+                        <Rectangle arcHeight="45.0" arcWidth="45.0" fill="#75956c" height="340.0" layoutY="15.0" strokeType="INSIDE" width="90.0">
+                     <stroke>
+                        <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                           <stops>
+                              <Stop color="BLACK" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </stroke></Rectangle>
+                        <ImageView fitHeight="62.0" fitWidth="66.0" layoutX="13.0" layoutY="42.0" nodeOrientation="INHERIT" onMouseClicked="#checkout" preserveRatio="true">
                             <image>
                                 <Image url="@imgs/sprakleBook-image.png" />
                             </image>
                         </ImageView>
-                        <Label layoutX="16.0" layoutY="82.0" text="Checkout" textFill="WHITE">
+                        <Label layoutX="12.0" layoutY="104.0" text="Checkout" textFill="WHITE">
                             <font>
                                 <Font name="AppleMyungjo Regular" size="16.0" />
                             </font>
                         </Label>
-                        <ImageView fitHeight="57.0" fitWidth="57.0" layoutX="18.0" layoutY="122.0" preserveRatio="true">
+                        <ImageView fitHeight="57.0" fitWidth="57.0" layoutX="18.0" layoutY="122.0" onMouseClicked="#rentalDetails" preserveRatio="true">
                             <image>
                                 <Image url="@imgs/clock-icon.png" />
                             </image>
@@ -64,7 +79,7 @@
                                 <Font name="AppleMyungjo Regular" size="16.0" />
                             </font>
                         </Label>
-                        <ImageView blendMode="COLOR_BURN" fitHeight="53.0" fitWidth="67.0" layoutX="17.0" layoutY="239.0" preserveRatio="true">
+                        <ImageView blendMode="COLOR_BURN" fitHeight="53.0" fitWidth="67.0" layoutX="17.0" layoutY="239.0" onMouseClicked="#returnBook" preserveRatio="true">
                             <image>
                                 <Image url="@imgs/return_icon.png" />
                             </image>
@@ -92,8 +107,8 @@
                             </font>
                         </Label>
 
-                        <TextField layoutX="213.0" layoutY="30.0" prefWidth="120.0" promptText="Search" />
-                        <ImageView fitHeight="43.0" fitWidth="25.0" layoutX="309.0" layoutY="31.0" preserveRatio="true">
+                        <TextField fx:id="searchText" layoutX="213.0" layoutY="30.0" prefWidth="120.0" promptText="Search" />
+                        <ImageView fitHeight="43.0" fitWidth="25.0" layoutX="309.0" layoutY="31.0" onMouseClicked="#searchBook" preserveRatio="true">
                             <image>
                                 <Image url="@imgs/search-icon.png" />
                             </image>
@@ -109,7 +124,7 @@
                                 <TableColumn fx:id="tvAuthor" prefWidth="91.0" text="Author" />
                                 <TableColumn fx:id="tvISBN" prefWidth="111.0" text="ISBN" />
                                 <TableColumn fx:id="tvEdition" prefWidth="102.0" text="Edition" />
-                        <TableColumn fx:id="tvQuantity" prefWidth="38.0" text="Left" />
+                        <TableColumn fx:id="tvLeft" prefWidth="38.0" text="Left" />
                             </columns>
                         </TableView>
                     </children>

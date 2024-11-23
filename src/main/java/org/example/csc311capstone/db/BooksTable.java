@@ -359,6 +359,7 @@ public class BooksTable extends ConnDbOps{
                     book.setEdition(resultSet.getString("edition"));
                     book.setQuantity(resultSet.getInt("quantity"));
                     book.setCopiesLeft(resultSet.getInt("copiesLeft"));
+                    System.out.println(book);
                     bookList.add(book);
                 }
             }
