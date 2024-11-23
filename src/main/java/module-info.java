@@ -1,8 +1,9 @@
 module com.example.csc311capstone {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.sql;
     requires annotations;
+    requires com.fasterxml.jackson.databind;
+    requires java.sql;
 
 
     opens org.example.csc311capstone to javafx.fxml;

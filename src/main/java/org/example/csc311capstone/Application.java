@@ -47,10 +47,10 @@ public class Application extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
-        //launch();
 
         //Testing database connection. ToDo: Will have login screen before this that passes in the credentials.
-        testDatabaseConnection();
+        //testDatabaseConnection();
+        launch();
 
 
     }
