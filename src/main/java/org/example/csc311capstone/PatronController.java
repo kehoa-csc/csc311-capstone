@@ -45,7 +45,7 @@ public class PatronController implements Initializable {
     private final PatronsTable patronsTable = new PatronsTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();
 
-    private final ObservableList<Patron> patrons = FXCollections.observableArrayList();
+    private final ObservableList<Patron> patrons = patronsTable.fuzzyMatchPatronByName(userName);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
