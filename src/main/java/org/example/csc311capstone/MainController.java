@@ -34,11 +34,12 @@ public class MainController implements Initializable {
         tv.getItems().clear();
         bookList = bt.listAllBooks();
 
-        tvTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tvTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
         tvISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         tvEdition.setCellValueFactory(new PropertyValueFactory<>("edition"));
-        tvQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        tvQuantity.setCellValueFactory(new PropertyValueFactory<>("copiesLeft"));
+
         tv.setItems(bookList);
 
     }

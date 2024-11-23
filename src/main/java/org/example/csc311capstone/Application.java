@@ -39,8 +39,8 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main_view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("patron_self_service.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 582, 400);
         stage.setTitle("Library Database");
         stage.setScene(scene);
         stage.show();
