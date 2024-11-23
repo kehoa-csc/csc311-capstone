@@ -53,7 +53,7 @@
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#e5ffd1" height="174.0" layoutX="207.0" layoutY="117.0" stroke="#e5ffd1" strokeType="INSIDE" width="185.0" />
       <TextField layoutX="239.0" layoutY="190.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
          <font>
-            <Font size="9.0" />
+            <Font size="8.0" />
          </font>
       </TextField>
       <Button layoutX="264.0" layoutY="264.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="61.0" text="login">
