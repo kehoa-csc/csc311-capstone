@@ -46,7 +46,7 @@
                         <Rectangle arcHeight="45.0" arcWidth="45.0" fill="#75956c" height="340.0" layoutY="15.0" stroke="#75956c" strokeType="INSIDE" width="90.0" />
                         <ImageView fitHeight="58.0" fitWidth="57.0" layoutX="18.0" layoutY="25.0" preserveRatio="true">
                             <image>
-                                <Image url="@imgs/sprakleBook-image.png" />
+                                <Image url="@../imgs/sprakleBook-image.png" />
                             </image>
                         </ImageView>
                         <Label layoutX="16.0" layoutY="82.0" text="Checkout" textFill="WHITE">
@@ -56,7 +56,7 @@
                         </Label>
                         <ImageView fitHeight="57.0" fitWidth="57.0" layoutX="18.0" layoutY="122.0" preserveRatio="true">
                             <image>
-                                <Image url="@imgs/clock-icon.png" />
+                                <Image url="@../imgs/clock-icon.png" />
                             </image>
                         </ImageView>
                         <Label layoutX="20.0" layoutY="164.0" prefHeight="44.0" prefWidth="56.0" text="Rental " textFill="WHITE">
@@ -66,7 +66,7 @@
                         </Label>
                         <ImageView blendMode="COLOR_BURN" fitHeight="53.0" fitWidth="67.0" layoutX="17.0" layoutY="239.0" preserveRatio="true">
                             <image>
-                                <Image url="@imgs/return_icon.png" />
+                                <Image url="@../imgs/return_icon.png" />
                             </image>
                         </ImageView>
                         <Label layoutX="22.0" layoutY="298.0" text="Return" textFill="WHITE">
@@ -95,12 +95,12 @@
                         <TextField layoutX="213.0" layoutY="30.0" prefWidth="120.0" promptText="Search" />
                         <ImageView fitHeight="43.0" fitWidth="25.0" layoutX="309.0" layoutY="31.0" preserveRatio="true">
                             <image>
-                                <Image url="@imgs/search-icon.png" />
+                                <Image url="@../imgs/search-icon.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="66.0" fitWidth="80.0" layoutX="393.0" layoutY="11.0" preserveRatio="true">
                             <image>
-                                <Image url="@imgs/university_logo.png" />
+                                <Image url="@../imgs/university_logo.png" />
                             </image>
                         </ImageView>
                         <TableView fx:id="tv" layoutX="10.0" layoutY="80.0" prefHeight="260.0" prefWidth="452.0">

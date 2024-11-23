@@ -19,7 +19,7 @@
    <children>
       <ImageView fitHeight="316.0" fitWidth="607.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@imgs/background-image.jpg" />
+            <Image url="@../imgs/background-image.jpg" />
          </image>
       </ImageView>
       <Rectangle arcHeight="35.0" arcWidth="35.0" height="274.0" layoutX="57.0" layoutY="29.0" opacity="0.98" stroke="#75956c" strokeType="INSIDE" width="475.0">
@@ -47,7 +47,7 @@
       </Rectangle>
       <ImageView fitHeight="71.0" fitWidth="69.0" layoutX="261.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@imgs/university_logo.png" />
+            <Image url="@../imgs/university_logo.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#e5ffd1" height="174.0" layoutX="207.0" layoutY="117.0" stroke="#e5ffd1" strokeType="INSIDE" width="185.0" />
