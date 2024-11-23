@@ -2,9 +2,11 @@ package org.example.csc311capstone.db;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
+
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -339,6 +341,30 @@ public class PatronsTable extends ConnDbOps{
         } finally {
             conn.setAutoCommit(true);
         }
+    }
+
+
+
+    //Method to retrieve id from database where it is auto-incremented.
+    public int retrieveId(Patron p) {
+        connectToDatabase();
+        int id;
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            String sql = "SELECT id FROM "+TABLE_NAME+" WHERE email=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, p.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            id = resultSet.getInt("id");
+            preparedStatement.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
     }
 
 
