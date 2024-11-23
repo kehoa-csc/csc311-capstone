@@ -56,8 +56,6 @@ public class Application extends javafx.application.Application {
         //Testing database connection. ToDo: Will have login screen before this that passes in the credentials.
         //testDatabaseConnection();
         launch();
-
-
     }
 
     /**
