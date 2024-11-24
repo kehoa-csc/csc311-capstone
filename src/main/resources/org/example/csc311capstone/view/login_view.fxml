@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="313.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.LoginController">
+<AnchorPane prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.LoginController">
    <children>
-      <ImageView fitHeight="316.0" fitWidth="607.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="467.0" fitWidth="764.0" layoutX="-79.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imgs/background-image.jpg" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="35.0" arcWidth="35.0" height="274.0" layoutX="57.0" layoutY="29.0" opacity="0.98" stroke="#75956c" strokeType="INSIDE" width="475.0">
+      <Rectangle arcHeight="35.0" arcWidth="35.0" height="291.0" layoutX="105.0" layoutY="56.0" opacity="0.98" stroke="#75956c" strokeType="INSIDE" width="475.0">
          <fill>
             <LinearGradient endX="0.34441805225653205" endY="0.7007125890736342" startX="0.34441805225653216">
                <stops>
@@ -26,47 +32,47 @@
                   </Stop>
                   <Stop offset="0.006711409395973154">
                      <color>
-                        <Color blue="0.18431372940540314" green="0.4627451002597809" red="0.18431372940540314" />
+                        <Color red="0.18431372940540314" green="0.4627451002597809" blue="0.18431372940540314" />
                      </color>
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color blue="0.42352941632270813" green="0.5843137502670288" red="0.4588235318660736" />
+                        <Color red="0.4588235318660736" green="0.5843137502670288" blue="0.42352941632270813" />
                      </color>
                   </Stop>
                </stops>
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ImageView fitHeight="71.0" fitWidth="69.0" layoutX="261.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="71.0" fitWidth="69.0" layoutX="309.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imgs/university_logo.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#e5ffd1" height="174.0" layoutX="207.0" layoutY="117.0" stroke="#e5ffd1" strokeType="INSIDE" width="185.0" />
-      <TextField fx:id="username" layoutX="239.0" layoutY="190.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
+      <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#e5ffd1" height="174.0" layoutX="255.0" layoutY="152.0" stroke="#e5ffd1" strokeType="INSIDE" width="185.0" />
+      <TextField fx:id="username" layoutX="287.0" layoutY="225.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
          <font>
             <Font size="8.0" />
          </font>
       </TextField>
-      <Button layoutX="264.0" layoutY="264.0" mnemonicParsing="false" onAction="#login" prefHeight="0.0" prefWidth="61.0" text="login">
+      <Button layoutX="312.0" layoutY="299.0" mnemonicParsing="false" onAction="#login" prefHeight="0.0" prefWidth="61.0" text="Log In">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Label layoutX="198.0" layoutY="96.0" text="Greenley library management system" textFill="WHITE" />
-      <Label layoutX="268.0" layoutY="215.0" text="Password" />
-      <Label layoutX="267.0" layoutY="166.0" text="Username" />
-      <Label layoutX="213.0" layoutY="138.0" prefHeight="19.0" prefWidth="69.0" text="Log in as">
+      <Label layoutX="246.0" layoutY="131.0" text="Greenley Library Management System" textFill="WHITE" />
+      <Label layoutX="316.0" layoutY="250.0" text="Password" />
+      <Label layoutX="326.0" layoutY="201.0" text="Name" />
+      <Label layoutX="261.0" layoutY="173.0" prefHeight="19.0" prefWidth="69.0" text="Log in as">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <PasswordField fx:id="password" layoutX="239.0" layoutY="232.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
+      <PasswordField fx:id="password" layoutX="287.0" layoutY="267.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
          <font>
             <Font size="9.0" />
          </font>
       </PasswordField>
-      <ComboBox fx:id="userType" layoutX="287.0" layoutY="134.0" prefHeight="30.0" prefWidth="90.0" />
+      <ComboBox fx:id="userType" layoutX="327.0" layoutY="169.0" prefHeight="30.0" prefWidth="107.0" />
    </children>
 </AnchorPane>
