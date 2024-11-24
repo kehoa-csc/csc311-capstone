@@ -38,10 +38,12 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
+        //Uncomment the frontend you are working on.
+        //FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("patron_self_service.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("librarian_view.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("second_view.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("view/login_view.fxml"));
-
-        Scene scene = new Scene(fxmlLoader.load(), 582, 400);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Library Database");
         stage.setScene(scene);
         stage.show();
@@ -168,10 +170,8 @@ public class Application extends javafx.application.Application {
                     int patronId = scnr.nextInt();
                     System.out.print("Please enter ID of book to be borrowed:");
                     int bookId = scnr.nextInt();
-                    System.out.print("Please enter days of book to be borrowed:");
-                    int borrowDays = scnr.nextInt();
 
-                    patronsTable.borrowBook(patronId,bookId,borrowDays);
+                    patronsTable.borrowBook(patronId,bookId,7);
                     break;
                 case 't':
                     System.out.println("Quit application");
