@@ -386,4 +386,25 @@ public class PatronsTable extends ConnDbOps{
         return true;
     }
 
+
+    //NOTE: This doesn't work yet, but it might be worth finishing later?
+    //-Andrew
+    /*private Patron findPatronById(int id) {
+        connectToDatabase();
+        Patron p;
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            String sql = "SELECT * FROM "+TABLE_NAME+" WHERE id=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, ""+id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            p = new Patron();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }*/
 }
