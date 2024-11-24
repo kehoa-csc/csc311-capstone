@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import org.example.csc311capstone.Module.Patron;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -327,9 +328,9 @@ public class PatronsTable extends ConnDbOps{
 
                 // Update patron information
                 patronUpdateStatement.setInt(1, bookId);
-                patronUpdateStatement.setInt(2, patronId);
-                patronUpdateStatement.setString(3,LocalDate.now().toString()); //YYYY-MM-DD
-                patronUpdateStatement.setInt(4, borrowDays);
+                patronUpdateStatement.setString(2, LocalDate.now().toString()); //YYYY-MM-DD
+                patronUpdateStatement.setInt(3, borrowDays);
+                patronUpdateStatement.setInt(4, patronId);
                 int patronRows = patronUpdateStatement.executeUpdate();
                 if (patronRows > 0) {
                     conn.commit(); // Commit the transaction, all things are working
