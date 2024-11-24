@@ -67,14 +67,6 @@
             <Font size="9.0" />
          </font>
       </PasswordField>
-      <MenuButton fx:id="menuButton" layoutX="282.0" layoutY="138.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="97.0">
-        <items>
-          <MenuItem fx:id="staff" mnemonicParsing="false" text="Staff" />
-          <MenuItem fx:id="student" mnemonicParsing="false" text="Student" />
-        </items>
-         <font>
-            <Font size="11.0" />
-         </font>
-      </MenuButton>
+      <ComboBox fx:id="userType" layoutX="287.0" layoutY="134.0" prefHeight="30.0" prefWidth="90.0" />
    </children>
 </AnchorPane>

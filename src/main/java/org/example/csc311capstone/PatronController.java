@@ -39,6 +39,8 @@ public class PatronController implements Initializable {
     //todo: get from login user info to set patrons
     private int id = 1;
 
+    private final int userId = LoginController.userId;
+
     private final BooksTable booksTable = new BooksTable();
     private final PatronsTable patronsTable = new PatronsTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();
