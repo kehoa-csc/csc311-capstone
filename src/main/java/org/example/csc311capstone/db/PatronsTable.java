@@ -282,14 +282,14 @@ public class PatronsTable extends ConnDbOps{
      * @param patronId The ID of the patron borrowing the book.
      * @param bookId The ID of the book to be borrowed.
      */
-    public void borrowBook(int patronId, int bookId) {
+    public void borrowBook(int patronId, int bookId, int borrowDays) {
         if (patronId == 0 || bookId == 0) {
             System.out.println("No patron or book id is 0, unable to borrow a book.");
             return;
         }
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD)) {
-            processBookBorrowing(patronId, bookId, conn);
+            processBookBorrowing(patronId, bookId, borrowDays, conn);
 
         } catch (SQLException e) {
             System.out.println("An error occurred while connecting to the database: " + e.getMessage());
@@ -308,11 +308,11 @@ public class PatronsTable extends ConnDbOps{
      * @param conn The database connection to be used for the transaction.
      * @throws SQLException If a database access error occurs or the transaction fails.
      */
-    private static void processBookBorrowing(int patronId, int bookId, Connection conn) throws SQLException {
+    private static void processBookBorrowing(int patronId, int bookId, int borrowDays, Connection conn) throws SQLException {
         conn.setAutoCommit(false); // start the transaction for two operations should both works
 
         String sqlBook = "UPDATE books SET copiesLeft = copiesLeft - 1 WHERE id = ? AND copiesLeft > 0";
-        String sqlPatron = "UPDATE patrons SET currBook = ? WHERE id = ?";
+        String sqlPatron = "UPDATE patrons SET currBook = ?, borrowDate = ?, borrowDays = ? WHERE id = ?";
 
         try (PreparedStatement bookUpdateStatement = conn.prepareStatement(sqlBook);
              PreparedStatement patronUpdateStatement = conn.prepareStatement(sqlPatron)) {
@@ -328,6 +328,8 @@ public class PatronsTable extends ConnDbOps{
                 // Update patron information
                 patronUpdateStatement.setInt(1, bookId);
                 patronUpdateStatement.setInt(2, patronId);
+                patronUpdateStatement.setString(3,LocalDate.now().toString()); //YYYY-MM-DD
+                patronUpdateStatement.setInt(4, borrowDays);
                 int patronRows = patronUpdateStatement.executeUpdate();
                 if (patronRows > 0) {
                     conn.commit(); // Commit the transaction, all things are working

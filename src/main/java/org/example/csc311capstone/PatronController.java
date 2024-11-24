@@ -15,6 +15,8 @@ import org.example.csc311capstone.db.BooksTable;
 import org.example.csc311capstone.db.PatronsTable;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -36,8 +38,9 @@ public class PatronController implements Initializable {
     @FXML
     private TableColumn<Book, Integer> tvISBN,tvLeft;
 
-    //todo: get from login user info to set patrons
-    private int id = 1;
+    //todo: Get ID from login.
+    //todo: Disable checkout button if no book is selected or user already has checkout
+    private int patronId = 1;
 
     private final int userId = LoginController.userId;
 
@@ -45,17 +48,17 @@ public class PatronController implements Initializable {
     private final PatronsTable patronsTable = new PatronsTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();
 
+    //good
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         tvTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
         tvISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         tvEdition.setCellValueFactory(new PropertyValueFactory<>("edition"));
         tvLeft.setCellValueFactory(new PropertyValueFactory<>("copiesLeft"));
         tv.setItems(books);
-
     }
+    //good
     @FXML
     void searchBook() {
            String search =  searchText.getText();
@@ -74,7 +77,7 @@ public class PatronController implements Initializable {
            }
     }
 
-    /*
+
     //Todo: current
     @FXML
     void checkout() {
@@ -104,19 +107,13 @@ public class PatronController implements Initializable {
 
             dialog.setResultConverter((ButtonType button) -> {
                 if (button == confirm) {
-
-
-
-                    //p.setBorrowDays(daysComboBox.getValue());
-                    //p.setBorrowDate(LocalDate.now().toString()); //YYYY-MM-DD
-                    //p.setCurrBook(b.getId());
+                    patronsTable.borrowBook(patronId,b.getId(),daysComboBox.getValue());
                 }
                 return null;
             });
 
             dialog.showAndWait();
         }
-
     }
 
 
@@ -124,7 +121,7 @@ public class PatronController implements Initializable {
 
     @FXML
     void rentalDetails() {
-        Dialog<Patron> dialog = new Dialog<>();
+        /*Dialog<Patron> dialog = new Dialog<>();
         dialog.setTitle("Rental Details");
 
         ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -139,12 +136,12 @@ public class PatronController implements Initializable {
             return null;
         });
 
-        dialog.showAndWait();
+        dialog.showAndWait();*/
     }
 
 
     private void setupDialogContent(Dialog<Patron> dialog){
-        DialogPane dialogPane = dialog.getDialogPane();
+        /*DialogPane dialogPane = dialog.getDialogPane();
         Patron p =  patrons.getFirst();
         Optional<Book> optionalBook = books.stream()
                 .filter(book -> book.getId() == p.getCurrBook())
@@ -168,13 +165,13 @@ public class PatronController implements Initializable {
         }else {
             Label Label = new Label("Your are not borrow any book");
             dialogPane.setContent(Label);
-        }
+        }*/
     }
 
     @FXML
     void returnBook() {
         System.out.println("returnBook");
-        if(patrons.isEmpty() || patrons.getFirst() == null) {
+        /*if(patrons.isEmpty() || patrons.getFirst() == null) {
             return;
         }
 
@@ -184,13 +181,13 @@ public class PatronController implements Initializable {
             showAlert("A book has been returned!");
         } else {
             showAlert("No book to return for the selected patron!");
-        }
+        }*/
 
 
     }
 
     private boolean returnBook(Patron p){
-        if (p.getCurrBook() == 0) return false;
+        /*if (p.getCurrBook() == 0) return false;
 
         //update patron data
         p.setReturnDate(LocalDate.now().toString());
@@ -213,10 +210,11 @@ public class PatronController implements Initializable {
             booksTable.editBook(editBookInfo,b.getId());
 
             return true;
-        }
+        }*/
         return false;
     }
-    */
+
+    //good
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
