@@ -187,7 +187,10 @@ public class PatronsTable extends ConnDbOps{
                     patron.setPassword(resultSet.getString("password"));
                     patron.setBorrowDays(resultSet.getInt("borrowDays"));
                 }
+
             }
+
+
 
 
         } catch (SQLException e) {
@@ -395,9 +398,9 @@ public class PatronsTable extends ConnDbOps{
 
     //NOTE: This doesn't work yet, but it might be worth finishing later?
     //-Andrew
-    /*private Patron findPatronById(int id) {
+    public Patron findPatronById(int id) {
         connectToDatabase();
-        Patron p;
+        Patron patron = new Patron();;
 
         Connection conn = null;
         try {
@@ -406,11 +409,23 @@ public class PatronsTable extends ConnDbOps{
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, ""+id);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            p = new Patron();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
+        //todo: check if count of select is greater than 0
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    patron.setID(resultSet.getInt("id"));
+                    patron.setName(resultSet.getString("name"));
+                    patron.setCurrBook(resultSet.getInt("currBook"));
+                    patron.setEmail(resultSet.getString("email"));
+                    patron.setReturnDate(resultSet.getString("returnDate"));
+                    patron.setBorrowDate(resultSet.getString("borrowDate"));
+                    patron.setPassword(resultSet.getString("password"));
+                    patron.setBorrowDays(resultSet.getInt("borrowDays"));
+                }
+            }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        return patron;
+    }
 }

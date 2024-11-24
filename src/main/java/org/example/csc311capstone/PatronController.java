@@ -120,7 +120,7 @@ public class PatronController implements Initializable {
 
     @FXML
     void rentalDetails() {
-        /*Dialog<Patron> dialog = new Dialog<>();
+        Dialog<Patron> dialog = new Dialog<>();
         dialog.setTitle("Rental Details");
 
         ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -135,13 +135,13 @@ public class PatronController implements Initializable {
             return null;
         });
 
-        dialog.showAndWait();*/
+        dialog.showAndWait();
     }
 
 
     private void setupDialogContent(Dialog<Patron> dialog){
-        /*DialogPane dialogPane = dialog.getDialogPane();
-        Patron p =  patrons.getFirst();
+        DialogPane dialogPane = dialog.getDialogPane();
+        Patron p = patronsTable.findPatronById(patronId);
         Optional<Book> optionalBook = books.stream()
                 .filter(book -> book.getId() == p.getCurrBook())
                 .findFirst();
@@ -164,7 +164,7 @@ public class PatronController implements Initializable {
         }else {
             Label Label = new Label("Your are not borrow any book");
             dialogPane.setContent(Label);
-        }*/
+        }
     }
 
     @FXML
