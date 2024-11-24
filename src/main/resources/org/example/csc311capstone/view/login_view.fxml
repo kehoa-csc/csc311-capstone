@@ -55,6 +55,11 @@
             <Font size="8.0" />
          </font>
       </TextField>
+      <PasswordField fx:id="password" layoutX="287.0" layoutY="267.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </PasswordField>
       <Button layoutX="312.0" layoutY="299.0" mnemonicParsing="false" onAction="#login" prefHeight="0.0" prefWidth="61.0" text="Log In">
          <font>
             <Font size="11.0" />
@@ -68,11 +73,6 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <PasswordField fx:id="password" layoutX="287.0" layoutY="267.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
-         <font>
-            <Font size="9.0" />
-         </font>
-      </PasswordField>
       <ComboBox fx:id="userType" layoutX="327.0" layoutY="169.0" prefHeight="30.0" prefWidth="107.0" />
    </children>
 </AnchorPane>
