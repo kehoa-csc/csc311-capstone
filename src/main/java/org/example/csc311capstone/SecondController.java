@@ -11,6 +11,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+//Librarian Book View
 public class SecondController {
 
 
