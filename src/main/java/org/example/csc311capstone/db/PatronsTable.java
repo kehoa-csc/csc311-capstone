@@ -400,7 +400,7 @@ public class PatronsTable extends ConnDbOps{
     //-Andrew
     public Patron findPatronById(int id) {
         connectToDatabase();
-        Patron patron = new Patron();;
+        Patron patron = new Patron();
 
         Connection conn = null;
         try {

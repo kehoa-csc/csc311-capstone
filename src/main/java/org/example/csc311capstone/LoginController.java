@@ -37,7 +37,7 @@ public class LoginController implements Initializable {
     private final PatronsTable patronsTable = new PatronsTable();
     private final ObservableList<Patron> patrons = patronsTable.listAllPatrons();
 
-    public static int userId = 0;
+    public static int patronID = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,7 +64,7 @@ public class LoginController implements Initializable {
                                 && p.getPassword().equals(password.getText()))
                         .findFirst();
                 if(user.isPresent()) {
-                    userId = user.get().getID();
+                    patronID = user.get().getID();
                     openWindow(actionEvent,"view/patron_self_service.fxml");
                 }
             }else {

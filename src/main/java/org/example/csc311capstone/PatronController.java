@@ -40,9 +40,7 @@ public class PatronController implements Initializable {
 
     //todo: Get ID from login.
     //todo: Disable checkout button if no book is selected or user already has checkout
-    private int patronId = 1;
-
-    private final int userId = LoginController.userId;
+    private final int patronId = LoginController.patronID;
 
     private final BooksTable booksTable = new BooksTable();
     private final PatronsTable patronsTable = new PatronsTable();
@@ -117,7 +115,7 @@ public class PatronController implements Initializable {
 
 
 
-
+    //good
     @FXML
     void rentalDetails() {
         Dialog<Patron> dialog = new Dialog<>();
@@ -138,39 +136,41 @@ public class PatronController implements Initializable {
         dialog.showAndWait();
     }
 
-
+    //good
     private void setupDialogContent(Dialog<Patron> dialog){
         DialogPane dialogPane = dialog.getDialogPane();
         Patron p = patronsTable.findPatronById(patronId);
-        Optional<Book> optionalBook = books.stream()
-                .filter(book -> book.getId() == p.getCurrBook())
-                .findFirst();
-        if (optionalBook.isPresent()) {
-            Book b = optionalBook.get();
+        if (p.getID() == patronId) {
+            Optional<Book> optionalBook = books.stream()
+                    .filter(book -> book.getId() == p.getCurrBook())
+                    .findFirst();
+            if (optionalBook.isPresent()) {
+                Book b = optionalBook.get();
 
-            LocalDate borrowDate = LocalDate.parse(p.getBorrowDate());
-            int borrowDays = p.getBorrowDays();
-            LocalDate calculatedDueDate = borrowDate.plusDays(borrowDays);
-            long leftDays = ChronoUnit.DAYS.between(LocalDate.now(), calculatedDueDate);
+                LocalDate borrowDate = LocalDate.parse(p.getBorrowDate());
+                int borrowDays = p.getBorrowDays();
+                LocalDate calculatedDueDate = borrowDate.plusDays(borrowDays);
+                long leftDays = ChronoUnit.DAYS.between(LocalDate.now(), calculatedDueDate);
 
-            VBox vBox = new VBox(8,
-                    new Label("Title: " + b.getName()),
-                    new Label("ISBN: " + b.getISBN()),
-                    new Label("Author: " + b.getAuthor()),
-                    new Label("Edition: " + b.getEdition()),
-                    new Label("DueDate: " + calculatedDueDate),
-                    new Label("Time Left: " + leftDays + " days"));
-            dialogPane.setContent(vBox);
-        }else {
-            Label Label = new Label("Your are not borrow any book");
-            dialogPane.setContent(Label);
+                VBox vBox = new VBox(8,
+                        new Label("Title: " + b.getName()),
+                        new Label("ISBN: " + b.getISBN()),
+                        new Label("Author: " + b.getAuthor()),
+                        new Label("Edition: " + b.getEdition()),
+                        new Label("DueDate: " + calculatedDueDate),
+                        new Label("Time Left: " + leftDays + " days"));
+                dialogPane.setContent(vBox);
+            } else {
+                Label Label = new Label("Your are not currently borrowing a book.");
+                dialogPane.setContent(Label);
+            }
         }
     }
 
     @FXML
     void returnBook() {
         System.out.println("returnBook");
-        /*if(patrons.isEmpty() || patrons.getFirst() == null) {
+        if(patrons.isEmpty() || patrons.getFirst() == null) {
             return;
         }
 
@@ -180,13 +180,13 @@ public class PatronController implements Initializable {
             showAlert("A book has been returned!");
         } else {
             showAlert("No book to return for the selected patron!");
-        }*/
+        }
 
 
     }
 
     private boolean returnBook(Patron p){
-        /*if (p.getCurrBook() == 0) return false;
+        if (p.getCurrBook() == 0) return false;
 
         //update patron data
         p.setReturnDate(LocalDate.now().toString());
@@ -209,7 +209,7 @@ public class PatronController implements Initializable {
             booksTable.editBook(editBookInfo,b.getId());
 
             return true;
-        }*/
+        }
         return false;
     }
 
