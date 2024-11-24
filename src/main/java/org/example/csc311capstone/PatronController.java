@@ -75,12 +75,12 @@ public class PatronController implements Initializable {
            }
     }
 
-    //good
+    //todo CHECK IF p.getCurrBook is null before allowing checkout and if book copiesleft > 0. Also throw appropriate errors
     @FXML
     void checkout() {
         System.out.println("checkout");
         Book b =  tv.getSelectionModel().getSelectedItem();
-
+        Patron p = patronsTable.findPatronById(patronId);
         if(b != null){
             Dialog<Patron> dialog = new Dialog<>();
             dialog.setTitle("Checkout");
@@ -105,6 +105,14 @@ public class PatronController implements Initializable {
             dialog.setResultConverter((ButtonType button) -> {
                 if (button == confirm) {
                     patronsTable.borrowBook(patronId,b.getId(),daysComboBox.getValue());
+
+                    int newCopiesLeft = b.getCopiesLeft()-1;
+                    b.setCopiesLeft(newCopiesLeft);
+
+                    Map<String, Object> editBookInfo = new HashMap<>();
+                    editBookInfo.put(patronsColumns.CURRBOOK.name(), newCopiesLeft);
+                    booksTable.editBook(editBookInfo,b.getId());
+
                 }
                 return null;
             });
@@ -170,19 +178,12 @@ public class PatronController implements Initializable {
     @FXML
     void returnBook() {
         System.out.println("returnBook");
-        if(patrons.isEmpty() || patrons.getFirst() == null) {
-            return;
-        }
 
-        Patron p = patrons.getFirst();
-        if (returnBook(p)) {
-            patrons.remove(p);
+        if (returnBook(patronsTable.findPatronById(patronId))) {
             showAlert("A book has been returned!");
         } else {
             showAlert("No book to return for the selected patron!");
         }
-
-
     }
 
     private boolean returnBook(Patron p){
@@ -192,6 +193,7 @@ public class PatronController implements Initializable {
         p.setReturnDate(LocalDate.now().toString());
         Map<String, Object> editPatronInfo = new HashMap<>();
         editPatronInfo.put(patronsColumns.RETURNDATE.name(), p.getReturnDate());
+        editPatronInfo.put(patronsColumns.CURRBOOK.name(), null);
         patronsTable.editPatron(editPatronInfo, p.getID());
 
         //update book data
@@ -205,7 +207,7 @@ public class PatronController implements Initializable {
             b.setCopiesLeft(newCopiesLeft);
 
             Map<String, Object> editBookInfo = new HashMap<>();
-            editBookInfo.put(booksColumns.COPIESLEFT.name(), newCopiesLeft);
+            editBookInfo.put(patronsColumns.CURRBOOK.name(), newCopiesLeft);
             booksTable.editBook(editBookInfo,b.getId());
 
             return true;
