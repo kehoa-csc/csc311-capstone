@@ -19,6 +19,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/*
+    Currently doesn't work
+ */
 public class LoginController implements Initializable {
 
 
