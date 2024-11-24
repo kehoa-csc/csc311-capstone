@@ -77,8 +77,7 @@ public class PatronController implements Initializable {
            }
     }
 
-
-    //Todo: current
+    //good
     @FXML
     void checkout() {
         System.out.println("checkout");
