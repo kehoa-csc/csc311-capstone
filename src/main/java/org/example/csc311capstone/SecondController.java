@@ -32,7 +32,7 @@ public class SecondController {
     @FXML
     private AnchorPane slider;
 
-  //  @Override
+   // @Override
     public void initialize(URL location, ResourceBundle resources) {
 
             slider.setTranslateX(-176);

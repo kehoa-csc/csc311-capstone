@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -16,56 +17,60 @@
    <children>
       <BorderPane layoutX="1.0" prefHeight="400.0" prefWidth="601.0">
          <left>
-            <AnchorPane fx:id="slider" prefHeight="400.0" prefWidth="125.0" style="-fx-background-color: #75956c;" stylesheets="@../styles/secondPage.css" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slider" prefHeight="400.0" prefWidth="140.0" style="-fx-background-color: #75956c;" stylesheets="@../styles/secondPage.css" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="addButton" layoutX="17.0" layoutY="146.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #75956c;" styleClass="sidebarItem" text="Add">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imgs/add_circle_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="editButton" layoutX="16.0" layoutY="194.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="84.0" style="-fx-background-color: #75956c;" text="Edit ">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imgs/edit_note_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="deleteButton" layoutX="14.0" layoutY="249.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="88.0" style="-fx-background-color: #75956c;" text="Delete">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imgs/delete_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="reconbdButton" layoutX="6.0" layoutY="100.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: #75956c;" styleClass="sidebarItem" text="Reconnect to DB">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imgs/rss_feed_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
+                  <VBox layoutY="129.0" prefHeight="271.0" prefWidth="148.0" styleClass="sidebarItem">
+                     <children>
+                        <Button fx:id="editButton" mnemonicParsing="false" prefHeight="41.0" prefWidth="84.0" style="-fx-background-color: #75956c;" text="Edit ">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fx:id="editButton" fitHeight="32.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/edit_note_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="addButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #75956c;" styleClass="sidebarItem" text="Add">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="26.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/add_circle_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="reconbdButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #75956c;" styleClass="sidebarItem" text="Reconnect to DB">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="26.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/rss_feed_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="88.0" style="-fx-background-color: #75956c;" text="Delete">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="26.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/delete_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
          </left>
