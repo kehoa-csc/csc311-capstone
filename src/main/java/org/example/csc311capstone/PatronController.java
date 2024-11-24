@@ -1,6 +1,5 @@
 package org.example.csc311capstone;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,8 +14,6 @@ import org.example.csc311capstone.db.BooksTable;
 import org.example.csc311capstone.db.PatronsTable;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -45,6 +42,7 @@ public class PatronController implements Initializable {
     private final BooksTable booksTable = new BooksTable();
     private final PatronsTable patronsTable = new PatronsTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();
+    private final Patron currPatron = patronsTable.findPatronById(patronId);
 
     //good
     @Override
@@ -72,53 +70,78 @@ public class PatronController implements Initializable {
                        .toList());
 
                tv.setItems(bookList);
+           }else {
+               tv.setItems(books);
            }
     }
 
-    //todo CHECK IF p.getCurrBook is null before allowing checkout and if book copiesleft > 0. Also throw appropriate errors
     @FXML
     void checkout() {
-        System.out.println("checkout");
         Book b =  tv.getSelectionModel().getSelectedItem();
-        Patron p = patronsTable.findPatronById(patronId);
-        if(b != null){
-            Dialog<Patron> dialog = new Dialog<>();
-            dialog.setTitle("Checkout");
-
-            Integer[] borrowDays = {3,5,7,15,30};
-            ObservableList<Integer> options = FXCollections.observableArrayList(borrowDays);
-            ComboBox<Integer> daysComboBox = new ComboBox<>(options);
-            daysComboBox.getSelectionModel().selectFirst();
-
-            ButtonType confirm = new ButtonType("Confirm",ButtonBar.ButtonData.OK_DONE);
-            DialogPane dialogPane = dialog.getDialogPane();
-            dialogPane.getButtonTypes().addAll(confirm);
-
-            VBox vBox = new VBox(8,
-                    new Label("Title: "+b.getName()),
-                    new Label("ISBN: " + b.getISBN()) ,
-                    new Label("Author: " +b.getAuthor()),
-                    new Label("Edition: "+b.getEdition()));
-            HBox hBox = new HBox(8, new Label("Borrow Days: ") , daysComboBox);
-            dialogPane.setContent(new VBox(8, vBox,hBox));
-
-            dialog.setResultConverter((ButtonType button) -> {
-                if (button == confirm) {
-                    patronsTable.borrowBook(patronId,b.getId(),daysComboBox.getValue());
-
-                    int newCopiesLeft = b.getCopiesLeft()-1;
-                    b.setCopiesLeft(newCopiesLeft);
-
-                    Map<String, Object> editBookInfo = new HashMap<>();
-                    editBookInfo.put(patronsColumns.CURRBOOK.name(), newCopiesLeft);
-                    booksTable.editBook(editBookInfo,b.getId());
-
-                }
-                return null;
-            });
-
-            dialog.showAndWait();
+        if(b == null) {
+            showAlert("Not select book");
+            return;
         }
+        if(b.getCopiesLeft() == 0){
+            showAlert("This book has all been borrowed, please choose another book");
+            return;
+        }
+        if(currPatron.getCurrBook() != 0){
+            showAlert("Only one book is allowed per person, so please return the book first");
+            return;
+        }
+
+        showCheckOut(b);
+
+    }
+    // show check out in dialog
+    private void showCheckOut(Book b){
+        Dialog<Patron> dialog = new Dialog<>();
+        dialog.setTitle("Checkout");
+
+        Integer[] borrowDays = {3,5,7,15,30};
+        ObservableList<Integer> options = FXCollections.observableArrayList(borrowDays);
+        ComboBox<Integer> daysComboBox = new ComboBox<>(options);
+        daysComboBox.getSelectionModel().selectFirst();
+
+        ButtonType confirm = new ButtonType("Confirm",ButtonBar.ButtonData.OK_DONE);
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getButtonTypes().addAll(confirm);
+
+        VBox vBox = new VBox(8,
+                new Label("Title: "+b.getName()),
+                new Label("ISBN: " + b.getISBN()) ,
+                new Label("Author: " +b.getAuthor()),
+                new Label("Edition: "+b.getEdition()));
+        HBox hBox = new HBox(8, new Label("Borrow Days: ") , daysComboBox);
+        dialogPane.setContent(new VBox(8, vBox,hBox));
+
+        dialog.setResultConverter((ButtonType button) -> {
+            if (button == confirm) {
+                //update current patron
+                currPatron.setCurrBook(b.getId());
+                currPatron.setBorrowDate(LocalDate.now().toString());
+                currPatron.setBorrowDays(daysComboBox.getValue());
+                //update patron in database
+                patronsTable.borrowBook(patronId,b.getId(),daysComboBox.getValue());
+
+                ////update data in table view as copies left -1
+                int newCopiesLeft = b.getCopiesLeft()-1;
+                b.setCopiesLeft(newCopiesLeft);
+                int i = books.indexOf(b);
+                books.set(i,b);
+
+                // update book in database
+                Map<String, Object> editBookInfo = new HashMap<>();
+                editBookInfo.put(booksColumns.COPIESLEFT.name(), newCopiesLeft);
+                booksTable.editBook(editBookInfo,b.getId());
+
+
+            }
+            return null;
+        });
+
+        dialog.showAndWait();
     }
 
 
@@ -126,13 +149,49 @@ public class PatronController implements Initializable {
     //good
     @FXML
     void rentalDetails() {
+        if(currPatron.getCurrBook() == 0){
+            showAlert("You haven't borrowed any books yet");
+            return;
+        }
+
+        showRentalDetails(currPatron);
+
+    }
+
+    //show rental details in dialog
+    private void showRentalDetails(Patron p){
+
         Dialog<Patron> dialog = new Dialog<>();
         dialog.setTitle("Rental Details");
 
         ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
         dialog.getDialogPane().getButtonTypes().addAll(closeButtonType);
 
-        setupDialogContent(dialog);
+        DialogPane dialogPane = dialog.getDialogPane();
+        Optional<Book> optionalBook = books.stream()
+                .filter(book -> book.getId() == p.getCurrBook())
+                .findFirst();
+        if (optionalBook.isPresent()) {
+            Book b = optionalBook.get();
+
+            LocalDate borrowDate = LocalDate.parse(p.getBorrowDate());
+            int borrowDays = p.getBorrowDays();
+            LocalDate calculatedDueDate = borrowDate.plusDays(borrowDays);
+            long leftDays = ChronoUnit.DAYS.between(LocalDate.now(), calculatedDueDate);
+
+            if(p.getCurrBook() != 0) {
+                VBox vBox = new VBox(8,
+                        new Label("Title: " + b.getName()),
+                        new Label("ISBN: " + b.getISBN()),
+                        new Label("Author: " + b.getAuthor()),
+                        new Label("Edition: " + b.getEdition()),
+                        new Label("DueDate: " + calculatedDueDate),
+                        new Label("Time Left: " + leftDays + " days"));
+                dialogPane.setContent(vBox);
+            }
+        } else {
+            showAlert("This book not exist.");
+        }
 
         dialog.setResultConverter(button -> {
             if (button == closeButtonType) {
@@ -142,80 +201,63 @@ public class PatronController implements Initializable {
         });
 
         dialog.showAndWait();
-    }
 
-    //good
-    private void setupDialogContent(Dialog<Patron> dialog){
-        DialogPane dialogPane = dialog.getDialogPane();
-        Patron p = patronsTable.findPatronById(patronId);
-        if (p.getID() == patronId) {
-            Optional<Book> optionalBook = books.stream()
-                    .filter(book -> book.getId() == p.getCurrBook())
-                    .findFirst();
-            if (optionalBook.isPresent()) {
-                Book b = optionalBook.get();
-
-                LocalDate borrowDate = LocalDate.parse(p.getBorrowDate());
-                int borrowDays = p.getBorrowDays();
-                LocalDate calculatedDueDate = borrowDate.plusDays(borrowDays);
-                long leftDays = ChronoUnit.DAYS.between(LocalDate.now(), calculatedDueDate);
-
-                VBox vBox = new VBox(8,
-                        new Label("Title: " + b.getName()),
-                        new Label("ISBN: " + b.getISBN()),
-                        new Label("Author: " + b.getAuthor()),
-                        new Label("Edition: " + b.getEdition()),
-                        new Label("DueDate: " + calculatedDueDate),
-                        new Label("Time Left: " + leftDays + " days"));
-                dialogPane.setContent(vBox);
-            } else {
-                Label Label = new Label("Your are not currently borrowing a book.");
-                dialogPane.setContent(Label);
-            }
-        }
     }
 
     @FXML
     void returnBook() {
-        System.out.println("returnBook");
 
-        if (returnBook(patronsTable.findPatronById(patronId))) {
+        if (isReturnBook(currPatron)) {
             showAlert("A book has been returned!");
         } else {
             showAlert("No book to return for the selected patron!");
         }
     }
 
-    private boolean returnBook(Patron p){
-        if (p.getCurrBook() == 0) return false;
+    //return book possessing
+    private boolean isReturnBook(Patron p){
+        if (p.getCurrBook() == 0) {
+            return false;
+        }
 
-        //update patron data
-        p.setReturnDate(LocalDate.now().toString());
-        Map<String, Object> editPatronInfo = new HashMap<>();
-        editPatronInfo.put(patronsColumns.RETURNDATE.name(), p.getReturnDate());
-        editPatronInfo.put(patronsColumns.CURRBOOK.name(), null);
-        patronsTable.editPatron(editPatronInfo, p.getID());
-
-        //update book data
+        //get the book
         Optional<Book> optionalBook = books.stream()
                 .filter(book -> book.getId() == p.getCurrBook())
                 .findFirst();
         if (optionalBook.isPresent()) {
+            //update book data
             Book b = optionalBook.get();
-
             int newCopiesLeft = b.getCopiesLeft()+1;
             b.setCopiesLeft(newCopiesLeft);
 
+
+            //update data in table view
+            int i = books.indexOf(b);
+            books.set(i,b);
+
+            //update book data in database
             Map<String, Object> editBookInfo = new HashMap<>();
-            editBookInfo.put(patronsColumns.CURRBOOK.name(), newCopiesLeft);
+            editBookInfo.put(booksColumns.COPIESLEFT.name(), newCopiesLeft);
             booksTable.editBook(editBookInfo,b.getId());
 
+
+            //update patron data
+            p.setReturnDate(LocalDate.now().toString());
+            p.setCurrBook(0);
+            //update patron data in database
+            Map<String, Object> editPatronInfo = new HashMap<>();
+            editPatronInfo.put(patronsColumns.RETURNDATE.name(), p.getReturnDate());
+            editPatronInfo.put(patronsColumns.CURRBOOK.name(), 0);
+            patronsTable.editPatron(editPatronInfo, p.getID());
+
             return true;
+
+        }else {
+            return false;
         }
-        return false;
     }
 
-    //good
+    //show alert message
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
