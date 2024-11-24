@@ -39,7 +39,7 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("view/patron_self_service.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("view/librarian_view.fxml"));
 
 
         Scene scene = new Scene(fxmlLoader.load(), 582, 400);

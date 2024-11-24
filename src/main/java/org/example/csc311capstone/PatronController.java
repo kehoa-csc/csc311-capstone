@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
-//This is for the Patron self-service view. -Andrew
+//This is for the Patron self-service view. -Andrew & Zuxin
 
 public class PatronController implements Initializable {
     @FXML
@@ -37,15 +37,11 @@ public class PatronController implements Initializable {
     private TableColumn<Book, Integer> tvISBN,tvLeft;
 
     //todo: get from login user info to set patrons
-    private final String userName = "user1";
-    private final String userPassword = "password1";
-    private final String userEmail = "email1";
+    private int id = 1;
 
     private final BooksTable booksTable = new BooksTable();
     private final PatronsTable patronsTable = new PatronsTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();
-
-    private final ObservableList<Patron> patrons = patronsTable.fuzzyMatchPatronByName(userName);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -76,85 +72,56 @@ public class PatronController implements Initializable {
            }
     }
 
+    /*
+    //Todo: current
     @FXML
     void checkout() {
         System.out.println("checkout");
         Book b =  tv.getSelectionModel().getSelectedItem();
 
-        if(b != null && patrons.isEmpty()){
-            showCheckout(b);
+        if(b != null){
+            Dialog<Patron> dialog = new Dialog<>();
+            dialog.setTitle("Checkout");
+
+            Integer[] borrowDays = {3,5,7,15,30};
+            ObservableList<Integer> options = FXCollections.observableArrayList(borrowDays);
+            ComboBox<Integer> daysComboBox = new ComboBox<>(options);
+            daysComboBox.getSelectionModel().selectFirst();
+
+            ButtonType confirm = new ButtonType("Confirm",ButtonBar.ButtonData.OK_DONE);
+            DialogPane dialogPane = dialog.getDialogPane();
+            dialogPane.getButtonTypes().addAll(confirm);
+
+            VBox vBox = new VBox(8,
+                    new Label("Title: "+b.getName()),
+                    new Label("ISBN: " + b.getISBN()) ,
+                    new Label("Author: " +b.getAuthor()),
+                    new Label("Edition: "+b.getEdition()));
+            HBox hBox = new HBox(8, new Label("Borrow Days: ") , daysComboBox);
+            dialogPane.setContent(new VBox(8, vBox,hBox));
+
+            dialog.setResultConverter((ButtonType button) -> {
+                if (button == confirm) {
+
+
+
+                    //p.setBorrowDays(daysComboBox.getValue());
+                    //p.setBorrowDate(LocalDate.now().toString()); //YYYY-MM-DD
+                    //p.setCurrBook(b.getId());
+                }
+                return null;
+            });
+
+            dialog.showAndWait();
         }
 
     }
 
-    //Todo: need to beautify the window
-    private void showCheckout(Book b){
-        Dialog<Patron> dialog = new Dialog<>();
-        dialog.setTitle("Checkout");
-
-        Integer[] borrowDays = {3,5,7,15,30};
-        ObservableList<Integer> options = FXCollections.observableArrayList(borrowDays);
-        ComboBox<Integer> daysComboBox = new ComboBox<>(options);
-        daysComboBox.getSelectionModel().selectFirst();
-
-        ButtonType confirm = new ButtonType("Confirm",ButtonBar.ButtonData.OK_DONE);
-        DialogPane dialogPane = dialog.getDialogPane();
-        dialogPane.getButtonTypes().addAll(confirm);
-
-        VBox vBox = new VBox(8,
-                new Label("Title: "+b.getName()),
-                new Label("ISBN: " + b.getISBN()) ,
-                new Label("Author: " +b.getAuthor()),
-                new Label("Edition: "+b.getEdition()));
-        HBox hBox = new HBox(8, new Label("Borrow Days: ") , daysComboBox);
-        dialogPane.setContent(new VBox(8, vBox,hBox));
-
-        dialog.setResultConverter((ButtonType button) -> {
-            if (button == confirm) {
-                Patron p =  new Patron();
-                p.setName(userName);
-                p.setEmail(userEmail);
-                p.setPassword(userPassword);
-                p.setBorrowDays(daysComboBox.getValue());
-                p.setBorrowDate(LocalDate.now().toString()); //YYYY-MM-DD
-                p.setCurrBook(b.getId());
-                System.out.println(p);
-                addPartonInfo(p);
-            }
-            return null;
-        });
-
-        dialog.showAndWait();
-    }
 
 
-    private void addPartonInfo(Patron p){
-        if(p != null){
-            //freely edit the value in patron table
-            Map<String, Object> addPatronInfo = new HashMap<>();
-            addPatronInfo.put(patronsColumns.NAME.name(), p.getName());
-            addPatronInfo.put(patronsColumns.EMAIL.name(), p.getEmail());
-            addPatronInfo.put(patronsColumns.PASSWORD.name(), p.getPassword());
-            addPatronInfo.put(patronsColumns.BORROWDAYS.name(), p.getBorrowDays());
-            addPatronInfo.put(patronsColumns.BORROWDATE.name(), p.getBorrowDate());
-            addPatronInfo.put(patronsColumns.CURRBOOK.name(), p.getCurrBook());
-            patronsTable.addPatron(addPatronInfo);// calling from PatronsTable
-            int id  = patronsTable.retrieveId(p);
-            p.setID(id);
-            patrons.add(p);
-        }
-    }
 
     @FXML
     void rentalDetails() {
-        System.out.println("rentalDetails");
-        if(!patrons.isEmpty()) {
-            showRentalDetails();
-        }
-    }
-
-    //Todo: need to beautify the window
-    private void showRentalDetails(){
         Dialog<Patron> dialog = new Dialog<>();
         dialog.setTitle("Rental Details");
 
@@ -172,6 +139,7 @@ public class PatronController implements Initializable {
 
         dialog.showAndWait();
     }
+
 
     private void setupDialogContent(Dialog<Patron> dialog){
         DialogPane dialogPane = dialog.getDialogPane();
@@ -246,7 +214,7 @@ public class PatronController implements Initializable {
         }
         return false;
     }
-
+    */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
