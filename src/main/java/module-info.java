@@ -4,7 +4,7 @@ module com.example.csc311capstone {
     requires annotations;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
-    requires java.prefs;
+    requires java.desktop;
 
 
     opens org.example.csc311capstone to javafx.fxml;

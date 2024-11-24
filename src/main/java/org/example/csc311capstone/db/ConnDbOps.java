@@ -7,10 +7,10 @@ import java.sql.Statement;
 
 public class ConnDbOps {
 
-        final String MYSQL_SERVER_URL = "jdbc:mysql://csc311kehoeserver.mysql.database.azure.com/";
-        final String DB_URL = "jdbc:mysql://csc311kehoeserver.mysql.database.azure.com/capstone";
-        final String USERNAME = "kehoa";
-        final String PASSWORD = "m&tYCA*56LgX";
+        public static final String MYSQL_SERVER_URL = "jdbc:mysql://csc311kehoeserver.mysql.database.azure.com/";
+        public static final String DB_URL = "jdbc:mysql://csc311kehoeserver.mysql.database.azure.com/capstone";
+        public static final String USERNAME = "kehoa";
+        public static final String PASSWORD = "m&tYCA*56LgX";
 
         public boolean connectToDatabase() {
             boolean hasRegistred = false;

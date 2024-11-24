@@ -11,9 +11,8 @@ import org.example.csc311capstone.db.ConnDbOps;
 import org.example.csc311capstone.db.PatronsTable;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.net.URL;
+import java.util.*;
 
 /**
  * hold the column name which is columns from patron table
@@ -39,11 +38,8 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //Uncomment the frontend you are working on.
-        //FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("patron_self_service.fxml"));
-        //FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("librarian_view.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("second_view.fxml"));
 
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("view/patron_self_service.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 582, 400);
         stage.setTitle("Library Database");
@@ -172,8 +168,10 @@ public class Application extends javafx.application.Application {
                     int patronId = scnr.nextInt();
                     System.out.print("Please enter ID of book to be borrowed:");
                     int bookId = scnr.nextInt();
+                    System.out.print("Please enter days of book to be borrowed:");
+                    int borrowDays = scnr.nextInt();
 
-                    patronsTable.borrowBook(patronId,bookId);
+                    patronsTable.borrowBook(patronId,bookId,borrowDays);
                     break;
                 case 't':
                     System.out.println("Quit application");

@@ -2,9 +2,10 @@ package org.example.csc311capstone.db;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
+
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -240,10 +241,13 @@ public class PatronsTable extends ConnDbOps{
     /**
      * display all patrons from table patrons
      * if you need to display on a window, not screen, than you can return a patron object out
+     *
+     * @return
      * @author zuxin
      */
-    public void listAllPatrons() {
+    public ObservableList<Patron> listAllPatrons() {
 
+        ObservableList<Patron> patrons = FXCollections.observableArrayList();
         String sql = "SELECT * FROM "+ TABLE_NAME;
         Patron patron;
 
@@ -262,11 +266,13 @@ public class PatronsTable extends ConnDbOps{
                 patron.setPassword(resultSet.getString("password"));
                 patron.setBorrowDays(resultSet.getInt("borrowDays"));
                 System.out.println(patron);
+                patrons.add(patron);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return patrons;
     }
 
     /**
@@ -277,14 +283,14 @@ public class PatronsTable extends ConnDbOps{
      * @param patronId The ID of the patron borrowing the book.
      * @param bookId The ID of the book to be borrowed.
      */
-    public void borrowBook(int patronId, int bookId) {
+    public void borrowBook(int patronId, int bookId, int borrowDays) {
         if (patronId == 0 || bookId == 0) {
             System.out.println("No patron or book id is 0, unable to borrow a book.");
             return;
         }
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD)) {
-            processBookBorrowing(patronId, bookId, conn);
+            processBookBorrowing(patronId, bookId, borrowDays, conn);
 
         } catch (SQLException e) {
             System.out.println("An error occurred while connecting to the database: " + e.getMessage());
@@ -303,11 +309,11 @@ public class PatronsTable extends ConnDbOps{
      * @param conn The database connection to be used for the transaction.
      * @throws SQLException If a database access error occurs or the transaction fails.
      */
-    private static void processBookBorrowing(int patronId, int bookId, Connection conn) throws SQLException {
+    private static void processBookBorrowing(int patronId, int bookId, int borrowDays, Connection conn) throws SQLException {
         conn.setAutoCommit(false); // start the transaction for two operations should both works
 
         String sqlBook = "UPDATE books SET copiesLeft = copiesLeft - 1 WHERE id = ? AND copiesLeft > 0";
-        String sqlPatron = "UPDATE patrons SET currBook = ? WHERE id = ?";
+        String sqlPatron = "UPDATE patrons SET currBook = ?, borrowDate = ?, borrowDays = ? WHERE id = ?";
 
         try (PreparedStatement bookUpdateStatement = conn.prepareStatement(sqlBook);
              PreparedStatement patronUpdateStatement = conn.prepareStatement(sqlPatron)) {
@@ -322,7 +328,9 @@ public class PatronsTable extends ConnDbOps{
 
                 // Update patron information
                 patronUpdateStatement.setInt(1, bookId);
-                patronUpdateStatement.setInt(2, patronId);
+                patronUpdateStatement.setString(2, LocalDate.now().toString()); //YYYY-MM-DD
+                patronUpdateStatement.setInt(3, borrowDays);
+                patronUpdateStatement.setInt(4, patronId);
                 int patronRows = patronUpdateStatement.executeUpdate();
                 if (patronRows > 0) {
                     conn.commit(); // Commit the transaction, all things are working
@@ -339,6 +347,30 @@ public class PatronsTable extends ConnDbOps{
         } finally {
             conn.setAutoCommit(true);
         }
+    }
+
+
+
+    //Method to retrieve id from database where it is auto-incremented.
+    public int retrieveId(Patron p) {
+        connectToDatabase();
+        int id;
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            String sql = "SELECT id FROM "+TABLE_NAME+" WHERE email=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, p.getEmail());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            id = resultSet.getInt("id");
+            preparedStatement.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
     }
 
 
@@ -360,4 +392,25 @@ public class PatronsTable extends ConnDbOps{
         return true;
     }
 
+
+    //NOTE: This doesn't work yet, but it might be worth finishing later?
+    //-Andrew
+    /*private Patron findPatronById(int id) {
+        connectToDatabase();
+        Patron p;
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            String sql = "SELECT * FROM "+TABLE_NAME+" WHERE id=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, ""+id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            p = new Patron();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }*/
 }
