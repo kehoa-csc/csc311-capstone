@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="313.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.LoginController">
+<AnchorPane prefHeight="313.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.LoginController">
    <children>
       <ImageView fitHeight="316.0" fitWidth="607.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -33,12 +26,12 @@
                   </Stop>
                   <Stop offset="0.006711409395973154">
                      <color>
-                        <Color red="0.18431372940540314" green="0.4627451002597809" blue="0.18431372940540314" />
+                        <Color blue="0.18431372940540314" green="0.4627451002597809" red="0.18431372940540314" />
                      </color>
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.4588235318660736" green="0.5843137502670288" blue="0.42352941632270813" />
+                        <Color blue="0.42352941632270813" green="0.5843137502670288" red="0.4588235318660736" />
                      </color>
                   </Stop>
                </stops>
@@ -51,12 +44,12 @@
          </image>
       </ImageView>
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#e5ffd1" height="174.0" layoutX="207.0" layoutY="117.0" stroke="#e5ffd1" strokeType="INSIDE" width="185.0" />
-      <TextField layoutX="239.0" layoutY="190.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
+      <TextField fx:id="username" layoutX="239.0" layoutY="190.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
          <font>
             <Font size="8.0" />
          </font>
       </TextField>
-      <Button layoutX="264.0" layoutY="264.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="61.0" text="login">
+      <Button layoutX="264.0" layoutY="264.0" mnemonicParsing="false" onAction="#login" prefHeight="0.0" prefWidth="61.0" text="login">
          <font>
             <Font size="11.0" />
          </font>
@@ -69,15 +62,15 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <PasswordField layoutX="239.0" layoutY="232.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
+      <PasswordField fx:id="password" layoutX="239.0" layoutY="232.0" prefHeight="19.0" prefWidth="119.0" style="-fx-border-color: #000000;">
          <font>
             <Font size="9.0" />
          </font>
       </PasswordField>
-      <MenuButton layoutX="282.0" layoutY="138.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="97.0" text="MenuButton">
+      <MenuButton fx:id="menuButton" layoutX="282.0" layoutY="138.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="97.0">
         <items>
-          <MenuItem mnemonicParsing="false" text="Staff" />
-          <MenuItem mnemonicParsing="false" text="Student" />
+          <MenuItem fx:id="staff" mnemonicParsing="false" text="Staff" />
+          <MenuItem fx:id="student" mnemonicParsing="false" text="Student" />
         </items>
          <font>
             <Font size="11.0" />

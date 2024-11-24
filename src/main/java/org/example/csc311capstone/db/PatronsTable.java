@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 import org.example.csc311capstone.Module.Patron;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -242,10 +240,13 @@ public class PatronsTable extends ConnDbOps{
     /**
      * display all patrons from table patrons
      * if you need to display on a window, not screen, than you can return a patron object out
+     *
+     * @return
      * @author zuxin
      */
-    public void listAllPatrons() {
+    public ObservableList<Patron> listAllPatrons() {
 
+        ObservableList<Patron> patrons = FXCollections.observableArrayList();
         String sql = "SELECT * FROM "+ TABLE_NAME;
         Patron patron;
 
@@ -264,11 +265,13 @@ public class PatronsTable extends ConnDbOps{
                 patron.setPassword(resultSet.getString("password"));
                 patron.setBorrowDays(resultSet.getInt("borrowDays"));
                 System.out.println(patron);
+                patrons.add(patron);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return patrons;
     }
 
     /**
