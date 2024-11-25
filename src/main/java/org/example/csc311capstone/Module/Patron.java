@@ -1,5 +1,5 @@
 package org.example.csc311capstone.Module;
-
+import javafx.beans.property.*;
 /**
  * Module class for patrons
  * @author zuxin
@@ -39,6 +39,8 @@ public class Patron {
         this.password = password;
         this.borrowDays = borrowDays;
     }
+
+
 
     public int getID() {
         return ID;
