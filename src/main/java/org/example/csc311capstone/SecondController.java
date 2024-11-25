@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -39,12 +40,12 @@ public class SecondController {
 
     @FXML
     private AnchorPane slider;
-
+    @FXML
+    private VBox menuVBox;
 
     @FXML
-    public void initialize(URL location, ResourceBundle resources) {
-
-            slider.setTranslateX(-176);
+    public void initialize() {
+        slider.setTranslateX(-176);
 
         menuLabel.setOnMouseClicked(event ->{
             TranslateTransition slide = new TranslateTransition();
@@ -57,26 +58,27 @@ public class SecondController {
             slider.setTranslateX(-176);
 
             slide.setOnFinished((ActionEvent e)-> {
-                    menuLabel.setVisible(true);
-                    menuBack.setVisible(false);
-                } );
+                menuLabel.setVisible(true);
+                menuBack.setVisible(false);
+            } );
         });
-          menuBack.setOnMouseClicked(event ->{
-              TranslateTransition slide = new TranslateTransition();
-              slide.setDuration(Duration.seconds(0.4));
-              slide.setNode(slider);
+        menuBack.setOnMouseClicked(event ->{
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(slider);
 
-              slide.setToX(-176);
-              slide.play();
+            slide.setToX(-176);
+            slide.play();
 
-              slider.setTranslateX(0);
+            slider.setTranslateX(0);
 
-              slide.setOnFinished((ActionEvent e)->{
-                  menuLabel.setVisible(true);
-                  menuBack.setVisible(false);
-              });
-          });
+            slide.setOnFinished((ActionEvent e)->{
+                menuLabel.setVisible(true);
+                menuBack.setVisible(false);
+            });
+        });
     }
+
 
 }
 
