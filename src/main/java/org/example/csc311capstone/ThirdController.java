@@ -9,11 +9,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.csc311capstone.Module.Patron;
+import org.example.csc311capstone.db.ConnDbOps;
 import org.example.csc311capstone.db.PatronsTable;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -37,6 +43,7 @@ public class ThirdController {
 
     private final PatronsTable patronsTable = new PatronsTable();
     private ObservableList<Patron> patrons = FXCollections.observableArrayList();
+    private final ConnDbOps connDbOps = new ConnDbOps();
 
     @FXML
     public void initialize() {
@@ -88,7 +95,39 @@ public class ThirdController {
     @FXML
     public void addPatron() {
         // Logic to open an Add Patron dialog (to be implemented)
-        showAlert("Info", "Add Patron functionality is pending implementation.");
+        //showAlert("Info", "Add Patron functionality is pending implementation.");
+        System.out.println("Adding patron");
+
+        Dialog<Patron> dialog = new Dialog<>();
+        dialog.setTitle("Add Patron");
+
+        ButtonType confirm = new ButtonType("Confirm",ButtonBar.ButtonData.OK_DONE);
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getButtonTypes().addAll(confirm);
+
+        TextField nameField = new TextField();
+        TextField emailField = new TextField();
+
+        VBox vBox = new VBox(8,
+                new Label("Name"),
+                nameField,
+                new Label("Email"),
+                emailField);
+        HBox hBox = new HBox(8);
+        dialogPane.setContent(new VBox(8, vBox,hBox));
+
+        dialog.setResultConverter((ButtonType button) -> {
+            if (button == confirm) {
+
+                System.out.println("Confirm button");
+                connDbOps.addPatron(nameField.getText(), emailField.getText());
+            }
+            loadPatronData();
+            return null;
+        });
+
+        dialog.showAndWait();
+        //connDbOps.addPatron();
     }
 
     @FXML
