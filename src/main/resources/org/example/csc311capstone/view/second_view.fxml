@@ -26,7 +26,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                            <graphic>
-                              <ImageView fx:id="editButton" fitHeight="32.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="32.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../imgs/edit_note_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
                                  </image>
