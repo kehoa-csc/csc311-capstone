@@ -40,8 +40,7 @@ public class SecondController {
 
     @FXML
     private AnchorPane slider;
-    @FXML
-    private VBox menuVBox;
+
 
     @FXML
     public void initialize() {
