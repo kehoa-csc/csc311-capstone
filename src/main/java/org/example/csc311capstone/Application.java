@@ -35,6 +35,7 @@ public class Application extends javafx.application.Application {
     private static final ConnDbOps cdbop = new ConnDbOps();
     private static final PatronsTable patronsTable = new PatronsTable();
     private static final BooksTable booksTable = new BooksTable();
+    public static Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -44,6 +45,7 @@ public class Application extends javafx.application.Application {
         //FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("view/second_view.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("view/login_view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        primaryStage = stage;
         stage.setTitle("Library Database");
         stage.setScene(scene);
         stage.show();
