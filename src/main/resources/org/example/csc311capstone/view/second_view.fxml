@@ -111,7 +111,7 @@
                            </image>
                         </ImageView>
                      </graphic></Label>
-                  <Label fx:id="menuback" layoutX="-123.0" layoutY="26.0" prefHeight="17.0" prefWidth="32.0" />
+                  <Label fx:id="menuBack" layoutX="-123.0" layoutY="26.0" prefHeight="17.0" prefWidth="32.0" />
                </children>
             </AnchorPane>
          </center>
