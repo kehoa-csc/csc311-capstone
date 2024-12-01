@@ -2,12 +2,18 @@ package org.example.csc311capstone;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.BooksTable;
@@ -16,10 +22,7 @@ import org.example.csc311capstone.db.PatronsTable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 //This is for the Patron self-service view. -Andrew & Zuxin
@@ -262,5 +265,23 @@ public class PatronController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    public void close(){
+        System.exit(0);
+    }
+
+    @FXML
+    public void logout(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/login_view.fxml")));
+            Scene scene = new Scene(root);
+            Stage window = Application.primaryStage;
+            window.setScene(scene);
+            window.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

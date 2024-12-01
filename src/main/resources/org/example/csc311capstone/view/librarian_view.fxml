@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="808.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.ThirdController">
+<AnchorPane prefHeight="808.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.ThirdController">
     <children>
         <BorderPane prefHeight="808.0" prefWidth="995.0" style="-fx-background-color: #e0f4d4;">
             <top>
@@ -24,7 +24,8 @@
                         <Menu mnemonicParsing="false" text="File">
                             <items>
                         <MenuItem mnemonicParsing="false" onAction="#switchToBooksView" text="Go to Books View" />
-                                <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" onAction="#logout" text="Log Out" />
+                                <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Edit">
@@ -50,7 +51,7 @@
                                 <Image url="@../imgs/university_logo.png" />
                             </image>
                         </ImageView>
-                        <TableView fx:id="tableView" layoutX="172.0" layoutY="209.0" prefHeight="491.0" prefWidth="1147.0">
+                        <TableView fx:id="tableView" layoutX="179.0" layoutY="209.0" prefHeight="491.0" prefWidth="1140.0">
                             <columns>
                                 <TableColumn fx:id="colID" prefWidth="70.0" text="ID" />
                                 <TableColumn fx:id="colName" prefWidth="100.0" text="Name" />

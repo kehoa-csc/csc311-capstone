@@ -160,4 +160,22 @@ public class ThirdController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    public void close(){
+        System.exit(0);
+    }
+
+    @FXML
+    public void logout(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/login_view.fxml")));
+            Scene scene = new Scene(root);
+            Stage window = Application.primaryStage;
+            window.setScene(scene);
+            window.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
