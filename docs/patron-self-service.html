@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Library Manager Help</title>
+    <link id="theme" rel="stylesheet"
+          type="text/css" href="light.css" />
+    <!--<link rel="icon" href="./favicon.ico" type="image/x-icon">-->
+</head>
+<body>
+<main>
+    <h1>Welcome to the Greenley Library Manager Help</h1>
+    <h2>Patron Self-Service</h2>
+    <a href="index.html"><p>Back to Home</p></a>
+    <p>The books exist in a list you can search from. Only books that are available are here (i.e. have more than 0 quantity)</p>
+
+    <b>Checkout:</b>
+    <p>After selecting a button from the list, if you press this, you will be greeted with a pop-up confirming the book, as well as how long you want to rent it.<br>
+        When you confirm, it will register that you are borrowing that book!</p>
+
+    <b>Rental details:</b>
+    <p>This will tell you the book you are renting, the rental period, and relevant dates.</p>
+
+    <b>Return:</b>
+    <p>Pressing this will mark your book as returned, and you will be able to borrow a new one.</p>
+
+    <p><b>Search</b></p>
+    <p>Type in a book name, press the search button, and the list will be searched for books of that name.</p>
+
+    <p><b>File Menu:</b></p>
+    - Log Out: Exit your user account and return to the login screen.<br>
+    - Close: Quit the application completely.<br>
+    <p><b>Edit Menu:</b></p>
+    - Refresh: Refreshes the book list.<br>
+    <p><b>Help Menu:</b></p>
+    - About: Shows information about the program.<br>
+    - User Guide: Shows this guide!<br>
+    <br>
+    <!--Credit to https://www.geeksforgeeks.org/how-to-switch-between-multiple-css-stylesheets-using-javascript/ -->
+    <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
+    <script>
+        function toggleTheme() {
+            let theme = document.getElementById('theme');
+
+            if (theme.getAttribute('href') === 'light.css') {
+                theme.setAttribute('href', 'dark.css');
+            } else {
+                theme.setAttribute('href', 'light.css');
+            }
+        }
+    </script>
+
+</main>
+
+</body>
+</html>

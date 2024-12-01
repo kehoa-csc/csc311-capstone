@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Library Manager Help</title>
+    <link id="theme" rel="stylesheet"
+          type="text/css" href="light.css" />
+    <!--<link rel="icon" href="./favicon.ico" type="image/x-icon">-->
+</head>
+<body>
+<main>
+    <h1>Welcome to the Greenley Library Manager Help</h1>
+    <h2>Home Page</h2>
+    <p>Table of Contents:</p>
+    <ul>
+        <li>Login Screen</li>
+        <a href="patron-self-service.html"><li>Patron Self-Service</li></a>
+        <a href="librarian-patron.html"><li>Librarian Patron Manager</li></a>
+        <a href="librarian-book.html"><li>Librarian Book Manager</li></a>
+    </ul><br>
+    <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
+    <script>
+        function toggleTheme() {
+            let theme = document.getElementById('theme');
+
+            if (theme.getAttribute('href') === 'light.css') {
+                theme.setAttribute('href', 'dark.css');
+            } else {
+                theme.setAttribute('href', 'light.css');
+            }
+        }
+    </script>
+</main>
+
+</body>
+</html>

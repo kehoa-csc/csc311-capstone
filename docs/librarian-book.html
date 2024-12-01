@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Library Manager Help</title>
+    <link id="theme" rel="stylesheet"
+          type="text/css" href="light.css" />
+    <!--<link rel="icon" href="./favicon.ico" type="image/x-icon">-->
+</head>
+<body>
+<main>
+    <h1>Welcome to the Greenley Library Manager Help</h1>
+    <h2>Librarian Book Manager</h2>
+    <a href="index.html"><p>Back to Home</p></a>
+
+    <i><h3>A Guide to the Table</h3></i>
+    <p>ID = A database given ID, unique for every book.</p>
+    <p>Title = The book's title, the search function will search by this.</p>
+    <p>Author = The book's author.</p>
+    <p>ISBN = The book's ISBN code.</p>
+    <p>Edition = The book's edition.</p>
+    <p>Quantity = How many of the book the library currently has.</p>
+
+    <p><b>Edit</b></p>
+    <br>
+    <p><b>Add</b></p>
+    <br>
+    <p><b>Reconnect to DB</b></p>
+    Refreshes the book list.<br>
+    <p><b>Delete</b></p>
+    Deletes the selected patron.<br>
+
+    <p><b>Search</b></p>
+    Type in a book name, press the search button, and the list will be searched for books of that name.<br>
+
+    <br>
+    <!--Credit to https://www.geeksforgeeks.org/how-to-switch-between-multiple-css-stylesheets-using-javascript/ -->
+    <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
+    <script>
+        function toggleTheme() {
+            let theme = document.getElementById('theme');
+
+            if (theme.getAttribute('href') === 'light.css') {
+                theme.setAttribute('href', 'dark.css');
+            } else {
+                theme.setAttribute('href', 'light.css');
+            }
+        }
+    </script>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "wii";
+    src: url("wii-font.otf");
+}
+
+body {
+    background-image: linear-gradient(to right, #415e40, #224209);
+    font-family: Tahoma, sans-serif;
+    color: #c2e6bc;
+}
+
+a {
+    color: #55cd3e;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Library Manager Help</title>
+    <link id="theme" rel="stylesheet"
+          type="text/css" href="light.css" />
+    <!--<link rel="icon" href="./favicon.ico" type="image/x-icon">-->
+</head>
+<body>
+<main>
+    <h1>Welcome to the Greenley Library Manager Help</h1>
+    <h2>Librarian Patron Manager</h2>
+    <a href="index.html"><p>Back to Home</p></a>
+
+    <i><h3>A Guide to the Table</h3></i>
+    <p>ID = A database given ID, unique for every Patron.</p>
+    <p>Name = The patron's name (and username to log in). The search function will search by this.</p>
+    <p>Email = The patron's email address.</p>
+    <p>Renting? = Whether or not the patron is currently borrowing a book.</p>
+    <p>Book ID = If a book is being borrowed, what ID is it?</p>
+    <p>Note: Books also have their own IDs, See the <a href="librarian-book.html">Librarian Book Manager</a> section for more information.</p>
+    <p>Title, Author, ISBN and Edition will only be filled out if the patron is borrowing a book.</p>
+
+    <p><b>Add Patron</b></p>
+    Brings up a pop-up to add a new patron. Fill in the form and press Confirm to add. Password must be added by administrator.<br>
+    <p><b>Edit Patron</b></p>
+    <br>
+    <p><b>Delete Patron</b></p>
+    Deletes the selected patron.<br>
+    <p><b>Search</b></p>
+    Type in a book name, press the search button, and the list will be searched for patrons of that name.<br>
+
+    <p><b>File Menu:</b></p>
+    - Go to Books View: Switches to a new interface where you can <a href="librarian-book.html">manage books.</a><br>
+    - Log Out: Exit your user account and return to the login screen.<br>
+    - Close: Quit the application completely.<br>
+    <p><b>Edit Menu:</b></p>
+    - Delete: Deletes the selected patron.<br>
+    <p><b>Help Menu:</b></p>
+    - About: Shows information about the program.<br>
+    - User Guide: Shows this guide!<br>
+    <br>
+
+    <br>
+    <!--Credit to https://www.geeksforgeeks.org/how-to-switch-between-multiple-css-stylesheets-using-javascript/ -->
+    <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
+    <script>
+        function toggleTheme() {
+            let theme = document.getElementById('theme');
+
+            if (theme.getAttribute('href') === 'light.css') {
+                theme.setAttribute('href', 'dark.css');
+            } else {
+                theme.setAttribute('href', 'light.css');
+            }
+        }
+    </script>
+
+</main>
+
+</body>
+</html>
