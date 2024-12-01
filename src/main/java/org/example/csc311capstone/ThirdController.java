@@ -190,4 +190,17 @@ public class ThirdController {
         File htmlFile = new File("docs/librarian-patron.html");
         Desktop.getDesktop().browse(htmlFile.toURI());
     }
+
+    @FXML
+    protected void showAbout() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("view/about.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(root, 600, 500);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
