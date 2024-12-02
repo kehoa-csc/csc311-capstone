@@ -118,6 +118,16 @@ public class SecondController {
         }
     }
 
+    @FXML
+    protected void switchToPatronView(){
+
+    }
+
+    @FXML
+    protected void close(){
+        System.exit(0);
+    }
+
 
 }
 
