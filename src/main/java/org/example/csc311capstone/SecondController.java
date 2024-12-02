@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -65,6 +66,14 @@ public class SecondController {
 
     @FXML
     public void initialize() {
+        tvTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tvAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+        tvISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+        tvEdition.setCellValueFactory(new PropertyValueFactory<>("edition"));
+        tvCopiesLeft.setCellValueFactory(new PropertyValueFactory<>("copiesLeft"));
+        tvId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tvQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        tv.setItems(books);
         slider.setTranslateX(-176);
 
         menuLabel.setOnMouseClicked(event ->{
