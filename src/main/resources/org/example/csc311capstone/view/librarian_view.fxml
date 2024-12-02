@@ -33,7 +33,7 @@
                                 <MenuItem mnemonicParsing="false" text="Delete" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
+                        <Menu mnemonicParsing="false" onAction="#deletePatron" text="Help">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
                         <MenuItem mnemonicParsing="false" onAction="#helpDoc" text="User Guide" />
