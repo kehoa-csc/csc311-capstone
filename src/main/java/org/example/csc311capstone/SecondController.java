@@ -1,6 +1,7 @@
 package org.example.csc311capstone;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +30,8 @@ import java.util.ResourceBundle;
 
 //Librarian Book View
 public class SecondController {
+
+
 
     @FXML
     private Button addButton;
@@ -60,6 +63,7 @@ public class SecondController {
 
     @FXML
     private AnchorPane slider;
+
 
     private final BooksTable booksTable = new BooksTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();
@@ -106,6 +110,25 @@ public class SecondController {
                 menuBack.setVisible(false);
             });
         });
+    }
+    @FXML
+    void searchBook() {
+        String search =  searchText.getText();
+        if(!search.isEmpty()){
+
+            ObservableList<Book> bookList = FXCollections.observableList(books.stream()
+                    .filter(book -> book.getName().toLowerCase().contains(search.toLowerCase())
+                            || book.getAuthor().toLowerCase().contains(search.toLowerCase())
+                            || book.getEdition().toLowerCase().contains(search.toLowerCase())
+                            || String.valueOf(book.getISBN()).contains(search.toLowerCase())
+                    )
+                    .distinct()
+                    .toList());
+
+            tv.setItems(bookList);
+        }else {
+            tv.setItems(books);
+        }
     }
 
     @FXML
