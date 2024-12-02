@@ -120,7 +120,15 @@ public class SecondController {
 
     @FXML
     protected void switchToPatronView(){
-
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/librarian_view.fxml")));
+            Scene scene = new Scene(root);
+            Stage window = Application.primaryStage;
+            window.setScene(scene);
+            window.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
