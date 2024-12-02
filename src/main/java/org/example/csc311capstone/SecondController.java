@@ -1,12 +1,14 @@
 package org.example.csc311capstone;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.csc311capstone.Module.Book;
+import org.example.csc311capstone.db.BooksTable;
 
 import java.awt.*;
 import java.io.File;
@@ -45,10 +49,19 @@ public class SecondController {
 
     @FXML
     private TextField searchText;
+    @FXML
+    private TableView<Book> tv;
+    @FXML
+    private TableColumn<Book, String> tvAuthor,tvEdition,tvTitle;
+
+    @FXML
+    private TableColumn<Book, Integer> tvId,tvCopiesLeft,tvISBN, tvQuantity;
 
     @FXML
     private AnchorPane slider;
 
+    private final BooksTable booksTable = new BooksTable();
+    private final ObservableList<Book> books = booksTable.listAllBooks();
 
     @FXML
     public void initialize() {
