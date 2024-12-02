@@ -45,6 +45,7 @@
             <center>
                 <AnchorPane prefHeight="860.0" prefWidth="1319.0" style="-fx-background-color: #e0f4d4;">
                     <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c7f9c7" height="34.0" stroke="#c7f9c7" strokeType="INSIDE" width="1319.0" />
                         <TextField fx:id="searchField" layoutX="768.0" layoutY="101.0" prefWidth="200.0" promptText="Search by Name" />
                         <Button layoutX="968.0" layoutY="101.0" onAction="#searchPatron" text="Search" />
                         <ImageView fitHeight="178.0" fitWidth="171.0" layoutX="1113.0" layoutY="26.0" preserveRatio="true">
