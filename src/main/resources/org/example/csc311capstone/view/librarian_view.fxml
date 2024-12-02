@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="808.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.ThirdController">
+<AnchorPane prefHeight="808.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.ThirdController">
     <children>
         <BorderPane prefHeight="808.0" prefWidth="995.0" style="-fx-background-color: #e0f4d4;">
             <top>
@@ -32,7 +33,7 @@
                                 <MenuItem mnemonicParsing="false" text="Delete" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
+                        <Menu mnemonicParsing="false" onAction="#deletePatron" text="Help">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
                         <MenuItem mnemonicParsing="false" onAction="#helpDoc" text="User Guide" />
@@ -44,10 +45,9 @@
             <center>
                 <AnchorPane prefHeight="860.0" prefWidth="1319.0" style="-fx-background-color: #e0f4d4;">
                     <children>
-                        <TextField fx:id="searchField" layoutX="766.0" layoutY="91.0" prefHeight="39.0" prefWidth="193.0" promptText="Search ">
-                     <font>
-                        <Font size="19.0" />
-                     </font></TextField>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c7f9c7" height="34.0" stroke="#c7f9c7" strokeType="INSIDE" width="1319.0" />
+                        <TextField fx:id="searchField" layoutX="768.0" layoutY="101.0" prefWidth="200.0" promptText="Search by Name" />
+                        <Button layoutX="968.0" layoutY="101.0" onAction="#searchPatron" text="Search" />
                         <ImageView fitHeight="178.0" fitWidth="171.0" layoutX="1113.0" layoutY="26.0" preserveRatio="true">
                             <image>
                                 <Image url="@../imgs/university_logo.png" />
@@ -113,11 +113,6 @@
                                 <Font name="AppleMyungjo Regular" size="50.0" />
                             </font>
                         </Label>
-                  <ImageView fitHeight="37.0" fitWidth="40.0" layoutX="919.0" layoutY="92.0" onMouseClicked="#searchPatron">
-                     <image>
-                        <Image url="@../imgs/search-icon.png" />
-                     </image>
-                  </ImageView>
                     </children>
                 </AnchorPane>
             </center>
