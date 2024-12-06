@@ -21,6 +21,7 @@ import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.BooksTable;
 import org.example.csc311capstone.db.PatronsTable;
+import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.io.File;
@@ -43,9 +44,9 @@ public class PatronController implements Initializable {
     private TableColumn<Book, String> tvTitle,tvAuthor,tvEdition;
     @FXML
     private TableColumn<Book, Integer> tvISBN,tvLeft;
+    @FXML
+    private TextField messageBox;
 
-    //todo: Get ID from login.
-    //todo: Disable checkout button if no book is selected or user already has checkout
     private final int patronId = LoginController.patronID;
 
     private final BooksTable booksTable = new BooksTable();
@@ -82,21 +83,22 @@ public class PatronController implements Initializable {
            }else {
                tv.setItems(books);
            }
+           messageBox.setText("Results of search query " + search);
     }
 
     @FXML
     void checkout() {
         Book b =  tv.getSelectionModel().getSelectedItem();
         if(b == null) {
-            showAlert("Not select book");
+            showAlert("Please select a book to check out.");
             return;
         }
         if(b.getCopiesLeft() == 0){
-            showAlert("This book has all been borrowed, please choose another book");
+            showAlert("There are no copies left to checkout.");
             return;
         }
         if(currPatron.getCurrBook() != 0){
-            showAlert("Only one book is allowed per person, so please return the book first");
+            showAlert("Please return your current rental before you check out another book.");
             return;
         }
 
@@ -145,7 +147,7 @@ public class PatronController implements Initializable {
                 editBookInfo.put(booksColumns.COPIESLEFT.name(), newCopiesLeft);
                 booksTable.editBook(editBookInfo,b.getId());
 
-
+                messageBox.setText("Checked out book! Thanks!");
             }
             return null;
         });
@@ -158,8 +160,9 @@ public class PatronController implements Initializable {
     //good
     @FXML
     void rentalDetails() {
+        messageBox.setText("Showing rental details...");
         if(currPatron.getCurrBook() == 0){
-            showAlert("You haven't borrowed any books yet");
+            showAlert("You are not currently renting a book.");
             return;
         }
 
@@ -217,9 +220,11 @@ public class PatronController implements Initializable {
     void returnBook() {
 
         if (isReturnBook(currPatron)) {
-            showAlert("A book has been returned!");
+            //showAlert("A book has been returned!");
+            messageBox.setText("Your book has been returned.");
         } else {
-            showAlert("No book to return for the selected patron!");
+            //showAlert("No book to return for the selected patron!");
+            messageBox.setText("Cannot return- you have no book out.");
         }
     }
 
@@ -295,6 +300,7 @@ public class PatronController implements Initializable {
     protected void helpDoc() throws IOException {
         File htmlFile = new File("docs/patron-self-service.html");
         Desktop.getDesktop().browse(htmlFile.toURI());
+        messageBox.setText("Opening help guide in your browser...");
     }
 
     @FXML

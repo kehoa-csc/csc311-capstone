@@ -122,6 +122,7 @@
                         <TableColumn fx:id="tvLeft" prefWidth="38.0" text="Left" />
                             </columns>
                         </TableView>
+                  <TextField fx:id="messageBox" editable="false" layoutX="8.0" layoutY="342.0" prefHeight="26.0" prefWidth="455.0" />
                     </children>
                 </AnchorPane>
             </center>
