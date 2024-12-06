@@ -285,6 +285,7 @@ public class PatronController implements Initializable {
 
     @FXML
     public void logout(ActionEvent actionEvent) {
+        messageBox.setText("Logging out...");
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/login_view.fxml")));
             Scene scene = new Scene(root);
