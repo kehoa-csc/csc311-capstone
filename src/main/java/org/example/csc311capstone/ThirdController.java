@@ -42,7 +42,7 @@ public class ThirdController {
     private TableColumn<Patron, String> colName, colEmail, colBorrowDate, colReturnDate;
 
     @FXML
-    private TextField searchField;
+    private TextField searchField, messageBox;
 
     @FXML
     private Button btnAdd, btnEdit, btnDelete;
@@ -84,6 +84,7 @@ public class ThirdController {
             );
             tableView.setItems(filteredPatrons);
         }
+        messageBox.setText("Results of search query " + searchText);
     }
 
     @FXML
@@ -93,8 +94,10 @@ public class ThirdController {
             patronsTable.removePatron(selectedPatron.getID());
             loadPatronData();
             showAlert("Success", "Patron deleted successfully.");
+            messageBox.setText("Patron deleted successfully.");
         } else {
             showAlert("Error", "No patron selected for deletion.");
+            messageBox.setText("No patron selected for deletion.");
         }
     }
 
@@ -127,6 +130,7 @@ public class ThirdController {
 
                 System.out.println("Confirm button");
                 connDbOps.addPatron(nameField.getText(), emailField.getText());
+                messageBox.setText("Added patron successfully.");
             }
             loadPatronData();
             return null;
@@ -158,6 +162,7 @@ public class ThirdController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        messageBox.setText("Switching to Books View...");
     }
 
     private void showAlert(String title, String message) {
@@ -174,6 +179,7 @@ public class ThirdController {
 
     @FXML
     public void logout(ActionEvent actionEvent) {
+        messageBox.setText("Logging out...");
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/login_view.fxml")));
             Scene scene = new Scene(root);
@@ -189,6 +195,7 @@ public class ThirdController {
     protected void helpDoc() throws IOException {
         File htmlFile = new File("docs/librarian-patron.html");
         Desktop.getDesktop().browse(htmlFile.toURI());
+        messageBox.setText("Opening help guide in your browser...");
     }
 
     @FXML
