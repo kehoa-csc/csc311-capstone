@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -71,8 +72,8 @@
                      <font>
                         <Font size="16.0" />
                      </font></TextField>
-                  <Rectangle fill="#75956c" height="34.0" layoutX="-141.0" layoutY="-1.0" stroke="#75956c" strokeType="INSIDE" width="1405.0" />
-                  <Rectangle fill="#c7f9c7" height="47.0" layoutX="-141.0" layoutY="27.0" stroke="#75956c" strokeType="INSIDE" width="1405.0" />
+                  <Rectangle fill="#75956c" height="34.0" layoutX="-252.0" layoutY="-1.0" stroke="#75956c" strokeType="INSIDE" width="1516.0" />
+                  <Rectangle fill="#c7f9c7" height="47.0" layoutX="-250.0" layoutY="27.0" stroke="#75956c" strokeType="INSIDE" width="1514.0" />
                         <ImageView fitHeight="107.0" fitWidth="130.0" layoutX="1127.0" layoutY="14.0" preserveRatio="true">
                             <image>
                                 <Image url="@../imgs/university_logo.png" />
@@ -87,59 +88,80 @@
                 </AnchorPane>
             </center>
          <left>
-            <AnchorPane prefHeight="666.0" prefWidth="192.0" style="-fx-background-color: #75956c;" stylesheets="@../styles/secondPage.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/secondPage.css" BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutX="-7.0" layoutY="171.0" prefHeight="474.0" prefWidth="260.0" styleClass="sidebarItem">
+                  <VBox layoutY="71.0" prefHeight="588.0" prefWidth="201.0">
                      <children>
-                        <Button mnemonicParsing="false" onMouseClicked="#addPatron" prefHeight="60.0" prefWidth="248.0" style="-fx-background-color: #75956c;" text="Add Patron">
-                           <graphic>
-                              <ImageView fitHeight="55.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../imgs/add_patron_icon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" onMouseClicked="#editPatron" prefHeight="63.0" prefWidth="228.0" style="-fx-background-color: #75956c;" text="Edit">
-                           <graphic>
-                              <ImageView fitHeight="93.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../imgs/edit_note_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" onMouseClicked="#deletePatron" prefHeight="61.0" prefWidth="233.0" style="-fx-background-color: #75956c;" text="Delete">
-                           <graphic>
-                              <ImageView fitHeight="45.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../imgs/remove_icon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Button>
-                     </children></VBox>
-                <Button layoutX="7.0" layoutY="27.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="139.0" style="-fx-background-color: #75956c;" text="Menu">
+                        <AnchorPane fx:id="slider" prefHeight="588.0" prefWidth="201.0" style="-fx-background-color: #75956c;">
+                           <children>
+                              <VBox layoutX="-2.0" layoutY="100.0" prefHeight="490.0" prefWidth="205.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onMouseClicked="#addPatron" prefHeight="60.0" prefWidth="204.0" style="-fx-background-color: #75956c;" text="Add Patron">
+                                       <graphic>
+                                          <ImageView blendMode="COLOR_BURN" fitHeight="55.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../imgs/add_patron_icon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="menuItem" />
+                                          <String fx:value="sidebarItem" />
+                                       </styleClass>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onMouseClicked="#editPatron" prefHeight="63.0" prefWidth="157.0" style="-fx-background-color: #75956c;" text="Edit">
+                                       <graphic>
+                                          <ImageView fitHeight="93.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../imgs/edit_note_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="menuItem" />
+                                          <String fx:value="sidebarItem" />
+                                       </styleClass>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onMouseClicked="#deletePatron" prefHeight="61.0" prefWidth="185.0" style="-fx-background-color: #75956c;" text="Delete">
+                                       <graphic>
+                                          <ImageView blendMode="COLOR_BURN" fitHeight="45.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../imgs/remove_icon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="menuItem" />
+                                          <String fx:value="sidebarItem" />
+                                       </styleClass>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+                  <Label fx:id="menuLabel" layoutX="14.0" layoutY="33.0" prefHeight="30.0" prefWidth="121.0" text="Menu">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
                      <graphic>
-                        <ImageView fitHeight="57.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imgs/menu_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Button>
+                  </Label>
                </children>
             </AnchorPane>
          </left>
