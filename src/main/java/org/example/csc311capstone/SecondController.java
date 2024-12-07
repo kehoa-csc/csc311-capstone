@@ -32,7 +32,6 @@ import java.util.ResourceBundle;
 public class SecondController {
 
 
-
     @FXML
     private Button addButton;
 
@@ -63,7 +62,6 @@ public class SecondController {
 
     @FXML
     private AnchorPane slider;
-
 
     private final BooksTable booksTable = new BooksTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();

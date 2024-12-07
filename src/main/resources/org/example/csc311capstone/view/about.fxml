@@ -6,6 +6,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+
    <children>
       <TextArea layoutX="6.0" layoutY="51.0" prefHeight="343.0" prefWidth="584.0" text="Programmed by: Andrew Kehoe, Jordan Biggs, Samin Mahmood, Zuxin Chen.&#10;&#10;Interfaces Designed by: Jordan Biggs, Bennett Thomas&#10;&#10;Greenley Library belongs to Farmingdale State College. This program is purely for educational purposes.&#10;&#10;&#10;For CSC311's Capstone project. Thank you to everyone who made this happen.&#10;&#10;Copyright 2024, All rights reserved." wrapText="true">
          <font>
