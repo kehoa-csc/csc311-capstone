@@ -67,7 +67,7 @@ public class SecondController {
     private TextField messageBox;
 
     private final BooksTable booksTable = new BooksTable();
-    private final ObservableList<Book> books = booksTable.listAllBooks();
+    private  ObservableList<Book> books = booksTable.listAllBooks();
 
     @FXML
     public void initialize() {
@@ -181,13 +181,42 @@ public class SecondController {
         }
     }
 
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     @FXML
     protected void close(){
         System.exit(0);
     }
 
+    private void loadBookData(){
+        books = booksTable.listAllBooks();
+        tv.setItems(books);
+    }
+
+    @FXML
+    protected void deleteBook(){
+        Book selectedBook = tv.getSelectionModel().getSelectedItem();
+        if(selectedBook != null) {
+            booksTable.removeBook(selectedBook.getId());
+            loadBookData();
+            showAlert("Success", "Book has been deleted");
+            messageBox.setText("Book deleted successfully");
+        }else{
+            showAlert("Error", "No books have been selected for deletion");
+            messageBox.setText("Book deletion failed");
+        }
+
+        }
+
 
 }
+
+
+
 
 
 
