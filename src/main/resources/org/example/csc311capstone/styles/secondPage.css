@@ -8,8 +8,8 @@
 }
 
 .sidebarItem:hover{
-    -fx-background-color #146886;
-    -fx-border-color: WHITE;
+    -fx-background-color: #146886;
+    -fx-border-color: blue;
     -fx-border-width: 0px 0px 0px 3px ;
 
 
