@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="808.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.ThirdController">
+<AnchorPane prefHeight="808.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.ThirdController">
     <children>
         <BorderPane prefHeight="808.0" prefWidth="995.0" style="-fx-background-color: #e0f4d4;">
             <top>
@@ -116,6 +116,7 @@
                         <Image url="@../imgs/search-icon.png" />
                      </image>
                   </ImageView>
+                  <TextField fx:id="messageBox" editable="false" layoutX="185.0" layoutY="713.0" prefHeight="26.0" prefWidth="1129.0" promptText="System messages appear here." />
                     </children>
                 </AnchorPane>
             </center>

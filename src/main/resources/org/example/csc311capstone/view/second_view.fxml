@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: E5FFD1;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.SecondController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: E5FFD1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.SecondController">
    <children>
       <BorderPane layoutX="1.0" prefHeight="400.0" prefWidth="601.0">
          <left>
@@ -70,7 +80,7 @@
          <center>
             <AnchorPane prefHeight="400.0" prefWidth="655.0" style="-fx-background-color: E5FFD1;" BorderPane.alignment="CENTER">
                <children>
-                  <TableView fx:id="tv" layoutX="17.0" layoutY="75.0" prefHeight="305.0" prefWidth="525.0">
+                  <TableView fx:id="tv" layoutX="17.0" layoutY="62.0" prefHeight="305.0" prefWidth="525.0">
                     <columns>
                       <TableColumn fx:id="tvId" prefWidth="37.0" text="ID" />
                       <TableColumn fx:id="tvISBN" minWidth="0.0" prefWidth="72.5" text="ISBN" />
@@ -106,6 +116,7 @@
                         </ImageView>
                      </graphic></Label>
                   <Label fx:id="menuBack" layoutX="-123.0" layoutY="26.0" prefHeight="17.0" prefWidth="32.0" />
+                  <TextField fx:id="messageBox" editable="false" layoutX="17.0" layoutY="370.0" prefHeight="26.0" prefWidth="525.0" promptText="System messages appear here." />
                </children>
             </AnchorPane>
          </center>

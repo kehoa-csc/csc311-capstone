@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 public class SecondController {
 
 
+
     @FXML
     private Button addButton;
 
@@ -62,6 +63,8 @@ public class SecondController {
 
     @FXML
     private AnchorPane slider;
+    @FXML
+    private TextField messageBox;
 
     private final BooksTable booksTable = new BooksTable();
     private final ObservableList<Book> books = booksTable.listAllBooks();
@@ -127,10 +130,12 @@ public class SecondController {
         }else {
             tv.setItems(books);
         }
+        messageBox.setText("Results of search query " + search);
     }
 
     @FXML
     public void logout(ActionEvent actionEvent) {
+        messageBox.setText("Logging out...");
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/login_view.fxml")));
             Scene scene = new Scene(root);
@@ -146,6 +151,7 @@ public class SecondController {
     protected void helpDoc() throws IOException {
         File htmlFile = new File("docs/librarian-book.html");
         Desktop.getDesktop().browse(htmlFile.toURI());
+        messageBox.setText("Opening help guide in your browser...");
     }
 
     @FXML
@@ -163,6 +169,7 @@ public class SecondController {
 
     @FXML
     protected void switchToPatronView(){
+        messageBox.setText("Switching to Patron View...");
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("view/librarian_view.fxml")));
             Scene scene = new Scene(root);
