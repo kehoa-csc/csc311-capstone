@@ -1,5 +1,6 @@
 package org.example.csc311capstone;
 
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,9 +14,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.ConnDbOps;
 import org.example.csc311capstone.db.PatronsTable;
@@ -34,6 +37,11 @@ public class ThirdController {
 
     @FXML
     private TableView<Patron> tableView;
+    @FXML
+    private Label menuLabel;
+
+    @FXML
+    private AnchorPane slider;
 
     @FXML
     private TableColumn<Patron, Integer> colID;
@@ -53,6 +61,22 @@ public class ThirdController {
 
     @FXML
     public void initialize() {
+        slider.setTranslateX(-200);
+
+        menuLabel.setOnMouseClicked(event ->{
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(slider);
+
+            slide.setToX(0);
+            slide.play();
+
+            slider.setTranslateX(-200);
+
+            slide.setOnFinished((ActionEvent e)-> {
+                menuLabel.setVisible(true);
+            } );
+        });
         setupTableColumns();
         loadPatronData();
     }
