@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -178,7 +179,7 @@ public class SecondController {
     protected void deleteBook(){
         Book selectedBook = tv.getSelectionModel().getSelectedItem();
         if(selectedBook != null) {
-            booksTable.removeBook(selectedBook.getId());
+            booksTable.deleteBookById(selectedBook.getId());
             loadBookData();
             showAlert("Success", "Book has been deleted");
             messageBox.setText("Book deleted successfully");
@@ -245,7 +246,69 @@ public class SecondController {
         }
     }
 
+    @FXML
+    protected void addBook(ActionEvent event) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Add New Book");
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
 
+        TextField titleField = new TextField();
+        titleField.setPromptText("Title");
+        TextField authorField = new TextField();
+        authorField.setPromptText("Author");
+        TextField editionField = new TextField();
+        editionField.setPromptText("Edition");
+        TextField isbnField = new TextField();
+        isbnField.setPromptText("ISBN");
+        TextField copiesField = new TextField();
+        copiesField.setPromptText("Copies Left");
+        TextField quantityField = new TextField();
+        quantityField.setPromptText("Quantity");
+
+        gridPane.add(new Label("Title:"), 0, 0);
+        gridPane.add(titleField, 1, 0);
+        gridPane.add(new Label("Author:"), 0, 1);
+        gridPane.add(authorField, 1, 1);
+        gridPane.add(new Label("Edition:"), 0, 2);
+        gridPane.add(editionField, 1, 2);
+        gridPane.add(new Label("ISBN:"), 0, 3);
+        gridPane.add(isbnField, 1, 3);
+        gridPane.add(new Label("Copies Left:"), 0, 4);
+        gridPane.add(copiesField, 1, 4);
+        gridPane.add(new Label("Quantity:"), 0, 5);
+        gridPane.add(quantityField, 1, 5);
+
+
+        dialog.getDialogPane().setContent(gridPane);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.APPLY) {
+            if (titleField.getText().isEmpty() || authorField.getText().isEmpty() || isbnField.getText().isEmpty()) {
+                showAlert("Error", "Title, Author, and ISBN are required fields.");
+                return;
+            }
+
+            try {
+                Map<String, Object> newBookMap = Map.of(
+                        "NAME", titleField.getText(),
+                        "AUTHOR", authorField.getText(),
+                        "EDITION", editionField.getText(),
+                        "ISBN", Integer.parseInt(isbnField.getText()),
+                        "COPIESLEFT", Integer.parseInt(copiesField.getText()),
+                        "QUANTITY", Integer.parseInt(quantityField.getText())
+                );
+
+                booksTable.addBook(newBookMap);
+                loadBookData();
+                showAlert("Success", "New book added successfully.");
+            } catch (NumberFormatException e) {
+                showAlert("Error", "Invalid number format in ISBN, Copies Left, or Quantity.");
+            }
+        }
+    }
 
 
 }

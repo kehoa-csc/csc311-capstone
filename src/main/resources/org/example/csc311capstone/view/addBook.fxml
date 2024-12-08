@@ -7,27 +7,22 @@
 <?import javafx.scene.text.Font?>
 
 
-<DialogPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.SecondController ">
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.csc311capstone.SecondController">
    <content>
-      <AnchorPane prefHeight="256.0" prefWidth="600.0">
-         <children>
-            <Button layoutX="139.0" layoutY="217.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="415.0" layoutY="217.0" mnemonicParsing="false" text="Button" />
-         </children>
-      </AnchorPane>
+      <VBox spacing="10" alignment="CENTER">
+         <TextField fx:id="titleField" promptText="Title" />
+         <TextField fx:id="authorField" promptText="Author" />
+         <TextField fx:id="editionField" promptText="Edition" />
+         <TextField fx:id="isbnField" promptText="ISBN" />
+         <TextField fx:id="copiesField" promptText="Copies Left" />
+         <TextField fx:id="quantityField" promptText="Quantity" />
+      </VBox>
    </content>
-   <header>
-      <AnchorPane prefHeight="48.0" prefWidth="210.0">
-         <children>
-            <Label layoutX="236.0" layoutY="16.0" text="Add Book">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </header>
-   <graphic>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-   </graphic>
+   <buttonTypes>
+      <ButtonType text="Apply" />
+      <ButtonType text="Cancel" />
+   </buttonTypes>
 </DialogPane>

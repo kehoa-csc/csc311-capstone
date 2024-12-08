@@ -29,7 +29,7 @@
                            <children>
                               <VBox layoutY="102.0" prefHeight="249.0" prefWidth="148.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #75956c;" text="Add">
+                                    <Button mnemonicParsing="false" onAction="#addBook" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #75956c;" text="Add">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -61,7 +61,7 @@
                                           <String fx:value="menuItem" />
                                        </styleClass>
                                     </Button>
-                                    <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #75956c;" text="Reconnect to DB">
+                                    <Button mnemonicParsing="false" onAction="#reconnectDb" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #75956c;" text="Reconnect to DB">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
