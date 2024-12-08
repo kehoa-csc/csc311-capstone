@@ -163,17 +163,53 @@ public class ThirdController {
         dialog.showAndWait();
         //connDbOps.addPatron();
     }
+    
 
     @FXML
     public void editPatron() {
         Patron selectedPatron = tableView.getSelectionModel().getSelectedItem();
         if (selectedPatron != null) {
-            // Logic to open an Edit Patron dialog (to be implemented)
-            showAlert("Info", "Edit Patron functionality is pending implementation.");
+            Dialog<Patron> dialog = new Dialog<>();
+            dialog.setTitle("Edit Patron");
+
+            ButtonType confirmButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType, ButtonType.CANCEL);
+
+            TextField nameField = new TextField(selectedPatron.getName());
+            TextField emailField = new TextField(selectedPatron.getEmail());
+
+            VBox vBox = new VBox(8,
+                    new Label("Name"),
+                    nameField,
+                    new Label("Email"),
+                    emailField);
+            dialog.getDialogPane().setContent(vBox);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == confirmButtonType) {
+                    selectedPatron.setName(nameField.getText());
+                    selectedPatron.setEmail(emailField.getText());
+                    return selectedPatron;
+                }
+                return null;
+            });
+
+            dialog.showAndWait().ifPresent(updatedPatron -> {
+                patronsTable.updatePatron(updatedPatron.getID(), updatedPatron.getName(), updatedPatron.getEmail());
+                loadPatronData();
+                showAlert("Success", "Patron details updated successfully.");
+                messageBox.setText("Patron updated successfully.");
+            });
         } else {
             showAlert("Error", "No patron selected for editing.");
+            messageBox.setText("No patron selected for editing.");
         }
     }
+
+
+
+
+
 
     @FXML
     public void switchToBooksView() throws IOException {

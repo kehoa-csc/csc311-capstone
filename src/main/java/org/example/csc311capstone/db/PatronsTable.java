@@ -428,4 +428,34 @@ public class PatronsTable extends ConnDbOps{
             }
         return patron;
     }
+
+
+    /**
+     Updates the patron's name and email in the database.
+     @param id    The ID of the patron to update.
+     @param name  The new name for the patron.
+     @param email The new email for the patron.
+     @author samin
+     */
+    public void updatePatron(int id, String name, String email) {
+        String sql = "UPDATE " + TABLE_NAME + " SET name = ?, email = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, email);
+            preparedStatement.setInt(3, id);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Patron updated successfully.");
+            } else {
+                System.out.println("No patron found with ID: " + id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
