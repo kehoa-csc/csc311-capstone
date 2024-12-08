@@ -25,7 +25,7 @@
                <children>
                   <VBox fx:id="menuVBox" layoutY="75.0" prefHeight="325.0" prefWidth="148.0" styleClass="sidebarItem">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="84.0" style="-fx-background-color: #75956c;" text="Edit ">
+                        <Button mnemonicParsing="false" onAction="#editBook" prefHeight="41.0" prefWidth="84.0" style="-fx-background-color: #75956c;" text="Edit ">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -132,7 +132,6 @@
                            </image>
                         </ImageView>
                      </graphic></Label>
-                  <Label fx:id="menuBack" layoutX="-123.0" layoutY="26.0" prefHeight="17.0" prefWidth="32.0" />
                   <TextField fx:id="messageBox" editable="false" layoutX="17.0" layoutY="370.0" prefHeight="26.0" prefWidth="525.0" promptText="System messages appear here." />
                </children>
             </AnchorPane>

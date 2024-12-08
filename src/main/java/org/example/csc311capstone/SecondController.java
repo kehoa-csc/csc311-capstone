@@ -20,13 +20,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.db.BooksTable;
+import javafx.scene.control.Dialog;
 
 import java.awt.*;
-import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 //Librarian Book View
@@ -38,8 +40,7 @@ public class SecondController {
     private Label menuLabel;
 
     @FXML
-    private Label menuBack;
-
+    private Button editButton;
     @FXML
     private TextField searchText;
 
@@ -85,7 +86,6 @@ public class SecondController {
 
             slide.setOnFinished((ActionEvent e)-> {
                 menuLabel.setVisible(true);
-                menuBack.setVisible(false);
             } );
         });
     }
@@ -188,28 +188,63 @@ public class SecondController {
         }
 
         }
-//    public void setBook(BooksTable book){
-//        this.booksTable = book;
-//
-//    }
 
-    protected void  addBook(ActionEvent event){
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("addBook.fxml"));
-            DialogPane addBookDialogPane = fxmlLoader.load();
+    @FXML
+    protected void editBook(ActionEvent event) {
+        Book selectedBook = tv.getSelectionModel().getSelectedItem();
 
-            SecondController  secondController = fxmlLoader.getController();
-            secondController.loadBookData();
-
-//            Dialog<ButtonType> dialog = new Dialog<>();
-//            dialog.setDialogPane(addBookDialogPane);
-//            dialog.setTitle("Title");
-        }catch (IOException e){
-            e.printStackTrace();
+        if (selectedBook == null) {
+            showAlert("Error", "Please select a book to edit.");
+            return;
         }
 
+        try {
+            // Load the FXML file for the edit dialog
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editBook.fxml"));
+            DialogPane editBookDialogPane = fxmlLoader.load();
+
+            // Get the controller for the edit dialog
+            EditBookController editBookController = fxmlLoader.getController();
+            editBookController.setBook(selectedBook); // Pass the selected book to the controller
+
+            // Set up the dialog
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(editBookDialogPane);
+            dialog.setTitle("Edit Book");
+
+            // Show the dialog and wait for the user to click Apply or Cancel
+            Optional<ButtonType> result = dialog.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.APPLY) {
+                // Get the updated book details from the controller
+                Book updatedBook = editBookController.getBook();
+
+                // Prepare a map of the updated book details
+                Map<String, Object> updatedBookMap = Map.of(
+                        "name", updatedBook.getName(),
+                        "author", updatedBook.getAuthor(),
+                        "edition", updatedBook.getEdition(),
+                        "ISBN", updatedBook.getISBN(),
+                        "copiesLeft", updatedBook.getCopiesLeft(),
+                        "quantity", updatedBook.getQuantity()
+                );
+
+                // Update the book in the database
+                booksTable.editBook(updatedBookMap, updatedBook.getId());
+
+                // Update the book in the observable list and refresh the table
+                int index = books.indexOf(selectedBook);
+                books.set(index, updatedBook);
+                tv.refresh();
+
+                showAlert("Success", "Book details updated successfully.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Could not open the edit dialog.");
+        }
     }
+
 
 
 }
