@@ -199,27 +199,24 @@ public class SecondController {
         }
 
         try {
-            // Load the FXML file for the edit dialog
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editBook.fxml"));
+            URL fxmlLocation = getClass().getResource("view/editBook.fxml");
+            if (fxmlLocation == null) {
+                System.out.println("editBook.fxml not found!");
+                showAlert("Error", "EditBook FXML file not found!");
+                return;
+            }
+
+            FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation);
             DialogPane editBookDialogPane = fxmlLoader.load();
-
-            // Get the controller for the edit dialog
             EditBookController editBookController = fxmlLoader.getController();
-            editBookController.setBook(selectedBook); // Pass the selected book to the controller
-
-            // Set up the dialog
+            editBookController.setBook(selectedBook);
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(editBookDialogPane);
             dialog.setTitle("Edit Book");
-
-            // Show the dialog and wait for the user to click Apply or Cancel
             Optional<ButtonType> result = dialog.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.APPLY) {
-                // Get the updated book details from the controller
                 Book updatedBook = editBookController.getBook();
-
-                // Prepare a map of the updated book details
                 Map<String, Object> updatedBookMap = Map.of(
                         "name", updatedBook.getName(),
                         "author", updatedBook.getAuthor(),
@@ -229,10 +226,7 @@ public class SecondController {
                         "quantity", updatedBook.getQuantity()
                 );
 
-                // Update the book in the database
                 booksTable.editBook(updatedBookMap, updatedBook.getId());
-
-                // Update the book in the observable list and refresh the table
                 int index = books.indexOf(selectedBook);
                 books.set(index, updatedBook);
                 tv.refresh();
@@ -241,9 +235,9 @@ public class SecondController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Could not open the edit dialog.");
         }
     }
+
 
 
 
