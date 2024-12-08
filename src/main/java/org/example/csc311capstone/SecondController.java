@@ -188,6 +188,13 @@ public class SecondController {
         }
 
         }
+    @FXML
+    private void  reconnectDb(){
+        tv.setItems(books);
+        showAlert("Success", "Database had been reconnected  ");
+        messageBox.setText("Database successfully reconnected ");
+    }
+
 
     @FXML
     protected void editBook(ActionEvent event) {
