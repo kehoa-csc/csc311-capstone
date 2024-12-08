@@ -3,34 +3,29 @@
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
-<DialogPane prefHeight="355.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<DialogPane prefHeight="355.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.EditBookController">
    <content>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="304.0" prefWidth="514.0" style="-fx-background-radius: 50; -fx-border-radius: 50;">
          <bottom>
             <AnchorPane prefHeight="197.0" prefWidth="514.0" style="-fx-background-color: 2F762F;" BorderPane.alignment="CENTER">
                <children>
-                  <TextField layoutX="61.0" layoutY="31.0" style="-fx-background-radius: 20;" />
-                  <TextField layoutX="61.0" layoutY="74.0" style="-fx-background-radius: 20;" />
-                  <TextField layoutX="61.0" layoutY="117.0" style="-fx-background-radius: 20;" />
-                  <TextField layoutX="291.0" layoutY="31.0" style="-fx-background-radius: 20;" />
-                  <TextField layoutX="291.0" layoutY="74.0" style="-fx-background-radius: 20;" />
-                  <Label layoutX="68.0" layoutY="15.0" text="Book Tittle" />
-                  <Label layoutX="303.0" layoutY="100.0" text="ID" />
+                  <TextField fx:id="titleTF" layoutX="61.0" layoutY="31.0" style="-fx-background-radius: 20;" />
+                  <TextField fx:id="isbnTF" layoutX="61.0" layoutY="74.0" style="-fx-background-radius: 20;" />
+                  <TextField fx:id="quantTF" layoutX="61.0" layoutY="117.0" style="-fx-background-radius: 20;" />
+                  <TextField fx:id="authorTF" layoutX="291.0" layoutY="31.0" style="-fx-background-radius: 20;" />
+                  <TextField fx:id="editionTF" layoutX="291.0" layoutY="74.0" style="-fx-background-radius: 20;" />
+                  <Label layoutX="69.0" layoutY="15.0" text="Book Title" />
                   <Label layoutX="67.0" layoutY="100.0" text="Quantity" />
                   <Label layoutX="297.0" layoutY="15.0" text="Author" />
                   <Label layoutX="67.0" layoutY="57.0" prefHeight="12.0" prefWidth="30.0" text="ISBN" />
-                  <TextField layoutX="291.0" layoutY="117.0" style="-fx-background-radius: 20;" />
-                  <Label layoutX="290.0" layoutY="57.0" text="Edition" />
-                  <TextField layoutX="61.0" layoutY="163.0" style="-fx-background-radius: 20;" />
-                  <Label layoutX="67.0" layoutY="143.0" text="Copies Left" />
+                  <Label layoutX="297.0" layoutY="57.0" text="Edition" />
+                  <TextField fx:id="leftTF" layoutX="291.0" layoutY="117.0" style="-fx-background-radius: 20;" />
+                  <Label layoutX="296.0" layoutY="100.0" text="Copies Left" />
                </children>
             </AnchorPane>
          </bottom>
@@ -45,23 +40,6 @@
                </children>
             </AnchorPane>
          </top>
-         <center>
-            <AnchorPane prefHeight="79.0" prefWidth="515.0" style="-fx-background-color: 2F762F;" BorderPane.alignment="CENTER">
-               <children>
-                  <TableView layoutX="1.0" prefHeight="61.0" prefWidth="514.0">
-                    <columns>
-                      <TableColumn prefWidth="28.0" text="ID" />
-                      <TableColumn prefWidth="82.0" text="ISBN" />
-                        <TableColumn prefWidth="98.0" text="Title" />
-                        <TableColumn prefWidth="87.0" text="Author" />
-                        <TableColumn prefWidth="91.0" text="Edition" />
-                        <TableColumn prefWidth="56.0" text="Quantity" />
-                        <TableColumn prefWidth="70.0" text="Copies Left" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-         </center>
       </BorderPane>
    </content>
    <buttonTypes>
