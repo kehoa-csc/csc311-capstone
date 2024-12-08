@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.PatronController">
+<AnchorPane prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.csc311capstone.PatronController">
     <children>
         <BorderPane layoutX="1.0" prefHeight="400" prefWidth="583.0">
             <top>
@@ -54,10 +55,13 @@
                                  <children>
                                     <Button mnemonicParsing="false" onMouseClicked="#checkout" style="-fx-background-color: #75956c;" text="Checkout">
                                        <graphic>
-                                          <ImageView fitHeight="28.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fitHeight="28.0" fitWidth="39.0" preserveRatio="true">
                                              <image>
                                                 <Image url="@../imgs/sprakleBook-image.png" />
                                              </image>
+                                             <effect>
+                                                <ColorAdjust brightness="-1.0" />
+                                             </effect>
                                           </ImageView>
                                        </graphic>
                                        <styleClass>
@@ -67,10 +71,13 @@
                                     </Button>
                                     <Button mnemonicParsing="false" onMouseClicked="#rentalDetails" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #75956c;" text="Rental Details">
                                        <graphic>
-                                          <ImageView fitHeight="37.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fitHeight="35.0" fitWidth="32.0" preserveRatio="true">
                                              <image>
-                                                <Image url="@../imgs/clock-icon.png" />
+                                                <Image url="@../imgs/pageTurning-image.png" />
                                              </image>
+                                             <effect>
+                                                <ColorAdjust brightness="-1.0" />
+                                             </effect>
                                           </ImageView>
                                        </graphic>
                                        <styleClass>
@@ -80,7 +87,7 @@
                                     </Button>
                                     <Button mnemonicParsing="false" onMouseClicked="#returnBook" style="-fx-background-color: #75956c;" text="Return">
                                        <graphic>
-                                          <ImageView blendMode="COLOR_BURN" fitHeight="30.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView blendMode="COLOR_BURN" fitHeight="30.0" fitWidth="42.0" preserveRatio="true">
                                              <image>
                                                 <Image url="@../imgs/return_icon.png" />
                                              </image>
