@@ -22,6 +22,7 @@ import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.db.BooksTable;
 
 import java.awt.*;
+import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -34,27 +35,17 @@ public class SecondController {
 
 
     @FXML
-    private Button addButton;
-
-    @FXML
-    private Button deleteButton;
-
-    @FXML
-    private Button editButton;
-
-    @FXML
     private Label menuLabel;
 
     @FXML
     private Label menuBack;
 
     @FXML
-    private Button reconbdButton;
+    private TextField searchText;
 
     @FXML
-    private TextField searchText;
-    @FXML
     private TableView<Book> tv;
+
     @FXML
     private TableColumn<Book, String> tvAuthor,tvEdition,tvTitle;
 
@@ -63,6 +54,7 @@ public class SecondController {
 
     @FXML
     private AnchorPane slider;
+
     @FXML
     private TextField messageBox;
 
@@ -95,21 +87,6 @@ public class SecondController {
                 menuLabel.setVisible(true);
                 menuBack.setVisible(false);
             } );
-        });
-        menuBack.setOnMouseClicked(event ->{
-            TranslateTransition slide = new TranslateTransition();
-            slide.setDuration(Duration.seconds(0.4));
-            slide.setNode(slider);
-
-            slide.setToX(-176);
-            slide.play();
-
-            slider.setTranslateX(0);
-
-            slide.setOnFinished((ActionEvent e)->{
-                menuLabel.setVisible(true);
-                menuBack.setVisible(false);
-            });
         });
     }
     @FXML
@@ -211,6 +188,28 @@ public class SecondController {
         }
 
         }
+//    public void setBook(BooksTable book){
+//        this.booksTable = book;
+//
+//    }
+
+    protected void  addBook(ActionEvent event){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("addBook.fxml"));
+            DialogPane addBookDialogPane = fxmlLoader.load();
+
+            SecondController  secondController = fxmlLoader.getController();
+            secondController.loadBookData();
+
+//            Dialog<ButtonType> dialog = new Dialog<>();
+//            dialog.setDialogPane(addBookDialogPane);
+//            dialog.setTitle("Title");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
 
 
 }
