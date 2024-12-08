@@ -108,7 +108,7 @@
                   <Rectangle fill="#c7f9c7" height="36.0" layoutX="-1.0" layoutY="14.0" onMouseClicked="#tableShrink" stroke="#c7f9c7" strokeType="INSIDE" width="155.0" />
                   <Label fx:id="menuLabel" layoutX="17.0" layoutY="17.0" prefHeight="30.0" prefWidth="88.0" text="Menu">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="39.0" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imgs/menu_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
                            </image>
