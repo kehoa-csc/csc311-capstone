@@ -105,10 +105,10 @@
                      </children>
                   </VBox>
                   <Rectangle fill="#75956c" height="28.0" layoutX="-3.0" stroke="#75956c" strokeType="INSIDE" width="157.0" />
-                  <Rectangle fill="#c7f9c7" height="36.0" layoutX="-1.0" layoutY="14.0" stroke="#c7f9c7" strokeType="INSIDE" width="155.0" />
+                  <Rectangle fill="#c7f9c7" height="36.0" layoutX="-1.0" layoutY="14.0" onMouseClicked="#tableShrink" stroke="#c7f9c7" strokeType="INSIDE" width="155.0" />
                   <Label fx:id="menuLabel" layoutX="17.0" layoutY="17.0" prefHeight="30.0" prefWidth="88.0" text="Menu">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="39.0" preserveRatio="true">
                            <image>
                               <Image url="@../imgs/menu_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
                            </image>
@@ -122,16 +122,16 @@
             <center>
                 <AnchorPane prefHeight="373.0" prefWidth="620.0" style="-fx-background-color: #E5FFD1;">
                     <children>
-                        <TableView fx:id="tv" layoutX="10.0" layoutY="80.0" prefHeight="260.0" prefWidth="452.0">
+                        <TableView fx:id="tv" layoutX="-123.0" layoutY="80.0" onMouseClicked="#tableShrink" prefHeight="260.0" prefWidth="585.0">
                             <columns>
-                                <TableColumn fx:id="tvTitle" prefWidth="109.0" text="Title" />
+                                <TableColumn fx:id="tvTitle" prefWidth="242.0" text="Title" />
                                 <TableColumn fx:id="tvAuthor" prefWidth="91.0" text="Author" />
                                 <TableColumn fx:id="tvISBN" prefWidth="111.0" text="ISBN" />
                                 <TableColumn fx:id="tvEdition" prefWidth="102.0" text="Edition" />
                         <TableColumn fx:id="tvLeft" prefWidth="38.0" text="Left" />
                             </columns>
                         </TableView>
-                  <TextField fx:id="messageBox" editable="false" layoutX="11.0" layoutY="342.0" prefHeight="26.0" prefWidth="450.0" promptText="System messages appear here." />
+                  <TextField fx:id="messageBox" editable="false" layoutX="-123.0" layoutY="342.0" prefHeight="26.0" prefWidth="585.0" promptText="System messages appear here." />
                   <Rectangle fill="#75956c" height="27.0" layoutX="-2.0" layoutY="-1.0" stroke="#75956c" strokeType="INSIDE" width="495.0" />
 
                         <TextField fx:id="searchText" layoutX="9.0" layoutY="54.0" prefHeight="17.0" prefWidth="315.0" promptText="Search" style="-fx-border-color: #000000;">

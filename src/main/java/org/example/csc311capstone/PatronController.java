@@ -67,6 +67,7 @@ public class PatronController implements Initializable {
         slider.setTranslateX(-176);
 
         menuLabel.setOnMouseClicked(event ->{
+            tableShrink();
             TranslateTransition slide = new TranslateTransition();
             slide.setDuration(Duration.seconds(0.4));
             slide.setNode(slider);
@@ -338,5 +339,23 @@ public class PatronController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void tableShrink() {
+        System.out.println("tableShrink");
+        tv.setMaxWidth(452);
+        tv.setLayoutX(10);
+        tv.setLayoutY(80);
+        messageBox.setMaxWidth(450);
+        messageBox.setLayoutX(11);
+        messageBox.setLayoutY(342);
+        tv.setMaxWidth(452);
+        tv.setLayoutX(10);
+        tv.setLayoutY(80);
+        messageBox.setMaxWidth(450);
+        messageBox.setLayoutX(11);
+        messageBox.setLayoutY(342);
+        tvTitle.setPrefWidth(109);
     }
 }
