@@ -1,5 +1,6 @@
 package org.example.csc311capstone;
 
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,9 +15,11 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.example.csc311capstone.Module.Book;
 import org.example.csc311capstone.Module.Patron;
 import org.example.csc311capstone.db.BooksTable;
@@ -37,6 +40,8 @@ import java.util.*;
 public class PatronController implements Initializable {
     @FXML
     private TextField searchText;
+    @FXML
+   private Label menuLabel;
 
     @FXML
     private TableView<Book> tv;
@@ -46,6 +51,8 @@ public class PatronController implements Initializable {
     private TableColumn<Book, Integer> tvISBN,tvLeft;
     @FXML
     private TextField messageBox;
+    @FXML
+    private AnchorPane slider;
 
     private final int patronId = LoginController.patronID;
 
@@ -57,6 +64,22 @@ public class PatronController implements Initializable {
     //good
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        slider.setTranslateX(-176);
+
+        menuLabel.setOnMouseClicked(event ->{
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(slider);
+
+            slide.setToX(0);
+            slide.play();
+
+            slider.setTranslateX(-176);
+
+            slide.setOnFinished((ActionEvent e)-> {
+                menuLabel.setVisible(true);
+            } );
+        });
         tvTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
         tvISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
