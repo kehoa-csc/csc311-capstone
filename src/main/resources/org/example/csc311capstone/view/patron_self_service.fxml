@@ -32,7 +32,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Edit">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Refresh" />
+                                <MenuItem mnemonicParsing="false" onAction="#refresh" text="Refresh" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">

@@ -358,4 +358,9 @@ public class PatronController implements Initializable {
         messageBox.setLayoutY(342);
         tvTitle.setPrefWidth(109);
     }
+
+    @FXML
+    private void refresh(){
+        tv.setItems(books);
+    }
 }
